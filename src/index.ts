@@ -12,7 +12,23 @@ export interface Tasks {
 }
 export function get(option: Option): Tasks {
   option = initOptions(option);
+  const bundlerSet = getBundlerSet(option);
 
+  return {
+    bundleDemo: bundlerSet.bundleDevelopment,
+    watchDemo: bundlerSet.watchBundle
+  };
+}
+
+function initOptions(option: Option): Option {
+  option = option ?? {};
+  option.prefix = option.prefix ?? "demo";
+  option.srcDir = option.srcDir ?? "./demoSrc";
+  option.distDir = option.distDir ?? "./docs/demo";
+  return option;
+}
+
+function getBundlerSet(option: Option) {
   const configPath = path.resolve(process.cwd(), "webpack.config.js");
   const config = require(configPath)(
     option.srcDir,
@@ -25,15 +41,7 @@ export function get(option: Option): Tasks {
   });
 
   return {
-    bundleDemo: bundleDevelopment,
-    watchDemo: watchBundle
+    bundleDevelopment,
+    watchBundle
   };
-}
-
-function initOptions(option: Option): Option {
-  option = option ?? {};
-  option.prefix = option.prefix ?? "demo";
-  option.srcDir = option.srcDir ?? "./demoSrc";
-  option.distDir = option.distDir ?? "./docs/demo";
-  return option;
 }
