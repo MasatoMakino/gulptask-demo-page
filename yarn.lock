@@ -2263,8 +2263,8 @@ gulplog@^1.0.0:
     glogg "^1.0.0"
 
 "gulptask-webpack@https://github.com/MasatoMakino/gulptask-webpack.git":
-  version "0.2.0"
-  resolved "https://github.com/MasatoMakino/gulptask-webpack.git#5180f2060901c2f16c357c571ae1e873c6bb3ff5"
+  version "0.2.1"
+  resolved "https://github.com/MasatoMakino/gulptask-webpack.git#bdbe0b1cb5f332c7d48739fea395431a4f957277"
   dependencies:
     gulp "^4.0.2"
     webpack "^4.41.2"

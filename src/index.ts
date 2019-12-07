@@ -1,4 +1,3 @@
-const webpack = require("webpack");
 const path = require("path");
 
 export interface Option {
@@ -6,11 +5,13 @@ export interface Option {
   srcDir?: string;
   distDir?: string;
 }
-export function get(option: Option) {
-  option = option ?? {};
-  option.prefix = option.prefix ?? "demo";
-  option.srcDir = option.srcDir ?? "./demoSrc";
-  option.distDir = option.distDir ?? "./docs/demo";
+
+export interface Tasks {
+  bundleDemo: Function;
+  watchDemo: Function;
+}
+export function get(option: Option): Tasks {
+  option = initOptions(option);
 
   const configPath = path.resolve(process.cwd(), "webpack.config.js");
   const config = require(configPath)(
@@ -18,19 +19,21 @@ export function get(option: Option) {
     option.distDir,
     option.prefix
   );
-  config.mode = "development";
-  const compiler = webpack(config);
-  const compile = (cb: Function, compiler) => {
-    compiler.run((err, stats) => {
-      cb();
-    });
-  };
 
-  const bundle = (cb: Function) => {
-    compile(cb, compiler);
-  };
+  const { bundleDevelopment, watchBundle } = require("gulptask-webpack").get({
+    developmentConfigParams: config
+  });
 
   return {
-    bundle: bundle
+    bundleDemo: bundleDevelopment,
+    watchDemo: watchBundle
   };
+}
+
+function initOptions(option: Option): Option {
+  option = option ?? {};
+  option.prefix = option.prefix ?? "demo";
+  option.srcDir = option.srcDir ?? "./demoSrc";
+  option.distDir = option.distDir ?? "./docs/demo";
+  return option;
 }

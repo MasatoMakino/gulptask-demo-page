@@ -1,6 +1,5 @@
 "use strict";
-const {
-    bundle
-} = require("./bin/index").get();
+const { bundleDemo, watchDemo } = require("./bin").get();
 
-exports.bundle = bundle;
+exports.bundleDemo = bundleDemo;
+exports.watchDemo = watchDemo;

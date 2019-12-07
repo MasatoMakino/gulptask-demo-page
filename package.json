@@ -22,6 +22,7 @@
     "typescript": "^3.7.3"
   },
   "scripts": {
-    "build": "npx tsc --project ./tsconfig.json"
+    "build": "npx tsc --project ./tsconfig.json",
+    "watch": "npx tsc -W --project ./tsconfig.json"
   }
 }
