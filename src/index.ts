@@ -1,3 +1,4 @@
+import { series } from "gulp";
 import { getBundlerSet } from "./Bundler";
 import { Option, initOptions } from "./Option";
 import { getHTLMGenerator } from "./EJS";
@@ -5,7 +6,6 @@ import { getHTLMGenerator } from "./EJS";
 export interface Tasks {
   bundleDemo: Function;
   watchDemo: Function;
-  generateHTML: Function;
 }
 
 export function get(option: Option): Tasks {
@@ -14,8 +14,7 @@ export function get(option: Option): Tasks {
   const generateHTML = getHTLMGenerator(option);
 
   return {
-    bundleDemo: bundlerSet.bundleDevelopment,
-    watchDemo: bundlerSet.watchBundle,
-    generateHTML: generateHTML
+    bundleDemo: series(bundlerSet.bundleDevelopment, generateHTML),
+    watchDemo: bundlerSet.watchBundle
   };
 }
