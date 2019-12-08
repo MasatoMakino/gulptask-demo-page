@@ -38,9 +38,10 @@ async function exportEJS(scriptPath: string, distDir: string) {
     vendorPath: getVendorPath(distDir, distPath)
   };
   const htmlPath = getHtmlPath(distPath);
+  const ejsPath = path.resolve(process.cwd(), "template/demo.ejs");
 
   return new Promise((resolve, reject) => {
-    ejs.renderFile("template/demo.ejs", ejsOption, (err, str) => {
+    ejs.renderFile(ejsPath, ejsOption, (err, str) => {
       if (err) {
         console.log(err);
         reject();
@@ -54,6 +55,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
     });
   });
 }
+
 
 function getVendorPath(distDir: string, distPath: string): string {
   const vendorPath = path.resolve(distDir, "vendor.bundle.js");
