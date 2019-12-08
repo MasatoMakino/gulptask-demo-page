@@ -11,8 +11,11 @@
     "@babel/core": "^7.7.5",
     "@babel/preset-env": "^7.7.5",
     "babel-loader": "^8.0.6",
+    "ejs": "^3.0.1",
+    "glob": "^7.1.6",
     "gulp": "^4.0.2",
-    "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git"
+    "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
+    "make-dir": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^12.12.14",
