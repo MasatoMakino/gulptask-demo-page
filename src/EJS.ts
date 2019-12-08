@@ -9,7 +9,7 @@ const glob = require("glob");
 const makeDir = require("make-dir");
 
 let generatorOption: Option;
-let distDir:string;
+let distDir: string;
 
 export interface EJSTasks {
   generateHTLM: Function;
@@ -47,7 +47,8 @@ async function exportEJS(scriptPath: string, distDir: string) {
     title: scriptPath,
     script: getScriptRelativePath(distPath),
     vendorPath: getVendorPath(distDir, distPath),
-    externalScripts: generatorOption.externalScripts
+    externalScripts: generatorOption.externalScripts,
+    body: generatorOption.body
   };
   const htmlPath = getHtmlPath(distPath);
   const ejsPath = path.resolve(process.cwd(), "template/demo.ejs");
