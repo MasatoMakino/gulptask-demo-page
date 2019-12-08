@@ -35,7 +35,8 @@ async function exportEJS(scriptPath: string, distDir: string) {
   const ejsOption = {
     title: scriptPath,
     script: getScriptRelativePath(distPath),
-    vendorPath: getVendorPath(distDir, distPath)
+    vendorPath: getVendorPath(distDir, distPath),
+      externalScripts:generatorOption.externalScripts
   };
   const htmlPath = getHtmlPath(distPath);
   const ejsPath = path.resolve(process.cwd(), "template/demo.ejs");
