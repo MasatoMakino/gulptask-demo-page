@@ -1,31 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
+const gulp_1 = require("gulp");
+const Bundler_1 = require("./Bundler");
+const Option_1 = require("./Option");
+const EJS_1 = require("./EJS");
 function get(option) {
-    option = initOptions(option);
-    const bundlerSet = getBundlerSet(option);
+    option = Option_1.initOptions(option);
+    const bundlerSet = Bundler_1.getBundlerSet(option);
+    const ejsTasks = EJS_1.getHTLMGenerator(option);
     return {
-        bundleDemo: bundlerSet.bundleDevelopment,
-        watchDemo: bundlerSet.watchBundle
+        bundleDemo: gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTLM),
+        watchDemo: (cb) => {
+            bundlerSet.watchBundle();
+            ejsTasks.watchHTLM();
+            cb();
+        }
     };
 }
 exports.get = get;
-function initOptions(option) {
-    var _a, _b, _c;
-    option = (option !== null && option !== void 0 ? option : {});
-    option.prefix = (_a = option.prefix, (_a !== null && _a !== void 0 ? _a : "demo"));
-    option.srcDir = (_b = option.srcDir, (_b !== null && _b !== void 0 ? _b : "./demoSrc"));
-    option.distDir = (_c = option.distDir, (_c !== null && _c !== void 0 ? _c : "./docs/demo"));
-    return option;
-}
-function getBundlerSet(option) {
-    const configPath = path.resolve(process.cwd(), "webpack.config.js");
-    const config = require(configPath)(option.srcDir, option.distDir, option.prefix);
-    const { bundleDevelopment, watchBundle } = require("gulptask-webpack").get({
-        developmentConfigParams: config
-    });
-    return {
-        bundleDevelopment,
-        watchBundle
-    };
-}

@@ -1,8 +1,4 @@
-export interface Option {
-    prefix?: string;
-    srcDir?: string;
-    distDir?: string;
-}
+import { Option } from "./Option";
 export interface Tasks {
     bundleDemo: Function;
     watchDemo: Function;
