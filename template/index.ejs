@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>demo</title>
+    <link
+            rel="stylesheet"
+            href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
+            integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<ul>
+    <% for (var i = 0; i < demoPath.length; i++){ %>
+        <li><a href="<%= demoPath[i]%>" target="demo-frame"><%= demoPath[i]%></a></li>
+    <% } %>
+</ul>
+<iframe name="demo-frame" id="demo-frame" width="640" height="480"></iframe>
+</body>
+</html>
