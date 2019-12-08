@@ -9,13 +9,40 @@
             integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47"
             crossorigin="anonymous"
     />
+    <style>
+        #layout{
+            padding-left: 360px;
+        }
+        #menu {
+            width: 360px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            z-index: 1000; /* so the menu or its navicon stays above all content */
+            background: #222;
+            overflow-y: auto;
+        }
+        iframe{
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+
 </head>
 <body>
-<ul>
-    <% for (var i = 0; i < demoPath.length; i++){ %>
-        <li><a href="<%= demoPath[i]%>" target="demo-frame"><%= demoPath[i]%></a></li>
-    <% } %>
-</ul>
-<iframe name="demo-frame" id="demo-frame" width="640" height="480"></iframe>
+<div id="layout">
+    <div id="menu">
+        <div class="pure-menu">
+        <ul class="pure-menu-list">
+            <% for (var i = 0; i < demoPath.length; i++){ %>
+            <li class="pure-menu-item"><a class="pure-menu-link" href="<%= demoPath[i]%>" target="demo-frame"><%= demoPath[i]%></a></li>
+            <% } %>
+        </ul>
+        </div>
+    </div>
+    <iframe name="demo-frame" id="demo-frame"></iframe>
+</div>
 </body>
 </html>
