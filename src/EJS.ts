@@ -37,6 +37,7 @@ export async function generateHTLM() {
   for (let scriptPath of targets) {
     await exportEJS(scriptPath, distDir);
   }
+  await exportIndex(targets);
   return;
 }
 
@@ -69,19 +70,45 @@ async function exportEJS(scriptPath: string, distDir: string) {
   });
 }
 
-function getVendorPath(distDir: string, distPath: string): string {
+function getVendorPath(distDir: string, scriptPath: string): string {
   const vendorPath = path.resolve(distDir, "vendor.bundle.js");
-  return path.relative(path.dirname(distPath), vendorPath);
+  return path.relative(path.dirname(scriptPath), vendorPath);
 }
 
-function getScriptRelativePath(distPath: string): string {
-  return path.relative(path.dirname(distPath), distPath);
+function getScriptRelativePath(scriptPath: string): string {
+  return path.relative(path.dirname(scriptPath), scriptPath);
 }
 
-function getHtmlPath(distPath: string): string {
+function getHtmlPath(scriptPath: string): string {
   return path.format({
-    dir: path.dirname(distPath),
-    name: path.basename(distPath, ".js"),
+    dir: path.dirname(scriptPath),
+    name: path.basename(scriptPath, ".js"),
     ext: ".html"
+  });
+}
+
+async function exportIndex(targets: string[]) {
+  const demoPath = targets.map(val => {
+    const distPath = path.resolve(distDir, val);
+    const htmlPath = getHtmlPath(distPath);
+    return path.relative(distDir, htmlPath);
+  });
+  const ejsOption = {
+    demoPath
+  };
+  const ejsPath = path.resolve(process.cwd(), "template/index.ejs");
+
+  return new Promise((resolve, reject) => {
+    ejs.renderFile(ejsPath, ejsOption, (err, str) => {
+      if (err) {
+        console.log(err);
+        reject();
+      }
+      makeDir(path.resolve(distDir)).then(() => {
+        fs.writeFile(path.resolve(distDir, "index.html"), str, () => {
+          resolve();
+        });
+      });
+    });
   });
 }
