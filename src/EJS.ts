@@ -1,5 +1,5 @@
 "use strict";
-
+import { watch } from "gulp";
 import { Option } from "./Option";
 
 const fs = require("fs");
@@ -9,15 +9,26 @@ const glob = require("glob");
 const makeDir = require("make-dir");
 
 let generatorOption: Option;
+let distDir:string;
 
-export function getHTLMGenerator(option: Option) {
+export interface EJSTasks {
+  generateHTLM: Function;
+  watchHTLM: Function;
+}
+
+export function getHTLMGenerator(option: Option): EJSTasks {
   generatorOption = option;
-  return generateHTLM;
+  distDir = path.resolve(process.cwd(), generatorOption.distDir);
+
+  return {
+    generateHTLM: generateHTLM,
+    watchHTLM: () => {
+      watch(distDir + "/**/*.js", generateHTLM);
+    }
+  };
 }
 
 export async function generateHTLM() {
-  const distDir = path.resolve(process.cwd(), generatorOption.distDir);
-
   const targets = glob.sync(`**/*.js`, {
     cwd: distDir,
     ignore: ["vendor.bundle.js"]
@@ -36,7 +47,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
     title: scriptPath,
     script: getScriptRelativePath(distPath),
     vendorPath: getVendorPath(distDir, distPath),
-      externalScripts:generatorOption.externalScripts
+    externalScripts: generatorOption.externalScripts
   };
   const htmlPath = getHtmlPath(distPath);
   const ejsPath = path.resolve(process.cwd(), "template/demo.ejs");
@@ -56,7 +67,6 @@ async function exportEJS(scriptPath: string, distDir: string) {
     });
   });
 }
-
 
 function getVendorPath(distDir: string, distPath: string): string {
   const vendorPath = path.resolve(distDir, "vendor.bundle.js");

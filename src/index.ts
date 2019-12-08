@@ -11,10 +11,14 @@ export interface Tasks {
 export function get(option: Option): Tasks {
   option = initOptions(option);
   const bundlerSet = getBundlerSet(option);
-  const generateHTML = getHTLMGenerator(option);
+  const ejsTasks = getHTLMGenerator(option);
 
   return {
-    bundleDemo: series(bundlerSet.bundleDevelopment, generateHTML),
-    watchDemo: bundlerSet.watchBundle
+    bundleDemo: series(bundlerSet.bundleDevelopment, ejsTasks.generateHTLM),
+    watchDemo: (cb: Function) => {
+      bundlerSet.watchBundle();
+      ejsTasks.watchHTLM();
+      cb();
+    }
   };
 }
