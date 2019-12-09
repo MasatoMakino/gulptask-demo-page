@@ -33,11 +33,9 @@
         #menu a:focus {
             background: #444;
         }
-        #menu .pure-menu-selected{
-            background: #18d;
-        }
-        #menu .pure-menu-selected a {
+        #menu .pure-menu-selected a{
             color: #fff;
+            background: #18d;
         }
 
         iframe{
@@ -46,6 +44,26 @@
             border: none;
         }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(e) {
+            var menuItems = document.getElementsByClassName('pure-menu-item');
+
+            for( var i = 0 ; i < menuItems.length; i++ ){
+                var item = menuItems[i];
+                item.addEventListener("click", function(e){
+                    removeAllClass(menuItems);
+                    e.currentTarget.classList.add('pure-menu-selected');
+                })
+            }
+
+            function removeAllClass(items){
+                for( var i = 0 ; i < items.length; i++ ){
+                    var item = menuItems[i];
+                    item.classList.remove('pure-menu-selected');
+                }
+            }
+        });
+    </script>
 
 </head>
 <body>
