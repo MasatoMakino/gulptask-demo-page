@@ -52,7 +52,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
     body: generatorOption.body
   };
   const htmlPath = getHtmlPath(distPath);
-  const ejsPath = path.resolve(process.cwd(), "template/demo.ejs");
+  const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
 
   return new Promise((resolve, reject) => {
     ejs.renderFile(ejsPath, ejsOption, (err, str) => {
@@ -96,7 +96,7 @@ async function exportIndex(targets: string[]) {
   const ejsOption = {
     demoPath
   };
-  const ejsPath = path.resolve(process.cwd(), "template/index.ejs");
+  const ejsPath = path.resolve(__dirname, "../template/index.ejs");
 
   return new Promise((resolve, reject) => {
     ejs.renderFile(ejsPath, ejsOption, (err, str) => {

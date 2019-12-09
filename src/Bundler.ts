@@ -2,7 +2,7 @@ import { Option } from "./Option";
 const path = require("path");
 
 export function getBundlerSet(option: Option) {
-  const configPath = path.resolve(process.cwd(), "webpack.config.js");
+  const configPath = path.resolve(__dirname, "../webpack.config.js");
   const config = require(configPath)(
     option.srcDir,
     option.distDir,
