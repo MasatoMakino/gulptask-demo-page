@@ -14,7 +14,7 @@ module.exports = (srcDir, distDir, prefix) => {
   return {
     entry: entries,
     output: {
-      path: path.join(__dirname, distDir),
+      path: path.resolve(process.cwd(), distDir),
       filename: "[name]",
       chunkFilename: "[name].bundle.js"
     },
