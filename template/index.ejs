@@ -46,22 +46,32 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function(e) {
+
             var menuItems = document.getElementsByClassName('pure-menu-item');
 
-            for( var i = 0 ; i < menuItems.length; i++ ){
-                var item = menuItems[i];
-                item.addEventListener("click", function(e){
-                    removeAllClass(menuItems);
-                    e.currentTarget.classList.add('pure-menu-selected');
-                })
+            function init() {
+                for( var i = 0 ; i < menuItems.length; i++ ){
+                    var item = menuItems[i];
+                    item.addEventListener("click", function(e){
+                        selectMenu(e.currentTarget);
+                    })
+                }
+                selectMenu( menuItems[0] );
             }
 
+            function selectMenu( item ){
+                removeAllClass(menuItems);
+                item.classList.add('pure-menu-selected');
+            }
             function removeAllClass(items){
                 for( var i = 0 ; i < items.length; i++ ){
                     var item = menuItems[i];
                     item.classList.remove('pure-menu-selected');
                 }
             }
+
+            init();
+
         });
     </script>
 
@@ -77,7 +87,7 @@
         </ul>
         </div>
     </div>
-    <iframe name="demo-frame" id="demo-frame"></iframe>
+    <iframe name="demo-frame" id="demo-frame" src="<%= demoPath[0]%>"></iframe>
 </div>
 </body>
 </html>
