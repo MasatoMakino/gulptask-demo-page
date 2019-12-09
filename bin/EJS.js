@@ -37,6 +37,7 @@ function generateHTLM() {
         for (let scriptPath of targets) {
             yield exportEJS(scriptPath, distDir);
         }
+        yield exportIndex(targets);
         return;
     });
 }
@@ -68,17 +69,43 @@ function exportEJS(scriptPath, distDir) {
         });
     });
 }
-function getVendorPath(distDir, distPath) {
+function getVendorPath(distDir, scriptPath) {
     const vendorPath = path.resolve(distDir, "vendor.bundle.js");
-    return path.relative(path.dirname(distPath), vendorPath);
+    return path.relative(path.dirname(scriptPath), vendorPath);
 }
-function getScriptRelativePath(distPath) {
-    return path.relative(path.dirname(distPath), distPath);
+function getScriptRelativePath(scriptPath) {
+    return path.relative(path.dirname(scriptPath), scriptPath);
 }
-function getHtmlPath(distPath) {
+function getHtmlPath(scriptPath) {
     return path.format({
-        dir: path.dirname(distPath),
-        name: path.basename(distPath, ".js"),
+        dir: path.dirname(scriptPath),
+        name: path.basename(scriptPath, ".js"),
         ext: ".html"
+    });
+}
+function exportIndex(targets) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const demoPath = targets.map(val => {
+            const distPath = path.resolve(distDir, val);
+            const htmlPath = getHtmlPath(distPath);
+            return path.relative(distDir, htmlPath);
+        });
+        const ejsOption = {
+            demoPath
+        };
+        const ejsPath = path.resolve(process.cwd(), "template/index.ejs");
+        return new Promise((resolve, reject) => {
+            ejs.renderFile(ejsPath, ejsOption, (err, str) => {
+                if (err) {
+                    console.log(err);
+                    reject();
+                }
+                makeDir(path.resolve(distDir)).then(() => {
+                    fs.writeFile(path.resolve(distDir, "index.html"), str, () => {
+                        resolve();
+                    });
+                });
+            });
+        });
     });
 }
