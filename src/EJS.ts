@@ -16,6 +16,10 @@ export interface EJSTasks {
   watchHTLM: Function;
 }
 
+/**
+ * gulpタスク関数を出力する。
+ * @param option
+ */
 export function getHTLMGenerator(option: Option): EJSTasks {
   generatorOption = option;
   distDir = path.resolve(process.cwd(), generatorOption.distDir);
@@ -28,10 +32,12 @@ export function getHTLMGenerator(option: Option): EJSTasks {
   };
 }
 
+/**
+ * gulpタスク関数。
+ */
 export async function generateHTLM() {
   const targets = glob.sync(`**/*.js`, {
-    cwd: distDir,
-    ignore: ["vendor.bundle.js"]
+    cwd: distDir
   });
 
   for (let scriptPath of targets) {
@@ -41,13 +47,17 @@ export async function generateHTLM() {
   return;
 }
 
+/**
+ * デモhtmlファイルを出力する。
+ * @param scriptPath
+ * @param distDir
+ */
 async function exportEJS(scriptPath: string, distDir: string) {
   const distPath = path.resolve(distDir, scriptPath);
 
   const ejsOption = {
     title: scriptPath,
     script: getScriptRelativePath(distPath),
-    vendorPath: getVendorPath(distDir, distPath),
     externalScripts: generatorOption.externalScripts,
     body: generatorOption.body
   };
@@ -70,15 +80,18 @@ async function exportEJS(scriptPath: string, distDir: string) {
   });
 }
 
-function getVendorPath(distDir: string, scriptPath: string): string {
-  const vendorPath = path.resolve(distDir, "vendor.bundle.js");
-  return path.relative(path.dirname(scriptPath), vendorPath);
-}
-
+/**
+ * デモjsファイルのパスをhtmlファイルからの相対パスに変換する。
+ * @param scriptPath
+ */
 function getScriptRelativePath(scriptPath: string): string {
   return path.relative(path.dirname(scriptPath), scriptPath);
 }
 
+/**
+ * デモjsファイルのパスから、htmlファイル用のパスを出力する。
+ * @param scriptPath
+ */
 function getHtmlPath(scriptPath: string): string {
   return path.format({
     dir: path.dirname(scriptPath),
@@ -87,6 +100,10 @@ function getHtmlPath(scriptPath: string): string {
   });
 }
 
+/**
+ * デモhtmlをまとめるindex.htmlを出力する。
+ * @param targets デモJavaScriptファイルの出力パス
+ */
 async function exportIndex(targets: string[]) {
   const demoPath = targets.map(val => {
     const distPath = path.resolve(distDir, val);

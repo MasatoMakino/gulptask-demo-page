@@ -15,8 +15,7 @@ module.exports = (srcDir, distDir, prefix) => {
     entry: entries,
     output: {
       path: path.resolve(process.cwd(), distDir),
-      filename: "[name]",
-      chunkFilename: "[name].bundle.js"
+      filename: "[name]"
     },
     module: {
       rules: [
@@ -29,17 +28,6 @@ module.exports = (srcDir, distDir, prefix) => {
         }
       ]
     },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            chunks: "initial",
-            name: "vendor",
-            test: /node_modules/,
-            enforce: true
-          }
-        }
-      }
-    }
+    optimization: {}
   };
 };
