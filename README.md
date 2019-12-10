@@ -21,7 +21,7 @@ Import tasks in gulpfile.js.
 const { bundleDemo, watchDemo } = require("gulptask-demo-page").get();
 ```
 
-### use tasks
+### How to use
 
 Export tasks in gulpfile.js.
 
