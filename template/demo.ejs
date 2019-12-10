@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <title><%= title%></title>
+    <style>
+        html, body{
+            margin: 0;
+        }
+    </style>
     <% for (var i = 0; i < externalScripts.length; i++){ %><script src="<%= externalScripts[i]%>"></script><% } %>
     <script src="<%= script%>"></script>
 </head>
