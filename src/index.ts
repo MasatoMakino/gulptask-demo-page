@@ -15,10 +15,9 @@ export function get(option: Option): Tasks {
 
   return {
     bundleDemo: series(bundlerSet.bundleDevelopment, ejsTasks.generateHTLM),
-    watchDemo: (cb: Function) => {
+    watchDemo: async () => {
       bundlerSet.watchBundle();
       ejsTasks.watchHTLM();
-      cb();
     }
   };
 }
