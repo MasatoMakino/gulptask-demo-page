@@ -17,6 +17,10 @@ const glob = require("glob");
 const makeDir = require("make-dir");
 let generatorOption;
 let distDir;
+/**
+ * gulpタスク関数を出力する。
+ * @param option
+ */
 function getHTLMGenerator(option) {
     generatorOption = option;
     distDir = path.resolve(process.cwd(), generatorOption.distDir);
@@ -28,11 +32,13 @@ function getHTLMGenerator(option) {
     };
 }
 exports.getHTLMGenerator = getHTLMGenerator;
+/**
+ * gulpタスク関数。
+ */
 function generateHTLM() {
     return __awaiter(this, void 0, void 0, function* () {
         const targets = glob.sync(`**/*.js`, {
-            cwd: distDir,
-            ignore: ["vendor.bundle.js"]
+            cwd: distDir
         });
         for (let scriptPath of targets) {
             yield exportEJS(scriptPath, distDir);
@@ -42,13 +48,17 @@ function generateHTLM() {
     });
 }
 exports.generateHTLM = generateHTLM;
+/**
+ * デモhtmlファイルを出力する。
+ * @param scriptPath
+ * @param distDir
+ */
 function exportEJS(scriptPath, distDir) {
     return __awaiter(this, void 0, void 0, function* () {
         const distPath = path.resolve(distDir, scriptPath);
         const ejsOption = {
             title: scriptPath,
             script: getScriptRelativePath(distPath),
-            vendorPath: getVendorPath(distDir, distPath),
             externalScripts: generatorOption.externalScripts,
             body: generatorOption.body
         };
@@ -69,13 +79,17 @@ function exportEJS(scriptPath, distDir) {
         });
     });
 }
-function getVendorPath(distDir, scriptPath) {
-    const vendorPath = path.resolve(distDir, "vendor.bundle.js");
-    return path.relative(path.dirname(scriptPath), vendorPath);
-}
+/**
+ * デモjsファイルのパスをhtmlファイルからの相対パスに変換する。
+ * @param scriptPath
+ */
 function getScriptRelativePath(scriptPath) {
     return path.relative(path.dirname(scriptPath), scriptPath);
 }
+/**
+ * デモjsファイルのパスから、htmlファイル用のパスを出力する。
+ * @param scriptPath
+ */
 function getHtmlPath(scriptPath) {
     return path.format({
         dir: path.dirname(scriptPath),
@@ -83,6 +97,10 @@ function getHtmlPath(scriptPath) {
         ext: ".html"
     });
 }
+/**
+ * デモhtmlをまとめるindex.htmlを出力する。
+ * @param targets デモJavaScriptファイルの出力パス
+ */
 function exportIndex(targets) {
     return __awaiter(this, void 0, void 0, function* () {
         const demoPath = targets.map(val => {
