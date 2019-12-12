@@ -28,9 +28,9 @@ function getDistDir(): string {
 function getCopyGlob(): string {
   const srcDir = getSrcDir();
   const extension = copyOption.copyTargets.join(",");
-  return `${srcDir}/**/*.${extension}`;
+  return `${srcDir}/**/*.{${extension}}`;
 }
 
 async function copy() {
-  return src(getCopyGlob(), { base: getSrcDir() }).pipe(dest(getDistDir()));
+  src(getCopyGlob(), { base: getSrcDir() }).pipe(dest(getDistDir()));
 }
