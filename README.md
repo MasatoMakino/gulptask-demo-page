@@ -43,11 +43,13 @@ const { bundleDemo, watchDemo } = require("./bin").get({
 });
 ```
 
--   prefix (default : "demo") : The word contained in the name of the demo script.
--   srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
--   distDir (default : "./docs/demo") : Directory where html files are output.
--   externalScripts (default :\[]) : A list of external javascript libraries.
--   body (default : "") : Content stored in the <body> tag.
+- prefix (default : "demo") : The word contained in the name of the demo script.
+- srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
+- distDir (default : "./docs/demo") : Directory where html files are output.
+- externalScripts (default :\[]) : A list of external javascript libraries.
+- body (default : "") : Content stored in the <body> tag.
+- style (default : "") : Common style for demo html.
+- copyTargets (default :\["png", "jpg", "jpeg"]) : Static assets in srcDir. These are copied to distDir.
 
 ## License
 

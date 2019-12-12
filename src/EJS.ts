@@ -59,7 +59,8 @@ async function exportEJS(scriptPath: string, distDir: string) {
     title: scriptPath,
     script: getScriptRelativePath(distPath),
     externalScripts: generatorOption.externalScripts,
-    body: generatorOption.body
+    body: generatorOption.body,
+    style: generatorOption.style
   };
   const htmlPath = getHtmlPath(distPath);
   const ejsPath = path.resolve(__dirname, "../template/demo.ejs");

@@ -4,6 +4,7 @@ export interface Option {
     distDir?: string;
     externalScripts?: string[];
     body?: string;
+    style?: string;
     copyTargets?: string[];
 }
 export declare function initOptions(option: Option): Option;
