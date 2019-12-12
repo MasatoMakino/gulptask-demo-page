@@ -10,22 +10,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const gulp_1 = require("gulp");
-const Bundler_1 = require("./Bundler");
-const Option_1 = require("./Option");
-const EJS_1 = require("./EJS");
-const Copy_1 = require("./Copy");
-function get(option) {
-    option = Option_1.initOptions(option);
-    const bundlerSet = Bundler_1.getBundlerSet(option);
-    const ejsTasks = EJS_1.getHTLMGenerator(option);
-    const copyTasks = Copy_1.getCopyTaskSet(option);
+const path = require("path");
+let copyOption;
+function getCopyTaskSet(option) {
+    copyOption = option;
     return {
-        bundleDemo: gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTLM, copyTasks.copy),
-        watchDemo: () => __awaiter(this, void 0, void 0, function* () {
-            bundlerSet.watchBundle();
-            ejsTasks.watchHTLM();
-            copyTasks.watchCopy();
-        })
+        copy: copy,
+        watchCopy: () => {
+            gulp_1.watch(getCopyGlob(), copy);
+        }
     };
 }
-exports.get = get;
+exports.getCopyTaskSet = getCopyTaskSet;
+function getSrcDir() {
+    return path.resolve(process.cwd(), copyOption.srcDir);
+}
+function getDistDir() {
+    return path.resolve(process.cwd(), copyOption.distDir);
+}
+function getCopyGlob() {
+    const srcDir = getSrcDir();
+    const extension = copyOption.copyTargets.join(",");
+    return `${srcDir}/**/*.{${extension}}`;
+}
+function copy() {
+    return __awaiter(this, void 0, void 0, function* () {
+        gulp_1.src(getCopyGlob(), { base: getSrcDir() }).pipe(gulp_1.dest(getDistDir()));
+    });
+}
