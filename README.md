@@ -47,7 +47,7 @@ const { bundleDemo, watchDemo } = require("./bin").get({
 -   srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
 -   distDir (default : "./docs/demo") : Directory where html files are output.
 -   externalScripts (default :\[]) : A list of external javascript libraries.
--   body (default : "") : Content stored in the body tag.
+-   body (default : "") : Content stored in the <body> tag.
 
 ## License
 

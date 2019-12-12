@@ -4,6 +4,8 @@ export interface Option {
   distDir?: string;
   externalScripts?: string[];
   body?: string;
+
+  copyTargets?: string[];
 }
 export function initOptions(option: Option): Option {
   option = option ?? {};
@@ -12,5 +14,6 @@ export function initOptions(option: Option): Option {
   option.distDir = option.distDir ?? "./docs/demo";
   option.externalScripts = option.externalScripts ?? [];
   option.body = option.body ?? "";
+  option.copyTargets = option.copyTargets ?? ["png", "jpg", "jpeg"];
   return option;
 }

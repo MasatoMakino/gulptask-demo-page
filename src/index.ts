@@ -2,6 +2,7 @@ import { series } from "gulp";
 import { getBundlerSet } from "./Bundler";
 import { Option, initOptions } from "./Option";
 import { getHTLMGenerator } from "./EJS";
+import { getCopyTaskSet } from "./Copy";
 
 export interface Tasks {
   bundleDemo: Function;
@@ -12,12 +13,18 @@ export function get(option: Option): Tasks {
   option = initOptions(option);
   const bundlerSet = getBundlerSet(option);
   const ejsTasks = getHTLMGenerator(option);
+  const copyTasks = getCopyTaskSet(option);
 
   return {
-    bundleDemo: series(bundlerSet.bundleDevelopment, ejsTasks.generateHTLM),
+    bundleDemo: series(
+      bundlerSet.bundleDevelopment,
+      ejsTasks.generateHTLM,
+      copyTasks.copy
+    ),
     watchDemo: async () => {
       bundlerSet.watchBundle();
       ejsTasks.watchHTLM();
+      copyTasks.watchCopy();
     }
   };
 }
