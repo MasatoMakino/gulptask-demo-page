@@ -72,7 +72,7 @@ function exportEJS(scriptPath, distDir) {
                     reject();
                 }
                 makeDir(path.dirname(distPath)).then(() => {
-                    fs.writeFile(htmlPath, str, () => {
+                    fs.writeFile(htmlPath, str, "utf8", () => {
                         resolve();
                     });
                 });
@@ -120,7 +120,7 @@ function exportIndex(targets) {
                     reject();
                 }
                 makeDir(path.resolve(distDir)).then(() => {
-                    fs.writeFile(path.resolve(distDir, "index.html"), str, () => {
+                    fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", () => {
                         resolve();
                     });
                 });

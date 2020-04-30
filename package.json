@@ -1,6 +1,6 @@
 {
   "name": "gulptask-demo-page",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
   "types": "bin/index.d.js",
@@ -8,22 +8,22 @@
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.7.5",
-    "@babel/preset-env": "^7.7.5",
-    "babel-loader": "^8.0.6",
-    "ejs": "^3.0.1",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-loader": "^8.1.0",
+    "ejs": "^3.1.2",
     "glob": "^7.1.6",
     "gulp": "^4.0.2",
     "gulptask-webpack": "https://github.com/MasatoMakino/gulptask-webpack.git",
-    "make-dir": "^3.0.0"
+    "make-dir": "^3.1.0"
   },
   "devDependencies": {
-    "@types/node": "^12.12.14",
+    "@types/node": "^13.13.4",
     "moment": "^2.24.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.1",
-    "rimraf": "^3.0.0",
-    "typescript": "^3.7.3"
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",

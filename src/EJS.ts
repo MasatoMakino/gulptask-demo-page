@@ -28,7 +28,7 @@ export function getHTLMGenerator(option: Option): EJSTasks {
     generateHTLM: generateHTLM,
     watchHTLM: () => {
       watch(distDir + "/**/*.js", generateHTLM);
-    }
+    },
   };
 }
 
@@ -37,7 +37,7 @@ export function getHTLMGenerator(option: Option): EJSTasks {
  */
 export async function generateHTLM() {
   const targets = glob.sync(`**/*.js`, {
-    cwd: distDir
+    cwd: distDir,
   });
 
   for (let scriptPath of targets) {
@@ -60,7 +60,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
     script: getScriptRelativePath(distPath),
     externalScripts: generatorOption.externalScripts,
     body: generatorOption.body,
-    style: generatorOption.style
+    style: generatorOption.style,
   };
   const htmlPath = getHtmlPath(distPath);
   const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
@@ -73,7 +73,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
       }
 
       makeDir(path.dirname(distPath)).then(() => {
-        fs.writeFile(htmlPath, str, () => {
+        fs.writeFile(htmlPath, str, "utf8", () => {
           resolve();
         });
       });
@@ -97,7 +97,7 @@ function getHtmlPath(scriptPath: string): string {
   return path.format({
     dir: path.dirname(scriptPath),
     name: path.basename(scriptPath, ".js"),
-    ext: ".html"
+    ext: ".html",
   });
 }
 
@@ -106,13 +106,13 @@ function getHtmlPath(scriptPath: string): string {
  * @param targets デモJavaScriptファイルの出力パス
  */
 async function exportIndex(targets: string[]) {
-  const demoPath = targets.map(val => {
+  const demoPath = targets.map((val) => {
     const distPath = path.resolve(distDir, val);
     const htmlPath = getHtmlPath(distPath);
     return path.relative(distDir, htmlPath);
   });
   const ejsOption = {
-    demoPath
+    demoPath,
   };
   const ejsPath = path.resolve(__dirname, "../template/index.ejs");
 
@@ -123,7 +123,7 @@ async function exportIndex(targets: string[]) {
         reject();
       }
       makeDir(path.resolve(distDir)).then(() => {
-        fs.writeFile(path.resolve(distDir, "index.html"), str, () => {
+        fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", () => {
           resolve();
         });
       });
