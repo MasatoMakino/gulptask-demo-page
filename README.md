@@ -47,9 +47,14 @@ const { bundleDemo, watchDemo } = require("./bin").get({
 - srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
 - distDir (default : "./docs/demo") : Directory where html files are output.
 - externalScripts (default :\[]) : A list of external javascript libraries.
-- body (default : "") : Content stored in the <body> tag.
+- body (default : "") : Content stored in the < body > tag.
 - style (default : "") : Common style for demo html.
 - copyTargets (default :\["png", "jpg", "jpeg"]) : Static assets in srcDir. These are copied to distDir.
+
+## npm script
+
+- build : build gulptask-demo-page bin.
+- watch : watch src dir and build bin.
 
 ## License
 

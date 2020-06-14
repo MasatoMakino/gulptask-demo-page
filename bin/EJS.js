@@ -28,7 +28,7 @@ function getHTLMGenerator(option) {
         generateHTLM: generateHTLM,
         watchHTLM: () => {
             gulp_1.watch(distDir + "/**/*.js", generateHTLM);
-        }
+        },
     };
 }
 exports.getHTLMGenerator = getHTLMGenerator;
@@ -38,7 +38,7 @@ exports.getHTLMGenerator = getHTLMGenerator;
 function generateHTLM() {
     return __awaiter(this, void 0, void 0, function* () {
         const targets = glob.sync(`**/*.js`, {
-            cwd: distDir
+            cwd: distDir,
         });
         for (let scriptPath of targets) {
             yield exportEJS(scriptPath, distDir);
@@ -61,7 +61,7 @@ function exportEJS(scriptPath, distDir) {
             script: getScriptRelativePath(distPath),
             externalScripts: generatorOption.externalScripts,
             body: generatorOption.body,
-            style: generatorOption.style
+            style: generatorOption.style,
         };
         const htmlPath = getHtmlPath(distPath);
         const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
@@ -95,7 +95,7 @@ function getHtmlPath(scriptPath) {
     return path.format({
         dir: path.dirname(scriptPath),
         name: path.basename(scriptPath, ".js"),
-        ext: ".html"
+        ext: ".html",
     });
 }
 /**
@@ -104,13 +104,13 @@ function getHtmlPath(scriptPath) {
  */
 function exportIndex(targets) {
     return __awaiter(this, void 0, void 0, function* () {
-        const demoPath = targets.map(val => {
+        const demoPath = targets.map((val) => {
             const distPath = path.resolve(distDir, val);
             const htmlPath = getHtmlPath(distPath);
             return path.relative(distDir, htmlPath);
         });
         const ejsOption = {
-            demoPath
+            demoPath,
         };
         const ejsPath = path.resolve(__dirname, "../template/index.ejs");
         return new Promise((resolve, reject) => {
