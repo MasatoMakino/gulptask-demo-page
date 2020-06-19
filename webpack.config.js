@@ -5,9 +5,9 @@ module.exports = (srcDir, distDir, prefix) => {
   const entries = {};
   glob
     .sync(`**/${prefix}*.js`, {
-      cwd: srcDir
+      cwd: srcDir,
     })
-    .map(key => {
+    .map((key) => {
       entries[key] = path.resolve(srcDir, key);
     });
 
@@ -15,7 +15,7 @@ module.exports = (srcDir, distDir, prefix) => {
     entry: entries,
     output: {
       path: path.resolve(process.cwd(), distDir),
-      filename: "[name]"
+      filename: "[name]",
     },
     module: {
       rules: [
@@ -23,11 +23,16 @@ module.exports = (srcDir, distDir, prefix) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: {
-            loader: "babel-loader"
-          }
-        }
-      ]
+            loader: "babel-loader",
+          },
+        },
+        {
+          test: /\.js$/,
+          enforce: "pre",
+          use: ["source-map-loader"],
+        },
+      ],
     },
-    optimization: {}
+    optimization: {},
   };
 };
