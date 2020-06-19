@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.initOptions = void 0;
 function initOptions(option) {
     var _a, _b, _c, _d, _e, _f, _g;
     option = option !== null && option !== void 0 ? option : {};

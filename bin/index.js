@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.get = void 0;
 const gulp_1 = require("gulp");
 const Bundler_1 = require("./Bundler");
 const Option_1 = require("./Option");

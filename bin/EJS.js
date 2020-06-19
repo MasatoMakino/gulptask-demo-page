@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.generateHTLM = exports.getHTLMGenerator = void 0;
 const gulp_1 = require("gulp");
 const fs = require("fs");
 const path = require("path");

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBundlerSet = void 0;
 const path = require("path");
 function getBundlerSet(option) {
     const configPath = path.resolve(__dirname, "../webpack.config.js");
