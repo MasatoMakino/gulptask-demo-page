@@ -4,18 +4,23 @@ const glob = require("glob");
 module.exports = (srcDir, distDir, prefix) => {
   const entries = {};
   glob
-    .sync(`**/${prefix}*.js`, {
+    .sync(`**/${prefix}*.+(js|ts)`, {
       cwd: srcDir,
     })
     .map((key) => {
-      entries[key] = path.resolve(srcDir, key);
+      const parsed = path.parse(key);
+      const name = path.format({
+        dir: parsed.dir,
+        name: parsed.name,
+      });
+      entries[name] = path.resolve(srcDir, key);
     });
 
   return {
     entry: entries,
     output: {
       path: path.resolve(process.cwd(), distDir),
-      filename: "[name]",
+      filename: "[name].js",
     },
     module: {
       rules: [
@@ -31,7 +36,18 @@ module.exports = (srcDir, distDir, prefix) => {
           enforce: "pre",
           use: ["source-map-loader"],
         },
+        {
+          test: /\.ts$/,
+          loader: "ts-loader",
+          exclude: /node_modules/,
+          options: {
+            configFile: "This setting has been overridden in 'Bundler.ts'",
+          },
+        },
       ],
+    },
+    resolve: {
+      extensions: [".ts", ".js"],
     },
     optimization: {},
   };
