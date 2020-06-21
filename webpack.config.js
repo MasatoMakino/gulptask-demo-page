@@ -42,6 +42,7 @@ module.exports = (srcDir, distDir, prefix) => {
           exclude: /node_modules/,
           options: {
             configFile: "This setting has been overridden in 'Bundler.ts'",
+            onlyCompileBundledFiles: true,
           },
         },
       ],
