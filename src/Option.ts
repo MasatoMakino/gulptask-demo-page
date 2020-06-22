@@ -1,3 +1,5 @@
+import { RuleSetRule } from "webpack";
+
 export interface Option {
   prefix?: string;
   srcDir?: string;
@@ -6,7 +8,9 @@ export interface Option {
   body?: string;
   style?: string;
   copyTargets?: string[];
+  rules?:RuleSetRule[]
 }
+
 export function initOptions(option: Option): Option {
   option = option ?? {};
   option.prefix = option.prefix ?? "demo";
@@ -16,5 +20,6 @@ export function initOptions(option: Option): Option {
   option.body = option.body ?? "";
   option.style = option.style ?? "";
   option.copyTargets = option.copyTargets ?? ["png", "jpg", "jpeg"];
+  option.rules = option.rules ?? [];
   return option;
 }
