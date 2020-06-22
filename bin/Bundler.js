@@ -8,7 +8,6 @@ function getBundlerSet(option) {
     overrideTsConfigPath(config);
     overrideRules(config, option);
     checkEntries(config, option);
-    console.log(config.module);
     const { bundleDevelopment, watchBundle } = require("gulptask-webpack").get({
         developmentConfigParams: config,
     });
