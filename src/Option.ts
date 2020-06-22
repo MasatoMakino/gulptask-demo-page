@@ -8,7 +8,7 @@ export interface Option {
   body?: string;
   style?: string;
   copyTargets?: string[];
-  rules?:RuleSetRule[]
+  rules?: RuleSetRule[];
 }
 
 export function initOptions(option: Option): Option {
@@ -19,7 +19,14 @@ export function initOptions(option: Option): Option {
   option.externalScripts = option.externalScripts ?? [];
   option.body = option.body ?? "";
   option.style = option.style ?? "";
-  option.copyTargets = option.copyTargets ?? ["png", "jpg", "jpeg"];
+
+  const copyDefault = ["png", "jpg", "jpeg"];
+  if (option.copyTargets == null) {
+    option.copyTargets = copyDefault;
+  } else {
+    option.copyTargets = [...new Set([...copyDefault, ...option.copyTargets])];
+  }
+
   option.rules = option.rules ?? [];
   return option;
 }

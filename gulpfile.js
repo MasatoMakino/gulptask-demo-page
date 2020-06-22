@@ -16,6 +16,7 @@ const { bundleDemo, watchDemo } = require("./bin").get({
       ],
     },
   ],
+  copyTargets:["ai", "psd"]
 });
 
 exports.bundleDemo = bundleDemo;
