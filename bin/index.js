@@ -21,10 +21,10 @@ function get(option) {
     const ejsTasks = EJS_1.getHTLMGenerator(option);
     const copyTasks = Copy_1.getCopyTaskSet(option);
     return {
-        bundleDemo: gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTLM, copyTasks.copy),
+        bundleDemo: gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy),
         watchDemo: () => __awaiter(this, void 0, void 0, function* () {
             bundlerSet.watchBundle();
-            ejsTasks.watchHTLM();
+            ejsTasks.watchHTML();
             copyTasks.watchCopy();
         })
     };

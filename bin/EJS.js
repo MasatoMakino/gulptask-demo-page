@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateHTLM = exports.getHTLMGenerator = void 0;
+exports.getHTLMGenerator = void 0;
 const gulp_1 = require("gulp");
 const fs = require("fs");
 const path = require("path");
@@ -26,29 +26,30 @@ function getHTLMGenerator(option) {
     generatorOption = option;
     distDir = path.resolve(process.cwd(), generatorOption.distDir);
     return {
-        generateHTLM: generateHTLM,
-        watchHTLM: () => {
-            gulp_1.watch(distDir + "/**/*.js", generateHTLM);
+        generateHTML: getGenerateHTML(option),
+        watchHTML: () => {
+            gulp_1.watch(distDir + "/**/*.js", getGenerateHTML(option));
         },
     };
 }
 exports.getHTLMGenerator = getHTLMGenerator;
 /**
- * gulpタスク関数。
- */
-function generateHTLM() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const targets = glob.sync(`**/*.js`, {
-            cwd: distDir,
+ * 出力されたJSファイルを監視し、対応するHTMLファイルを出力するgulpタスク
+ **/
+function getGenerateHTML(option) {
+    return function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            const targets = glob.sync(`**/${option.prefix}*.js`, {
+                cwd: distDir,
+            });
+            for (let scriptPath of targets) {
+                yield exportEJS(scriptPath, distDir);
+            }
+            yield exportIndex(targets);
+            return;
         });
-        for (let scriptPath of targets) {
-            yield exportEJS(scriptPath, distDir);
-        }
-        yield exportIndex(targets);
-        return;
-    });
+    };
 }
-exports.generateHTLM = generateHTLM;
 /**
  * デモhtmlファイルを出力する。
  * @param scriptPath
@@ -57,10 +58,16 @@ exports.generateHTLM = generateHTLM;
 function exportEJS(scriptPath, distDir) {
     return __awaiter(this, void 0, void 0, function* () {
         const distPath = path.resolve(distDir, scriptPath);
+        let vendorBundle;
+        const bundlePath = path.resolve(distDir, "vendor.js");
+        if (fs.existsSync(bundlePath)) {
+            vendorBundle = path.relative(path.dirname(distPath), bundlePath);
+        }
         const ejsOption = {
             title: scriptPath,
             script: getScriptRelativePath(distPath),
             externalScripts: generatorOption.externalScripts,
+            vendorBundle,
             body: generatorOption.body,
             style: generatorOption.style,
         };
