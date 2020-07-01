@@ -12,8 +12,8 @@ let generatorOption: Option;
 let distDir: string;
 
 export interface EJSTasks {
-  generateHTLM: Function;
-  watchHTLM: Function;
+  generateHTML: Function;
+  watchHTML: Function;
 }
 
 /**
@@ -25,26 +25,28 @@ export function getHTLMGenerator(option: Option): EJSTasks {
   distDir = path.resolve(process.cwd(), generatorOption.distDir);
 
   return {
-    generateHTLM: generateHTLM,
-    watchHTLM: () => {
-      watch(distDir + "/**/*.js", generateHTLM);
+    generateHTML: getGenerateHTML(option),
+    watchHTML: () => {
+      watch(distDir + "/**/*.js", getGenerateHTML(option));
     },
   };
 }
 
 /**
- * gulpタスク関数。
- */
-export async function generateHTLM() {
-  const targets = glob.sync(`**/*.js`, {
-    cwd: distDir,
-  });
+ * 出力されたJSファイルを監視し、対応するHTMLファイルを出力するgulpタスク
+ **/
+function getGenerateHTML(option: Option) {
+  return async function () {
+    const targets = glob.sync(`**/${option.prefix}*.js`, {
+      cwd: distDir,
+    });
 
-  for (let scriptPath of targets) {
-    await exportEJS(scriptPath, distDir);
-  }
-  await exportIndex(targets);
-  return;
+    for (let scriptPath of targets) {
+      await exportEJS(scriptPath, distDir);
+    }
+    await exportIndex(targets);
+    return;
+  };
 }
 
 /**
@@ -55,10 +57,17 @@ export async function generateHTLM() {
 async function exportEJS(scriptPath: string, distDir: string) {
   const distPath = path.resolve(distDir, scriptPath);
 
+  let vendorBundle;
+  const bundlePath = path.resolve(distDir, "vendor.js");
+  if( fs.existsSync( bundlePath ) ){
+    vendorBundle = path.relative( path.dirname(distPath), bundlePath );
+  }
+
   const ejsOption = {
     title: scriptPath,
     script: getScriptRelativePath(distPath),
     externalScripts: generatorOption.externalScripts,
+    vendorBundle,
     body: generatorOption.body,
     style: generatorOption.style,
   };

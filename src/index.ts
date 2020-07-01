@@ -18,12 +18,12 @@ export function get(option: Option): Tasks {
   return {
     bundleDemo: series(
       bundlerSet.bundleDevelopment,
-      ejsTasks.generateHTLM,
+      ejsTasks.generateHTML,
       copyTasks.copy
     ),
     watchDemo: async () => {
       bundlerSet.watchBundle();
-      ejsTasks.watchHTLM();
+      ejsTasks.watchHTML();
       copyTasks.watchCopy();
     }
   };
