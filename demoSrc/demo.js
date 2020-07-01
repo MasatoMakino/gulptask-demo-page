@@ -1,3 +1,2 @@
 import * as moment from 'moment';
-
-console.log("packed");
+console.log( "packed", moment().format("YYYY/MM/DD HH:mm:ss") );
