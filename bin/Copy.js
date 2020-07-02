@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCopyTaskSet = void 0;
+exports.getDistDir = exports.getSrcDir = exports.getCopyTaskSet = void 0;
 const gulp_1 = require("gulp");
 const path = require("path");
 let copyOption;
@@ -26,9 +26,11 @@ exports.getCopyTaskSet = getCopyTaskSet;
 function getSrcDir() {
     return path.resolve(process.cwd(), copyOption.srcDir);
 }
+exports.getSrcDir = getSrcDir;
 function getDistDir() {
     return path.resolve(process.cwd(), copyOption.distDir);
 }
+exports.getDistDir = getDistDir;
 function getCopyGlob() {
     const srcDir = getSrcDir();
     const extension = copyOption.copyTargets.join(",");

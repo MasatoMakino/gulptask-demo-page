@@ -9,27 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get = void 0;
+exports.getStyleTask = void 0;
 const gulp_1 = require("gulp");
-const Style_1 = require("./Style");
-const Bundler_1 = require("./Bundler");
-const Option_1 = require("./Option");
-const EJS_1 = require("./EJS");
+const path = require("path");
 const Copy_1 = require("./Copy");
-function get(option) {
-    option = Option_1.initOptions(option);
-    const bundlerSet = Bundler_1.getBundlerSet(option);
-    const ejsTasks = EJS_1.getHTLMGenerator(option);
-    const copyTasks = Copy_1.getCopyTaskSet(option);
-    const styleTask = Style_1.getStyleTask();
-    return {
-        bundleDemo: gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy, styleTask),
-        watchDemo: () => __awaiter(this, void 0, void 0, function* () {
-            styleTask();
-            bundlerSet.watchBundle();
-            ejsTasks.watchHTML();
-            copyTasks.watchCopy();
-        }),
-    };
+function getStyleTask() {
+    return copyStyle;
 }
-exports.get = get;
+exports.getStyleTask = getStyleTask;
+function getTemplateDir() {
+    return path.resolve(__dirname, "../template/");
+}
+function getCopyGlob() {
+    const srcDir = getTemplateDir();
+    return `${srcDir}/**/*.css`;
+}
+function copyStyle() {
+    return __awaiter(this, void 0, void 0, function* () {
+        gulp_1.src(getCopyGlob(), { base: getTemplateDir() }).pipe(gulp_1.dest(Copy_1.getDistDir()));
+    });
+}
