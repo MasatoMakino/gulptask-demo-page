@@ -51,18 +51,14 @@ function getGenerateHTML(option) {
     };
 }
 /**
- * デモhtmlファイルを出力する。
+ * デモjsに対応したhtmlファイルを出力する。
  * @param scriptPath
  * @param distDir
  */
 function exportEJS(scriptPath, distDir) {
     return __awaiter(this, void 0, void 0, function* () {
         const distPath = path.resolve(distDir, scriptPath);
-        let vendorBundle;
-        const bundlePath = path.resolve(distDir, "vendor.js");
-        if (fs.existsSync(bundlePath)) {
-            vendorBundle = path.relative(path.dirname(distPath), bundlePath);
-        }
+        const vendorBundle = getVendorBundlePath(distDir);
         const ejsOption = {
             title: scriptPath,
             script: getScriptRelativePath(distPath),
@@ -89,6 +85,19 @@ function exportEJS(scriptPath, distDir) {
     });
 }
 /**
+ * vendor.jsのパスを取得する。
+ * 存在しない場合はundefinedを返す。
+ *
+ * @param distPath
+ */
+function getVendorBundlePath(distPath) {
+    const bundlePath = path.resolve(distDir, "vendor.js");
+    if (fs.existsSync(bundlePath)) {
+        return path.relative(path.dirname(distPath), bundlePath);
+    }
+    return;
+}
+/**
  * デモjsファイルのパスをhtmlファイルからの相対パスに変換する。
  * @param scriptPath
  */
@@ -107,7 +116,7 @@ function getHtmlPath(scriptPath) {
     });
 }
 /**
- * デモhtmlをまとめるindex.htmlを出力する。
+ * index.htmlを出力する。
  * @param targets デモJavaScriptファイルの出力パス
  */
 function exportIndex(targets) {
@@ -117,9 +126,13 @@ function exportIndex(targets) {
             const htmlPath = getHtmlPath(distPath);
             return path.relative(distDir, htmlPath);
         });
+        const packageJson = require(path.resolve(process.cwd(), "package.json"));
         const ejsOption = {
-            demoPath,
+            demoPath: demoPath,
+            packageName: packageJson.name,
+            repository: packageJson.repository
         };
+        // console.log(ejsOption);
         const ejsPath = path.resolve(__dirname, "../template/index.ejs");
         return new Promise((resolve, reject) => {
             ejs.renderFile(ejsPath, ejsOption, (err, str) => {
@@ -128,8 +141,15 @@ function exportIndex(targets) {
                     reject();
                 }
                 makeDir(path.resolve(distDir)).then(() => {
-                    fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", () => {
-                        resolve();
+                    // console.log( str );
+                    fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", (err) => {
+                        if (err) {
+                            console.log(err);
+                            reject();
+                        }
+                        else {
+                            resolve();
+                        }
                     });
                 });
             });
