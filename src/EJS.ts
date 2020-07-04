@@ -56,7 +56,7 @@ function getGenerateHTML(option: Option) {
  */
 async function exportEJS(scriptPath: string, distDir: string) {
   const distPath = path.resolve(distDir, scriptPath);
-  const vendorBundle = getVendorBundlePath(distDir);
+  const vendorBundle = getVendorBundlePath(distDir, distPath);
 
   const ejsOption = {
     title: scriptPath,
@@ -89,14 +89,17 @@ async function exportEJS(scriptPath: string, distDir: string) {
  * vendor.jsのパスを取得する。
  * 存在しない場合はundefinedを返す。
  *
- * @param distPath
+ * @param vendorDir vendor.jsを格納しているディレクトリ
+ * @param scriptPath 出力されたjsのパス
  */
-function getVendorBundlePath(distPath: string): string | undefined {
-  const bundlePath = path.resolve(distDir, "vendor.js");
+function getVendorBundlePath(
+  vendorDir: string,
+  scriptPath: string
+): string | undefined {
+  const bundlePath = path.resolve(vendorDir, "vendor.js");
   if (fs.existsSync(bundlePath)) {
-    return path.relative(path.dirname(distPath), bundlePath);
+    return path.relative(path.dirname(scriptPath), bundlePath);
   }
-
   return;
 }
 

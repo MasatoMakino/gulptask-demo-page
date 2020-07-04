@@ -58,7 +58,7 @@ function getGenerateHTML(option) {
 function exportEJS(scriptPath, distDir) {
     return __awaiter(this, void 0, void 0, function* () {
         const distPath = path.resolve(distDir, scriptPath);
-        const vendorBundle = getVendorBundlePath(distDir);
+        const vendorBundle = getVendorBundlePath(distDir, distPath);
         const ejsOption = {
             title: scriptPath,
             script: getScriptRelativePath(distPath),
@@ -88,12 +88,13 @@ function exportEJS(scriptPath, distDir) {
  * vendor.jsのパスを取得する。
  * 存在しない場合はundefinedを返す。
  *
- * @param distPath
+ * @param vendorDir vendor.jsを格納しているディレクトリ
+ * @param scriptPath 出力されたjsのパス
  */
-function getVendorBundlePath(distPath) {
-    const bundlePath = path.resolve(distDir, "vendor.js");
+function getVendorBundlePath(vendorDir, scriptPath) {
+    const bundlePath = path.resolve(vendorDir, "vendor.js");
     if (fs.existsSync(bundlePath)) {
-        return path.relative(path.dirname(distPath), bundlePath);
+        return path.relative(path.dirname(scriptPath), bundlePath);
     }
     return;
 }
@@ -130,9 +131,8 @@ function exportIndex(targets) {
         const ejsOption = {
             demoPath: demoPath,
             packageName: packageJson.name,
-            repository: packageJson.repository
+            repository: packageJson.repository,
         };
-        // console.log(ejsOption);
         const ejsPath = path.resolve(__dirname, "../template/index.ejs");
         return new Promise((resolve, reject) => {
             ejs.renderFile(ejsPath, ejsOption, (err, str) => {
@@ -141,7 +141,6 @@ function exportIndex(targets) {
                     reject();
                 }
                 makeDir(path.resolve(distDir)).then(() => {
-                    // console.log( str );
                     fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", (err) => {
                         if (err) {
                             console.log(err);
