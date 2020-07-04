@@ -12,7 +12,7 @@ function getTemplateDir(): string {
 
 function getCopyGlob(): string {
   const srcDir = getTemplateDir();
-  return `${srcDir}/**/*.css`;
+  return `${srcDir}/**/*.{css,png}`;
 }
 
 async function copyStyle() {
