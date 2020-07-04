@@ -50,18 +50,13 @@ function getGenerateHTML(option: Option) {
 }
 
 /**
- * デモhtmlファイルを出力する。
+ * デモjsに対応したhtmlファイルを出力する。
  * @param scriptPath
  * @param distDir
  */
 async function exportEJS(scriptPath: string, distDir: string) {
   const distPath = path.resolve(distDir, scriptPath);
-
-  let vendorBundle;
-  const bundlePath = path.resolve(distDir, "vendor.js");
-  if( fs.existsSync( bundlePath ) ){
-    vendorBundle = path.relative( path.dirname(distPath), bundlePath );
-  }
+  const vendorBundle = getVendorBundlePath(distDir);
 
   const ejsOption = {
     title: scriptPath,
@@ -91,6 +86,21 @@ async function exportEJS(scriptPath: string, distDir: string) {
 }
 
 /**
+ * vendor.jsのパスを取得する。
+ * 存在しない場合はundefinedを返す。
+ *
+ * @param distPath
+ */
+function getVendorBundlePath(distPath: string): string | undefined {
+  const bundlePath = path.resolve(distDir, "vendor.js");
+  if (fs.existsSync(bundlePath)) {
+    return path.relative(path.dirname(distPath), bundlePath);
+  }
+
+  return;
+}
+
+/**
  * デモjsファイルのパスをhtmlファイルからの相対パスに変換する。
  * @param scriptPath
  */
@@ -111,7 +121,7 @@ function getHtmlPath(scriptPath: string): string {
 }
 
 /**
- * デモhtmlをまとめるindex.htmlを出力する。
+ * index.htmlを出力する。
  * @param targets デモJavaScriptファイルの出力パス
  */
 async function exportIndex(targets: string[]) {
@@ -120,9 +130,14 @@ async function exportIndex(targets: string[]) {
     const htmlPath = getHtmlPath(distPath);
     return path.relative(distDir, htmlPath);
   });
+  const packageJson = require(path.resolve(process.cwd(), "package.json"));
+
   const ejsOption = {
-    demoPath,
+    demoPath: demoPath,
+    packageName: packageJson.name,
+    repository: packageJson.repository,
   };
+
   const ejsPath = path.resolve(__dirname, "../template/index.ejs");
 
   return new Promise((resolve, reject) => {
@@ -131,10 +146,21 @@ async function exportIndex(targets: string[]) {
         console.log(err);
         reject();
       }
+
       makeDir(path.resolve(distDir)).then(() => {
-        fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", () => {
-          resolve();
-        });
+        fs.writeFile(
+          path.resolve(distDir, "index.html"),
+          str,
+          "utf8",
+          (err) => {
+            if (err) {
+              console.log(err);
+              reject();
+            } else {
+              resolve();
+            }
+          }
+        );
       });
     });
   });
