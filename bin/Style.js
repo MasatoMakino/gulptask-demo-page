@@ -22,7 +22,7 @@ function getTemplateDir() {
 }
 function getCopyGlob() {
     const srcDir = getTemplateDir();
-    return `${srcDir}/**/*.css`;
+    return `${srcDir}/**/*.{css,png}`;
 }
 function copyStyle() {
     return __awaiter(this, void 0, void 0, function* () {
