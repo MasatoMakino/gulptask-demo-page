@@ -1,6 +1,9 @@
 # gulptask-demo-page
 
-demo html generator for gulp.js
+> demo html generator for gulp.js
+
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c85d13ff544137ebc8ac/maintainability)](https://codeclimate.com/github/MasatoMakino/gulptask-demo-page/maintainability)
 
 [GitHub](https://github.com/MasatoMakino/gulptask-demo-page.git)
 
