@@ -103,7 +103,7 @@
     </a>
     <div id="menu">
         <div class="pure-menu">
-            <% if(locals.packageName){ %><a class="pure-menu-heading" href="<%= repository%>"><%= packageName%><img src="GitHub-Mark-Light-32px.png"></a><% } %>
+            <% if(locals.packageName){ %><a class="pure-menu-heading" href="<%= repository%>"><%= packageName%></a><% } %>
             <ul class="pure-menu-list">
                 <% for (var i = 0; i < demoPath.length; i++){ %><li class="pure-menu-item"><a class="pure-menu-link" href="<%= demoPath[i]%>" target="demo-frame"><%= demoPath[i]%></a></li>
                 <% } %>
