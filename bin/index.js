@@ -9,14 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.get = void 0;
+exports.generateTasks = exports.get = void 0;
 const gulp_1 = require("gulp");
 const Style_1 = require("./Style");
 const Bundler_1 = require("./Bundler");
 const Option_1 = require("./Option");
 const EJS_1 = require("./EJS");
 const Copy_1 = require("./Copy");
+/**
+ * @deprecated Use generateTasks
+ * @param option
+ */
 function get(option) {
+    return generateTasks(option);
+}
+exports.get = get;
+/**
+ * デモページタスクを生成する。
+ * @param option
+ */
+function generateTasks(option) {
     option = Option_1.initOptions(option);
     const bundlerSet = Bundler_1.getBundlerSet(option);
     const ejsTasks = EJS_1.getHTLMGenerator(option);
@@ -32,4 +44,4 @@ function get(option) {
         }),
     };
 }
-exports.get = get;
+exports.generateTasks = generateTasks;
