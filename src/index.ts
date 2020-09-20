@@ -10,7 +10,19 @@ export interface Tasks {
   watchDemo: Function;
 }
 
+/**
+ * @deprecated Use generateTasks
+ * @param option
+ */
 export function get(option: Option): Tasks {
+  return generateTasks(option);
+}
+
+/**
+ * デモページタスクを生成する。
+ * @param option
+ */
+export function generateTasks(option: Option): Tasks {
   option = initOptions(option);
   const bundlerSet = getBundlerSet(option);
   const ejsTasks = getHTLMGenerator(option);
