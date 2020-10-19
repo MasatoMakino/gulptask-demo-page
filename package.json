@@ -3,7 +3,7 @@
   "version": "0.2.1",
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
-  "types": "bin/index.d.js",
+  "types": "bin/index.d.ts",
   "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git",
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
