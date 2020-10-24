@@ -136,7 +136,7 @@ async function exportIndex(targets: string[]) {
   const packageJson = require(path.resolve(process.cwd(), "package.json"));
 
   const repositoryURL =
-    packageJson.repository === "object"
+    typeof packageJson.repository === "object"
       ? packageJson.repository.url
       : packageJson.repository;
 

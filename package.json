@@ -4,7 +4,10 @@
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
-  "repository": "https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git",
+  "repository": {
+    "type": "git",
+    "url": "https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git"
+  },
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "dependencies": {

@@ -128,7 +128,7 @@ function exportIndex(targets) {
             return path.relative(distDir, htmlPath);
         });
         const packageJson = require(path.resolve(process.cwd(), "package.json"));
-        const repositoryURL = packageJson.repository === "object"
+        const repositoryURL = typeof packageJson.repository === "object"
             ? packageJson.repository.url
             : packageJson.repository;
         const ejsOption = {
