@@ -128,10 +128,13 @@ function exportIndex(targets) {
             return path.relative(distDir, htmlPath);
         });
         const packageJson = require(path.resolve(process.cwd(), "package.json"));
+        const repositoryURL = packageJson.repository === "object"
+            ? packageJson.repository.url
+            : packageJson.repository;
         const ejsOption = {
             demoPath: demoPath,
             packageName: packageJson.name,
-            repository: packageJson.repository,
+            repository: repositoryURL,
         };
         const ejsPath = path.resolve(__dirname, "../template/index.ejs");
         return new Promise((resolve, reject) => {
