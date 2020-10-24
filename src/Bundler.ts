@@ -1,10 +1,10 @@
-import {Configuration} from "webpack";
+import { Configuration, RuleSetRule } from "webpack";
 import { Option } from "./Option";
 const path = require("path");
 
 export function getBundlerSet(option: Option) {
   const configPath = path.resolve(__dirname, "../webpack.config.js");
-  const config:Configuration = require(configPath)(
+  const config: Configuration = require(configPath)(
     option.srcDir,
     option.distDir,
     option.prefix
@@ -29,15 +29,21 @@ export function getBundlerSet(option: Option) {
  *
  * @param config
  */
-const overrideTsConfigPath = (config:Configuration) => {
-  config.module.rules.find((rule) => {
+const overrideTsConfigPath = (config: Configuration) => {
+  const tsRule = config.module.rules.find((rule: RuleSetRule) => {
     return rule.loader === "ts-loader";
-  }).options["configFile"] = path.resolve(__dirname, "../tsconfig.page.json");
+  }) as RuleSetRule;
+  if (!tsRule) return;
+
+  tsRule.options["configFile"] = path.resolve(
+    __dirname,
+    "../tsconfig.page.json"
+  );
 };
 
-const overrideRules = (config:Configuration, option: Option) =>{
-  config.module.rules.push( ...option.rules );
-}
+const overrideRules = (config: Configuration, option: Option) => {
+  config.module.rules.push(...option.rules);
+};
 
 /**
  * webpack.config.jsのentryが正常に設定されているかを確認する。
@@ -45,7 +51,7 @@ const overrideRules = (config:Configuration, option: Option) =>{
  * @param config
  * @param option
  */
-const checkEntries = (config:Configuration, option: Option) => {
+const checkEntries = (config: Configuration, option: Option) => {
   if (Object.entries(config.entry).length === 0) {
     console.error(
       `gulptaks-demo-page : webpackの対象となるデモページスクリプトが存在しません。\n

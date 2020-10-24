@@ -23,9 +23,12 @@ exports.getBundlerSet = getBundlerSet;
  * @param config
  */
 const overrideTsConfigPath = (config) => {
-    config.module.rules.find((rule) => {
+    const tsRule = config.module.rules.find((rule) => {
         return rule.loader === "ts-loader";
-    }).options["configFile"] = path.resolve(__dirname, "../tsconfig.page.json");
+    });
+    if (!tsRule)
+        return;
+    tsRule.options["configFile"] = path.resolve(__dirname, "../tsconfig.page.json");
 };
 const overrideRules = (config, option) => {
     config.module.rules.push(...option.rules);
