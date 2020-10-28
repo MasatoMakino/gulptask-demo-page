@@ -34,6 +34,7 @@
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
     "watch": "npx tsc -W --project ./tsconfig.json",
-    "demo": "gulp bundleDemo"
+    "demo": "gulp bundleDemo",
+    "cleanDemo": "gulp cleanDemo"
   }
 }

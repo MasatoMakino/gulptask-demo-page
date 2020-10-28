@@ -1,12 +1,14 @@
 import { series } from "gulp";
-import { getStyleTask } from "./Style";
 import { getBundlerSet } from "./Bundler";
-import { Option, initOptions } from "./Option";
-import { getHTLMGenerator } from "./EJS";
+import { getCleanTask } from "./Clean";
 import { getCopyTaskSet } from "./Copy";
+import { getHTLMGenerator } from "./EJS";
+import { initOptions, Option } from "./Option";
+import { getStyleTask } from "./Style";
 
 export interface Tasks {
   bundleDemo: Function;
+  cleanDemo: Function;
   watchDemo: Function;
 }
 
@@ -28,14 +30,17 @@ export function generateTasks(option: Option): Tasks {
   const ejsTasks = getHTLMGenerator(option);
   const copyTasks = getCopyTaskSet(option);
   const styleTask = getStyleTask();
+  const cleanTask = getCleanTask(option);
 
+  const bundleDemo = series(
+    bundlerSet.bundleDevelopment,
+    ejsTasks.generateHTML,
+    copyTasks.copy,
+    styleTask
+  );
   return {
-    bundleDemo: series(
-      bundlerSet.bundleDevelopment,
-      ejsTasks.generateHTML,
-      copyTasks.copy,
-      styleTask
-    ),
+    bundleDemo,
+    cleanDemo: series(cleanTask, bundleDemo),
     watchDemo: async () => {
       styleTask();
       bundlerSet.watchBundle();

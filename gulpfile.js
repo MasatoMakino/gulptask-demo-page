@@ -1,5 +1,5 @@
 "use strict";
-const { bundleDemo, watchDemo } = require("./bin").get({
+const { bundleDemo, cleanDemo, watchDemo } = require("./bin").get({
   externalScripts: [
     "https://code.createjs.com/1.0.0/createjs.min.js",
     "https://code.createjs.com/1.0.0/tweenjs.min.js",
@@ -16,8 +16,9 @@ const { bundleDemo, watchDemo } = require("./bin").get({
       ],
     },
   ],
-  copyTargets:["ai", "psd"]
+  copyTargets: ["ai", "psd"],
 });
 
 exports.bundleDemo = bundleDemo;
+exports.cleanDemo = cleanDemo;
 exports.watchDemo = watchDemo;
