@@ -1,6 +1,7 @@
 import { Option } from "./Option";
 export interface Tasks {
     bundleDemo: Function;
+    cleanDemo: Function;
     watchDemo: Function;
 }
 /**

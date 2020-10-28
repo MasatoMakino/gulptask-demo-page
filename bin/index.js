@@ -11,11 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateTasks = exports.get = void 0;
 const gulp_1 = require("gulp");
-const Style_1 = require("./Style");
 const Bundler_1 = require("./Bundler");
-const Option_1 = require("./Option");
-const EJS_1 = require("./EJS");
+const Clean_1 = require("./Clean");
 const Copy_1 = require("./Copy");
+const EJS_1 = require("./EJS");
+const Option_1 = require("./Option");
+const Style_1 = require("./Style");
 /**
  * @deprecated Use generateTasks
  * @param option
@@ -34,8 +35,11 @@ function generateTasks(option) {
     const ejsTasks = EJS_1.getHTLMGenerator(option);
     const copyTasks = Copy_1.getCopyTaskSet(option);
     const styleTask = Style_1.getStyleTask();
+    const cleanTask = Clean_1.getCleanTask(option);
+    const bundleDemo = gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy, styleTask);
     return {
-        bundleDemo: gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy, styleTask),
+        bundleDemo,
+        cleanDemo: gulp_1.series(cleanTask, bundleDemo),
         watchDemo: () => __awaiter(this, void 0, void 0, function* () {
             styleTask();
             bundlerSet.watchBundle();
