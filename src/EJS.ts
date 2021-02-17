@@ -54,7 +54,7 @@ function getGenerateHTML(option: Option) {
  * @param scriptPath
  * @param distDir
  */
-async function exportEJS(scriptPath: string, distDir: string) {
+async function exportEJS(scriptPath: string, distDir: string):Promise<void> {
   const distPath = path.resolve(distDir, scriptPath);
   const vendorBundle = getVendorBundlePath(distDir, distPath);
 
@@ -127,7 +127,7 @@ function getHtmlPath(scriptPath: string): string {
  * index.htmlを出力する。
  * @param targets デモJavaScriptファイルの出力パス
  */
-async function exportIndex(targets: string[]) {
+async function exportIndex(targets: string[]):Promise<void> {
   const demoPath = targets.map((val) => {
     const distPath = path.resolve(distDir, val);
     const htmlPath = getHtmlPath(distPath);

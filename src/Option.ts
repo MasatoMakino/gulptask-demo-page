@@ -9,6 +9,7 @@ export interface Option {
   style?: string;
   copyTargets?: string[];
   rules?: RuleSetRule[];
+  compileTarget?:string;
 }
 
 export function initOptions(option: Option): Option {

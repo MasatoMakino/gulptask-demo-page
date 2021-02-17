@@ -7,7 +7,7 @@ export function getCleanTask(option: Option) {
   return clean;
 }
 
-const clean = (): Promise<null> => {
+const clean = (): Promise<void> => {
   return new Promise((resolve) => {
     rimraf(distDir, () => {
       resolve();

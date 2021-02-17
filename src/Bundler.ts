@@ -11,6 +11,7 @@ export function getBundlerSet(option: Option) {
   );
 
   overrideTsConfigPath(config);
+  overrideTsTarget(config, option.compileTarget);
   overrideRules(config, option);
   checkEntries(config, option);
 
@@ -30,15 +31,29 @@ export function getBundlerSet(option: Option) {
  * @param config
  */
 const overrideTsConfigPath = (config: Configuration) => {
-  const tsRule = config.module.rules.find((rule: RuleSetRule) => {
-    return rule.loader === "ts-loader";
-  }) as RuleSetRule;
+  const tsRule = getTypeScriptRule(config);
   if (!tsRule) return;
 
   tsRule.options["configFile"] = path.resolve(
     __dirname,
     "../tsconfig.page.json"
   );
+};
+
+const getTypeScriptRule = (config: Configuration) => {
+  return config.module.rules.find((rule: RuleSetRule) => {
+    return rule.loader === "ts-loader";
+  }) as RuleSetRule;
+};
+
+const overrideTsTarget = (config: Configuration, target?:string) => {
+  if( target == null )return;
+
+  const tsRule = getTypeScriptRule(config);
+  if (!tsRule) return;
+
+  tsRule.options["compilerOptions"] ??= {};
+  tsRule.options["compilerOptions"]["target"] = target;
 };
 
 const overrideRules = (config: Configuration, option: Option) => {

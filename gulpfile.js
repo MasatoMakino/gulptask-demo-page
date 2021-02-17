@@ -17,6 +17,7 @@ const { bundleDemo, cleanDemo, watchDemo } = require("./bin").generateTasks({
     },
   ],
   copyTargets: ["ai", "psd"],
+  compileTarget:"es6"
 });
 
 exports.bundleDemo = bundleDemo;
