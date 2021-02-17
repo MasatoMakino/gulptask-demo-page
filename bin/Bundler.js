@@ -6,6 +6,7 @@ function getBundlerSet(option) {
     const configPath = path.resolve(__dirname, "../webpack.config.js");
     const config = require(configPath)(option.srcDir, option.distDir, option.prefix);
     overrideTsConfigPath(config);
+    overrideTsTarget(config, option.compileTarget);
     overrideRules(config, option);
     checkEntries(config, option);
     const { bundleDevelopment, watchBundle } = require("gulptask-webpack").get({
@@ -23,12 +24,26 @@ exports.getBundlerSet = getBundlerSet;
  * @param config
  */
 const overrideTsConfigPath = (config) => {
-    const tsRule = config.module.rules.find((rule) => {
-        return rule.loader === "ts-loader";
-    });
+    const tsRule = getTypeScriptRule(config);
     if (!tsRule)
         return;
     tsRule.options["configFile"] = path.resolve(__dirname, "../tsconfig.page.json");
+};
+const getTypeScriptRule = (config) => {
+    return config.module.rules.find((rule) => {
+        return rule.loader === "ts-loader";
+    });
+};
+const overrideTsTarget = (config, target) => {
+    var _a;
+    var _b;
+    if (target == null)
+        return;
+    const tsRule = getTypeScriptRule(config);
+    if (!tsRule)
+        return;
+    (_a = (_b = tsRule.options)["compilerOptions"]) !== null && _a !== void 0 ? _a : (_b["compilerOptions"] = {});
+    tsRule.options["compilerOptions"]["target"] = target;
 };
 const overrideRules = (config, option) => {
     config.module.rules.push(...option.rules);

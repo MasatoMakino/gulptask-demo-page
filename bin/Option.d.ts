@@ -8,6 +8,7 @@ export interface Option {
     style?: string;
     copyTargets?: string[];
     rules?: RuleSetRule[];
+    compileTarget?: string;
 }
 export declare function initOptions(option: Option): Option;
 //# sourceMappingURL=Option.d.ts.map
