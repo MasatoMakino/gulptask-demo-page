@@ -8,6 +8,12 @@
     "type": "git",
     "url": "https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git"
   },
+  "files": [
+    "bin",
+    "template",
+    "webpack.config.js",
+    "tsconfig.page.json"
+  ],
   "author": "MasatoMakino <unagiinu.g@gmail.com>",
   "license": "MIT",
   "dependencies": {
