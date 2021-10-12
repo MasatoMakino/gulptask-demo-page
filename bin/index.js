@@ -30,16 +30,16 @@ exports.get = get;
  * @param option
  */
 function generateTasks(option) {
-    option = Option_1.initOptions(option);
-    const bundlerSet = Bundler_1.getBundlerSet(option);
-    const ejsTasks = EJS_1.getHTLMGenerator(option);
-    const copyTasks = Copy_1.getCopyTaskSet(option);
-    const styleTask = Style_1.getStyleTask();
-    const cleanTask = Clean_1.getCleanTask(option);
-    const bundleDemo = gulp_1.series(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy, styleTask);
+    option = (0, Option_1.initOptions)(option);
+    const bundlerSet = (0, Bundler_1.getBundlerSet)(option);
+    const ejsTasks = (0, EJS_1.getHTLMGenerator)(option);
+    const copyTasks = (0, Copy_1.getCopyTaskSet)(option);
+    const styleTask = (0, Style_1.getStyleTask)();
+    const cleanTask = (0, Clean_1.getCleanTask)(option);
+    const bundleDemo = (0, gulp_1.series)(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy, styleTask);
     return {
         bundleDemo,
-        cleanDemo: gulp_1.series(cleanTask, bundleDemo),
+        cleanDemo: (0, gulp_1.series)(cleanTask, bundleDemo),
         watchDemo: () => __awaiter(this, void 0, void 0, function* () {
             styleTask();
             bundlerSet.watchBundle();

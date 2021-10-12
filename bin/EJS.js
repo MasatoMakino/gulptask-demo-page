@@ -28,7 +28,7 @@ function getHTLMGenerator(option) {
     return {
         generateHTML: getGenerateHTML(option),
         watchHTML: () => {
-            gulp_1.watch(distDir + "/**/*.js", getGenerateHTML(option));
+            (0, gulp_1.watch)(distDir + "/**/*.js", getGenerateHTML(option));
         },
     };
 }
@@ -116,6 +116,16 @@ function getHtmlPath(scriptPath) {
         ext: ".html",
     });
 }
+function getHomePageURL(packageJson) {
+    const repositoryPath = typeof packageJson.repository === "object"
+        ? packageJson.repository.url
+        : packageJson.repository;
+    const gitRegExp = /^git\+(.*)\.git$/;
+    if (gitRegExp.test(repositoryPath)) {
+        return repositoryPath.match(/^git\+(.*)/)[1];
+    }
+    return repositoryPath;
+}
 /**
  * index.htmlを出力する。
  * @param targets デモJavaScriptファイルの出力パス
@@ -128,9 +138,7 @@ function exportIndex(targets) {
             return path.relative(distDir, htmlPath);
         });
         const packageJson = require(path.resolve(process.cwd(), "package.json"));
-        const repositoryURL = typeof packageJson.repository === "object"
-            ? packageJson.repository.url
-            : packageJson.repository;
+        const repositoryURL = getHomePageURL(packageJson);
         const ejsOption = {
             demoPath: demoPath,
             packageName: packageJson.name,

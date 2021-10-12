@@ -18,7 +18,7 @@ function getCopyTaskSet(option) {
     return {
         copy: copy,
         watchCopy: () => {
-            gulp_1.watch(getCopyGlob(), copy);
+            (0, gulp_1.watch)(getCopyGlob(), copy);
         }
     };
 }
@@ -38,6 +38,6 @@ function getCopyGlob() {
 }
 function copy() {
     return __awaiter(this, void 0, void 0, function* () {
-        gulp_1.src(getCopyGlob(), { base: getSrcDir() }).pipe(gulp_1.dest(getDistDir()));
+        (0, gulp_1.src)(getCopyGlob(), { base: getSrcDir() }).pipe((0, gulp_1.dest)(getDistDir()));
     });
 }

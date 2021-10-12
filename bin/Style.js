@@ -26,6 +26,6 @@ function getCopyGlob() {
 }
 function copyStyle() {
     return __awaiter(this, void 0, void 0, function* () {
-        gulp_1.src(getCopyGlob(), { base: getTemplateDir() }).pipe(gulp_1.dest(Copy_1.getDistDir()));
+        (0, gulp_1.src)(getCopyGlob(), { base: getTemplateDir() }).pipe((0, gulp_1.dest)((0, Copy_1.getDistDir)()));
     });
 }
