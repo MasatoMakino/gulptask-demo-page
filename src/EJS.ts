@@ -54,7 +54,7 @@ function getGenerateHTML(option: Option) {
  * @param scriptPath
  * @param distDir
  */
-async function exportEJS(scriptPath: string, distDir: string):Promise<void> {
+async function exportEJS(scriptPath: string, distDir: string): Promise<void> {
   const distPath = path.resolve(distDir, scriptPath);
   const vendorBundle = getVendorBundlePath(distDir, distPath);
 
@@ -123,11 +123,23 @@ function getHtmlPath(scriptPath: string): string {
   });
 }
 
+function getHomePageURL(packageJson): string {
+  const repositoryPath =
+    typeof packageJson.repository === "object"
+      ? packageJson.repository.url
+      : packageJson.repository;
+
+  const gitRegExp = /^git\+(.*)\.git$/;
+  if (gitRegExp.test(repositoryPath)) {
+    return repositoryPath.match(/^git\+(.*)/)[1];
+  }
+  return repositoryPath;
+}
 /**
  * index.htmlを出力する。
  * @param targets デモJavaScriptファイルの出力パス
  */
-async function exportIndex(targets: string[]):Promise<void> {
+async function exportIndex(targets: string[]): Promise<void> {
   const demoPath = targets.map((val) => {
     const distPath = path.resolve(distDir, val);
     const htmlPath = getHtmlPath(distPath);
@@ -135,10 +147,7 @@ async function exportIndex(targets: string[]):Promise<void> {
   });
   const packageJson = require(path.resolve(process.cwd(), "package.json"));
 
-  const repositoryURL =
-    typeof packageJson.repository === "object"
-      ? packageJson.repository.url
-      : packageJson.repository;
+  const repositoryURL = getHomePageURL(packageJson);
 
   const ejsOption = {
     demoPath: demoPath,

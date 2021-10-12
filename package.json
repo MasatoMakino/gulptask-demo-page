@@ -6,7 +6,7 @@
   "types": "bin/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git"
+    "url": "git+https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git"
   },
   "files": [
     "bin",
