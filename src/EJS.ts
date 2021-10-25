@@ -1,16 +1,15 @@
 "use strict";
-import { watch } from "gulp";
+import chokidar from "chokidar";
 import { Option } from "./Option";
 
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
 const glob = require("glob");
-const makeDir = require("make-dir");
+import fsPromises from "fs/promises";
 
 let generatorOption: Option;
 let distDir: string;
-
 export interface EJSTasks {
   generateHTML: Function;
   watchHTML: Function;
@@ -27,7 +26,7 @@ export function getHTLMGenerator(option: Option): EJSTasks {
   return {
     generateHTML: getGenerateHTML(option),
     watchHTML: () => {
-      watch(distDir + "/**/*.js", getGenerateHTML(option));
+      chokidar.watch(distDir + "/**/*.js").on("all", getGenerateHTML(option));
     },
   };
 }
@@ -54,7 +53,7 @@ function getGenerateHTML(option: Option) {
  * @param scriptPath
  * @param distDir
  */
-async function exportEJS(scriptPath: string, distDir: string): Promise<void> {
+async function exportEJS(scriptPath: string, distDir: string) {
   const distPath = path.resolve(distDir, scriptPath);
   const vendorBundle = getVendorBundlePath(distDir, distPath);
 
@@ -69,20 +68,9 @@ async function exportEJS(scriptPath: string, distDir: string): Promise<void> {
   const htmlPath = getHtmlPath(distPath);
   const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
 
-  return new Promise((resolve, reject) => {
-    ejs.renderFile(ejsPath, ejsOption, (err, str) => {
-      if (err) {
-        console.log(err);
-        reject();
-      }
-
-      makeDir(path.dirname(distPath)).then(() => {
-        fs.writeFile(htmlPath, str, "utf8", () => {
-          resolve();
-        });
-      });
-    });
-  });
+  const str = await ejs.renderFile(ejsPath, ejsOption);
+  await fsPromises.mkdir(path.dirname(distPath), { recursive: true });
+  await fsPromises.writeFile(htmlPath, str, "utf8");
 }
 
 /**
@@ -139,7 +127,7 @@ function getHomePageURL(packageJson): string {
  * index.htmlを出力する。
  * @param targets デモJavaScriptファイルの出力パス
  */
-async function exportIndex(targets: string[]): Promise<void> {
+async function exportIndex(targets: string[]) {
   const demoPath = targets.map((val) => {
     const distPath = path.resolve(distDir, val);
     const htmlPath = getHtmlPath(distPath);
@@ -157,28 +145,7 @@ async function exportIndex(targets: string[]): Promise<void> {
 
   const ejsPath = path.resolve(__dirname, "../template/index.ejs");
 
-  return new Promise((resolve, reject) => {
-    ejs.renderFile(ejsPath, ejsOption, (err, str) => {
-      if (err) {
-        console.log(err);
-        reject();
-      }
-
-      makeDir(path.resolve(distDir)).then(() => {
-        fs.writeFile(
-          path.resolve(distDir, "index.html"),
-          str,
-          "utf8",
-          (err) => {
-            if (err) {
-              console.log(err);
-              reject();
-            } else {
-              resolve();
-            }
-          }
-        );
-      });
-    });
-  });
+  const str = await ejs.renderFile(ejsPath, ejsOption);
+  await fsPromises.mkdir(path.resolve(distDir), { recursive: true });
+  await fsPromises.writeFile(path.resolve(distDir, "index.html"), str, "utf8");
 }

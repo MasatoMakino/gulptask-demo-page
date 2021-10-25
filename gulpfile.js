@@ -1,3 +1,7 @@
+/**
+ * gulpfile.jsのサンプル
+ */
+
 "use strict";
 const { bundleDemo, cleanDemo, watchDemo } = require("./bin").generateTasks({
   externalScripts: [

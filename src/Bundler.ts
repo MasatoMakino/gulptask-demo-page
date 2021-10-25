@@ -1,8 +1,12 @@
-import { Configuration, RuleSetRule } from "webpack";
+import { webpack, Configuration, RuleSetRule } from "webpack";
 import { Option } from "./Option";
 const path = require("path");
 
-export function getBundlerSet(option: Option) {
+interface BundlerSet {
+  bundleDevelopment: Function;
+  watchBundle: Function;
+}
+export function getBundlerSet(option: Option): BundlerSet {
   const configPath = path.resolve(__dirname, "../webpack.config.js");
   const config: Configuration = require(configPath)(
     option.srcDir,
@@ -15,13 +19,23 @@ export function getBundlerSet(option: Option) {
   overrideRules(config, option);
   checkEntries(config, option);
 
-  const { bundleDevelopment, watchBundle } = require("gulptask-webpack").get({
-    developmentConfigParams: config,
-  });
-
   return {
-    bundleDevelopment,
-    watchBundle,
+    bundleDevelopment: async () => {
+      return new Promise<void>((resolve, reject) => {
+        webpack(config, (err, stats) => {
+          handleStats(stats);
+          if (err) {
+            reject();
+          }
+          resolve();
+        });
+      });
+    },
+    watchBundle: () => {
+      webpack(config).watch({}, (err, stats) => {
+        handleStats(stats);
+      });
+    },
   };
 }
 
@@ -46,8 +60,8 @@ const getTypeScriptRule = (config: Configuration) => {
   }) as RuleSetRule;
 };
 
-const overrideTsTarget = (config: Configuration, target?:string) => {
-  if( target == null )return;
+const overrideTsTarget = (config: Configuration, target?: string) => {
+  if (target == null) return;
 
   const tsRule = getTypeScriptRule(config);
   if (!tsRule) return;
@@ -73,4 +87,23 @@ const checkEntries = (config: Configuration, option: Option) => {
       ${option.distDir}ディレクトリ内にプレフィックス${option.prefix}で始まるJavaScriptファイルが存在するか確認してください。`
     );
   }
+};
+
+/**
+ * 成功メッセージ、もしくはエラーメッセージをコンソール出力する。
+ * @param stats
+ */
+const handleStats = (stats) => {
+  if (stats == null) return;
+  if (stats.hasErrors()) {
+    stats.compilation.errors.forEach((err) => {
+      console.log(err.message);
+    });
+    return;
+  }
+  console.log(
+    "'gulptask-demo-page' process time : " +
+      (stats.endTime - stats.startTime) +
+      " ms"
+  );
 };
