@@ -4,6 +4,9 @@
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
+  "bin": {
+    "gulptask-demo-page": "./bin/CLI.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git"
@@ -19,19 +22,20 @@
   "dependencies": {
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^8.2.3",
+    "chokidar": "^3.5.2",
+    "commander": "^8.3.0",
     "ejs": "^3.1.6",
     "glob": "^7.2.0",
-    "gulp": "^4.0.2",
-    "gulptask-webpack": "MasatoMakino/gulptask-webpack",
-    "make-dir": "^3.1.0",
-    "rimraf": "^3.0.2",
+    "recursive-copy": "^2.0.13",
     "source-map-loader": "^2.0.2",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.4",
+    "webpack": "^5.59.1"
   },
   "devDependencies": {
-    "@types/node": "^16.10.3",
+    "@types/ejs": "^3.1.0",
+    "@types/node": "^16.11.4",
     "moment": "^2.29.1",
     "prettier": "^2.4.1",
     "pretty-quick": "^3.1.1",
@@ -40,7 +44,6 @@
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
     "watch": "npx tsc -W --project ./tsconfig.json",
-    "demo": "gulp bundleDemo",
-    "cleanDemo": "gulp cleanDemo"
+    "testBuild": "npx gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js"
   }
 }

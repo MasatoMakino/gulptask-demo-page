@@ -1,16 +1,10 @@
-const rimraf = require("rimraf");
+const fsPromises = require("fs").promises;
 import { Option } from "./Option";
 
 let distDir: string;
 export function getCleanTask(option: Option) {
   distDir = option.distDir;
-  return clean;
+  return async () => {
+    await fsPromises.rm(distDir, { recursive: true, force: true });
+  };
 }
-
-const clean = (): Promise<void> => {
-  return new Promise((resolve) => {
-    rimraf(distDir, () => {
-      resolve();
-    });
-  });
-};

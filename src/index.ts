@@ -1,4 +1,3 @@
-import { series } from "gulp";
 import { getBundlerSet } from "./Bundler";
 import { getCleanTask } from "./Clean";
 import { getCopyTaskSet } from "./Copy";
@@ -13,14 +12,6 @@ export interface Tasks {
 }
 
 /**
- * @deprecated Use generateTasks
- * @param option
- */
-export function get(option: Option): Tasks {
-  return generateTasks(option);
-}
-
-/**
  * デモページタスクを生成する。
  * @param option
  */
@@ -32,16 +23,20 @@ export function generateTasks(option: Option): Tasks {
   const styleTask = getStyleTask();
   const cleanTask = getCleanTask(option);
 
-  const bundleDemo = series(
-    bundlerSet.bundleDevelopment,
-    ejsTasks.generateHTML,
-    copyTasks.copy,
-    styleTask
-  );
+  const bundleDemo = async () => {
+    await bundlerSet.bundleDevelopment();
+    await ejsTasks.generateHTML();
+    await copyTasks.copy();
+    await styleTask();
+  };
+  const cleanDemo = async () => {
+    await cleanTask();
+    await bundleDemo();
+  };
   return {
     bundleDemo,
-    cleanDemo: series(cleanTask, bundleDemo),
-    watchDemo: async () => {
+    cleanDemo,
+    watchDemo: () => {
       styleTask();
       bundlerSet.watchBundle();
       ejsTasks.watchHTML();

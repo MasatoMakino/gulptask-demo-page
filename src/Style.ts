@@ -1,20 +1,16 @@
-import { src, dest } from "gulp";
 const path = require("path");
 import { getDistDir } from "./Copy";
+import copy from "recursive-copy";
 
 export function getStyleTask(): Function {
-  return copyStyle;
+  return async () => {
+    await copy(getTemplateDir(), getDistDir(), {
+      filter: "**/*.{css,png}",
+      overwrite: true,
+    });
+  };
 }
 
 function getTemplateDir(): string {
   return path.resolve(__dirname, "../template/");
-}
-
-function getCopyGlob(): string {
-  const srcDir = getTemplateDir();
-  return `${srcDir}/**/*.{css,png}`;
-}
-
-async function copyStyle() {
-  src(getCopyGlob(), { base: getTemplateDir() }).pipe(dest(getDistDir()));
 }

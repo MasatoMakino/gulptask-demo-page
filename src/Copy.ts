@@ -1,6 +1,7 @@
-import { watch, src, dest } from "gulp";
 const path = require("path");
 import { Option } from "./Option";
+import chokidar from "chokidar";
+import recursiveCopy from "recursive-copy";
 
 /**
  * Copy task for demo assets
@@ -17,8 +18,8 @@ export function getCopyTaskSet(option: Option): CopyTaskSet {
   return {
     copy: copy,
     watchCopy: () => {
-      watch(getCopyGlob(), copy);
-    }
+      chokidar.watch(getCopyGlob()).on("all", copy);
+    },
   };
 }
 
@@ -28,12 +29,17 @@ export function getSrcDir(): string {
 export function getDistDir(): string {
   return path.resolve(process.cwd(), copyOption.distDir);
 }
+
 function getCopyGlob(): string {
   const srcDir = getSrcDir();
+  return `${srcDir}/{${getFilterGlob()}}`;
+}
+
+function getFilterGlob(): string {
   const extension = copyOption.copyTargets.join(",");
-  return `${srcDir}/**/*.{${extension}}`;
+  return `**/*.{${extension}}`;
 }
 
 async function copy() {
-  src(getCopyGlob(), { base: getSrcDir() }).pipe(dest(getDistDir()));
+  await recursiveCopy(getSrcDir(), getDistDir(), { filter: getFilterGlob(), overwrite:true });
 }
