@@ -33,7 +33,7 @@ const args = program.opts();
   const task = generateTasks(args);
 
   if (args.watch) {
-    console.log(`gulptask-demo-page] Starting to watch files ...`);
+    console.log(`'gulptask-demo-page' Starting to watch files ...`);
     task.watchDemo();
   } else {
     await task.bundleDemo();
