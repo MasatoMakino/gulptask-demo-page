@@ -9,22 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generateTasks = exports.get = void 0;
-const gulp_1 = require("gulp");
+exports.generateTasks = void 0;
 const Bundler_1 = require("./Bundler");
 const Clean_1 = require("./Clean");
 const Copy_1 = require("./Copy");
 const EJS_1 = require("./EJS");
 const Option_1 = require("./Option");
 const Style_1 = require("./Style");
-/**
- * @deprecated Use generateTasks
- * @param option
- */
-function get(option) {
-    return generateTasks(option);
-}
-exports.get = get;
 /**
  * デモページタスクを生成する。
  * @param option
@@ -36,16 +27,25 @@ function generateTasks(option) {
     const copyTasks = (0, Copy_1.getCopyTaskSet)(option);
     const styleTask = (0, Style_1.getStyleTask)();
     const cleanTask = (0, Clean_1.getCleanTask)(option);
-    const bundleDemo = (0, gulp_1.series)(bundlerSet.bundleDevelopment, ejsTasks.generateHTML, copyTasks.copy, styleTask);
+    const bundleDemo = () => __awaiter(this, void 0, void 0, function* () {
+        yield bundlerSet.bundleDevelopment();
+        yield ejsTasks.generateHTML();
+        yield copyTasks.copy();
+        yield styleTask();
+    });
+    const cleanDemo = () => __awaiter(this, void 0, void 0, function* () {
+        yield cleanTask();
+        yield bundleDemo();
+    });
     return {
         bundleDemo,
-        cleanDemo: (0, gulp_1.series)(cleanTask, bundleDemo),
-        watchDemo: () => __awaiter(this, void 0, void 0, function* () {
+        cleanDemo,
+        watchDemo: () => {
             styleTask();
             bundlerSet.watchBundle();
             ejsTasks.watchHTML();
             copyTasks.watchCopy();
-        }),
+        },
     };
 }
 exports.generateTasks = generateTasks;

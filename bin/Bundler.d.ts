@@ -1,6 +1,8 @@
 import { Option } from "./Option";
-export declare function getBundlerSet(option: Option): {
-    bundleDevelopment: any;
-    watchBundle: any;
-};
+interface BundlerSet {
+    bundleDevelopment: Function;
+    watchBundle: Function;
+}
+export declare function getBundlerSet(option: Option): BundlerSet;
+export {};
 //# sourceMappingURL=Bundler.d.ts.map

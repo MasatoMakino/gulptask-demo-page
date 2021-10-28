@@ -8,24 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getStyleTask = void 0;
-const gulp_1 = require("gulp");
 const path = require("path");
 const Copy_1 = require("./Copy");
+const recursive_copy_1 = __importDefault(require("recursive-copy"));
 function getStyleTask() {
-    return copyStyle;
+    return () => __awaiter(this, void 0, void 0, function* () {
+        yield (0, recursive_copy_1.default)(getTemplateDir(), (0, Copy_1.getDistDir)(), {
+            filter: "**/*.{css,png}",
+            overwrite: true,
+        });
+    });
 }
 exports.getStyleTask = getStyleTask;
 function getTemplateDir() {
     return path.resolve(__dirname, "../template/");
-}
-function getCopyGlob() {
-    const srcDir = getTemplateDir();
-    return `${srcDir}/**/*.{css,png}`;
-}
-function copyStyle() {
-    return __awaiter(this, void 0, void 0, function* () {
-        (0, gulp_1.src)(getCopyGlob(), { base: getTemplateDir() }).pipe((0, gulp_1.dest)((0, Copy_1.getDistDir)()));
-    });
 }

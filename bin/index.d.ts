@@ -5,11 +5,6 @@ export interface Tasks {
     watchDemo: Function;
 }
 /**
- * @deprecated Use generateTasks
- * @param option
- */
-export declare function get(option: Option): Tasks;
-/**
  * デモページタスクを生成する。
  * @param option
  */

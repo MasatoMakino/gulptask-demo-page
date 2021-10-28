@@ -8,14 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getHTLMGenerator = void 0;
-const gulp_1 = require("gulp");
+const chokidar_1 = __importDefault(require("chokidar"));
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
 const glob = require("glob");
-const makeDir = require("make-dir");
+const promises_1 = __importDefault(require("fs/promises"));
 let generatorOption;
 let distDir;
 /**
@@ -28,7 +31,7 @@ function getHTLMGenerator(option) {
     return {
         generateHTML: getGenerateHTML(option),
         watchHTML: () => {
-            (0, gulp_1.watch)(distDir + "/**/*.js", getGenerateHTML(option));
+            chokidar_1.default.watch(distDir + "/**/*.js").on("all", getGenerateHTML(option));
         },
     };
 }
@@ -69,19 +72,9 @@ function exportEJS(scriptPath, distDir) {
         };
         const htmlPath = getHtmlPath(distPath);
         const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
-        return new Promise((resolve, reject) => {
-            ejs.renderFile(ejsPath, ejsOption, (err, str) => {
-                if (err) {
-                    console.log(err);
-                    reject();
-                }
-                makeDir(path.dirname(distPath)).then(() => {
-                    fs.writeFile(htmlPath, str, "utf8", () => {
-                        resolve();
-                    });
-                });
-            });
-        });
+        const str = yield ejs.renderFile(ejsPath, ejsOption);
+        yield promises_1.default.mkdir(path.dirname(distPath), { recursive: true });
+        yield promises_1.default.writeFile(htmlPath, str, "utf8");
     });
 }
 /**
@@ -145,24 +138,8 @@ function exportIndex(targets) {
             repository: repositoryURL,
         };
         const ejsPath = path.resolve(__dirname, "../template/index.ejs");
-        return new Promise((resolve, reject) => {
-            ejs.renderFile(ejsPath, ejsOption, (err, str) => {
-                if (err) {
-                    console.log(err);
-                    reject();
-                }
-                makeDir(path.resolve(distDir)).then(() => {
-                    fs.writeFile(path.resolve(distDir, "index.html"), str, "utf8", (err) => {
-                        if (err) {
-                            console.log(err);
-                            reject();
-                        }
-                        else {
-                            resolve();
-                        }
-                    });
-                });
-            });
-        });
+        const str = yield ejs.renderFile(ejsPath, ejsOption);
+        yield promises_1.default.mkdir(path.resolve(distDir), { recursive: true });
+        yield promises_1.default.writeFile(path.resolve(distDir, "index.html"), str, "utf8");
     });
 }

@@ -8,18 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getDistDir = exports.getSrcDir = exports.getCopyTaskSet = void 0;
-const gulp_1 = require("gulp");
 const path = require("path");
+const chokidar_1 = __importDefault(require("chokidar"));
+const recursive_copy_1 = __importDefault(require("recursive-copy"));
 let copyOption;
 function getCopyTaskSet(option) {
     copyOption = option;
     return {
         copy: copy,
         watchCopy: () => {
-            (0, gulp_1.watch)(getCopyGlob(), copy);
-        }
+            chokidar_1.default.watch(getCopyGlob()).on("all", copy);
+        },
     };
 }
 exports.getCopyTaskSet = getCopyTaskSet;
@@ -33,11 +37,14 @@ function getDistDir() {
 exports.getDistDir = getDistDir;
 function getCopyGlob() {
     const srcDir = getSrcDir();
+    return `${srcDir}/{${getFilterGlob()}}`;
+}
+function getFilterGlob() {
     const extension = copyOption.copyTargets.join(",");
-    return `${srcDir}/**/*.{${extension}}`;
+    return `**/*.{${extension}}`;
 }
 function copy() {
     return __awaiter(this, void 0, void 0, function* () {
-        (0, gulp_1.src)(getCopyGlob(), { base: getSrcDir() }).pipe((0, gulp_1.dest)(getDistDir()));
+        yield (0, recursive_copy_1.default)(getSrcDir(), getDistDir(), { filter: getFilterGlob(), overwrite: true });
     });
 }

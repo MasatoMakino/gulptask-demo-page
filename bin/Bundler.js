@@ -1,6 +1,16 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getBundlerSet = void 0;
+const webpack_1 = require("webpack");
 const path = require("path");
 function getBundlerSet(option) {
     const configPath = path.resolve(__dirname, "../webpack.config.js");
@@ -9,12 +19,23 @@ function getBundlerSet(option) {
     overrideTsTarget(config, option.compileTarget);
     overrideRules(config, option);
     checkEntries(config, option);
-    const { bundleDevelopment, watchBundle } = require("gulptask-webpack").get({
-        developmentConfigParams: config,
-    });
     return {
-        bundleDevelopment,
-        watchBundle,
+        bundleDevelopment: () => __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => {
+                (0, webpack_1.webpack)(config, (err, stats) => {
+                    handleStats(stats);
+                    if (err) {
+                        reject();
+                    }
+                    resolve();
+                });
+            });
+        }),
+        watchBundle: () => {
+            (0, webpack_1.webpack)(config).watch({}, (err, stats) => {
+                handleStats(stats);
+            });
+        },
     };
 }
 exports.getBundlerSet = getBundlerSet;
@@ -59,4 +80,21 @@ const checkEntries = (config, option) => {
         console.error(`gulptaks-demo-page : webpackの対象となるデモページスクリプトが存在しません。\n
       ${option.distDir}ディレクトリ内にプレフィックス${option.prefix}で始まるJavaScriptファイルが存在するか確認してください。`);
     }
+};
+/**
+ * 成功メッセージ、もしくはエラーメッセージをコンソール出力する。
+ * @param stats
+ */
+const handleStats = (stats) => {
+    if (stats == null)
+        return;
+    if (stats.hasErrors()) {
+        stats.compilation.errors.forEach((err) => {
+            console.log(err.message);
+        });
+        return;
+    }
+    console.log("'gulptask-demo-page' process time : " +
+        (stats.endTime - stats.startTime) +
+        " ms");
 };
