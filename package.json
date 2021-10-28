@@ -4,6 +4,9 @@
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
   "types": "bin/index.d.ts",
+  "bin": {
+    "gulptask-demo-page": "./bin/CLI.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://MasatoMakino@github.com/MasatoMakino/gulptask-demo-page.git"
@@ -21,6 +24,7 @@
     "@babel/preset-env": "^7.15.8",
     "babel-loader": "^8.2.3",
     "chokidar": "^3.5.2",
+    "commander": "^8.3.0",
     "ejs": "^3.1.6",
     "glob": "^7.2.0",
     "recursive-copy": "^2.0.13",
@@ -39,6 +43,7 @@
   },
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
-    "watch": "npx tsc -W --project ./tsconfig.json"
+    "watch": "npx tsc -W --project ./tsconfig.json",
+    "testBuild": "npx gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js"
   }
 }

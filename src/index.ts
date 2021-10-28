@@ -12,14 +12,6 @@ export interface Tasks {
 }
 
 /**
- * @deprecated Use generateTasks
- * @param option
- */
-export function get(option: Option): Tasks {
-  return generateTasks(option);
-}
-
-/**
  * デモページタスクを生成する。
  * @param option
  */
