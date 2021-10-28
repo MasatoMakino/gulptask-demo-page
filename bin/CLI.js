@@ -54,7 +54,7 @@ const args = program.opts();
     }
     const task = (0, index_1.generateTasks)(args);
     if (args.watch) {
-        console.log(`gulptask-demo-page] Starting to watch files ...`);
+        console.log(`'gulptask-demo-page' Starting to watch files ...`);
         task.watchDemo();
     }
     else {
