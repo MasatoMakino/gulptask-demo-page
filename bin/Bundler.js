@@ -19,6 +19,7 @@ function getBundlerSet(option) {
     overrideTsTarget(config, option.compileTarget);
     overrideRules(config, option);
     checkEntries(config, option);
+    const watchOption = Object.assign(Object.assign({}, config), { mode: "development" });
     return {
         bundleDevelopment: () => __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
@@ -32,7 +33,7 @@ function getBundlerSet(option) {
             });
         }),
         watchBundle: () => {
-            (0, webpack_1.webpack)(config).watch({}, (err, stats) => {
+            (0, webpack_1.webpack)(watchOption).watch({}, (err, stats) => {
                 handleStats(stats);
             });
         },
