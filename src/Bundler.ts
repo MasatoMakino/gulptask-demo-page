@@ -19,6 +19,7 @@ export function getBundlerSet(option: Option): BundlerSet {
   overrideRules(config, option);
   checkEntries(config, option);
 
+  const watchOption: Configuration  = {...config, mode:"development" };
   return {
     bundleDevelopment: async () => {
       return new Promise<void>((resolve, reject) => {
@@ -32,7 +33,7 @@ export function getBundlerSet(option: Option): BundlerSet {
       });
     },
     watchBundle: () => {
-      webpack(config).watch({}, (err, stats) => {
+      webpack(watchOption).watch({}, (err, stats) => {
         handleStats(stats);
       });
     },
