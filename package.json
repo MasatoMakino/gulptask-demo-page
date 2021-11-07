@@ -44,6 +44,7 @@
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
     "watch": "npx tsc -W --project ./tsconfig.json",
-    "testBuild": "npx gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js"
+    "testBuild": "npx gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js",
+    "watch:testBuidl": "npm run testBuild -- -W"
   }
 }
