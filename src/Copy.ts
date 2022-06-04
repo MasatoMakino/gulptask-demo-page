@@ -41,5 +41,8 @@ function getFilterGlob(): string {
 }
 
 async function copy() {
-  await recursiveCopy(getSrcDir(), getDistDir(), { filter: getFilterGlob(), overwrite:true });
+  await recursiveCopy(getSrcDir(), getDistDir(), {
+    filter: getFilterGlob(),
+    overwrite: true,
+  });
 }
