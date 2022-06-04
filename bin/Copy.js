@@ -45,6 +45,9 @@ function getFilterGlob() {
 }
 function copy() {
     return __awaiter(this, void 0, void 0, function* () {
-        yield (0, recursive_copy_1.default)(getSrcDir(), getDistDir(), { filter: getFilterGlob(), overwrite: true });
+        yield (0, recursive_copy_1.default)(getSrcDir(), getDistDir(), {
+            filter: getFilterGlob(),
+            overwrite: true,
+        });
     });
 }
