@@ -25,8 +25,8 @@ export function getBundlerSet(option: Option): BundlerSet {
       return new Promise<void>((resolve, reject) => {
         webpack(config, (err, stats) => {
           handleStats(stats);
-          if (err) {
-            reject();
+          if (stats.hasErrors()) {
+            throw new Error("demo script build failed.");
           }
           resolve();
         });
@@ -84,7 +84,7 @@ const overrideRules = (config: Configuration, option: Option) => {
 const checkEntries = (config: Configuration, option: Option) => {
   if (Object.entries(config.entry).length === 0) {
     console.error(
-      `gulptaks-demo-page : webpackの対象となるデモページスクリプトが存在しません。\n
+      `gulptask-demo-page : webpackの対象となるデモページスクリプトが存在しません。\n
       ${option.distDir}ディレクトリ内にプレフィックス${option.prefix}で始まるJavaScriptファイルが存在するか確認してください。`
     );
   }
