@@ -44,10 +44,10 @@
   "scripts": {
     "build": "npx tsc --project ./tsconfig.json",
     "watch": "npx tsc -W --project ./tsconfig.json",
-    "testBuild": "npx @masatomakino/gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js",
-    "watch:testBuild": "npm run testBuild -- -W",
-    "testBuildLocal": "node ./bin/CLI.js --srcDir ./demoSrc",
-    "watch:testBuildLocal": "npm run testBuildLocal -- -W"
+    "exampleCLI": "npx @masatomakino/gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js",
+    "watch:exampleCLI": "npm run exampleCLI -- -W",
+    "testRun": "node ./bin/CLI.js --srcDir ./demoSrc",
+    "watch:testRun": "npm run testRun -- -W"
   },
   "bugs": {
     "url": "https://github.com/MasatoMakino/gulptask-demo-page/issues"
