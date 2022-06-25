@@ -38,6 +38,7 @@ export function generateTasks(option: Option): Tasks {
     cleanDemo,
     watchDemo: () => {
       styleTask();
+      copyTasks.copy();
       bundlerSet.watchBundle();
       ejsTasks.watchHTML();
       copyTasks.watchCopy();
