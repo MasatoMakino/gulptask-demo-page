@@ -22,6 +22,7 @@ program
     'ex : "https://code.createjs.com/1.0.0/createjs.min.js"'
   )
   .option("--rule <path>", "config file path for webpack rules")
+  .option("--compileTarget <string>", "config compile target for tsconfig")
   .parse(process.argv);
 
 const args = program.opts();
