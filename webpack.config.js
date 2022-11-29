@@ -22,6 +22,7 @@ module.exports = (srcDir, distDir, prefix) => {
       path: path.resolve(process.cwd(), distDir),
       filename: "[name].js",
     },
+    devtool: "eval-source-map",
     module: {
       rules: [
         {
