@@ -21,7 +21,7 @@ Import tasks in gulpfile.js.
 
 ```gulpfile.js
 "use strict";
-const { bundleDemo, watchDemo } = require("gulptask-demo-page").get();
+const { bundleDemo, watchDemo } = require("@masatomakino/gulptask-demo-page").get();
 ```
 
 ### How to use
@@ -53,6 +53,33 @@ const { bundleDemo, watchDemo } = require("./bin").get({
 - body (default : "") : Content stored in the < body > tag.
 - style (default : "") : Common style for demo html.
 - copyTargets (default :\["png", "jpg", "jpeg"]) : Static assets in srcDir. These are copied to distDir.
+
+## CLI
+
+Without Gulp, you can generate demo pages from the CLI.
+
+```
+npx @masatomakino/gulptask-demo-page -W
+```
+
+See `--help` command for options.
+
+```shell
+npx @masatomakino/gulptask-demo-page --help
+
+Options:
+-W --watch                     default : false
+--prefix <string>              default : demo
+--srcDir <path>                default : ./demoSrc
+--distDir <path>               default : ./docs/demo
+--body <string>                html tag to insert into the body
+--style <string>               This is the css style that will be applied to the demo page. ex : "canvas{background-color:#000}"
+--copyTargets [extensions...]  default : "png", "jpg", "jpeg"
+--externalScripts [url...]     ex : "https://code.createjs.com/1.0.0/createjs.min.js"
+--rule <path>                  config file path for webpack rules
+--compileTarget <string>       config compile target for tsconfig
+-h, --help                     display help for command
+```
 
 ## npm script
 
