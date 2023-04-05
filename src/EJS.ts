@@ -36,9 +36,9 @@ export function getHTLMGenerator(option: Option): EJSTasks {
  **/
 function getGenerateHTML(option: Option) {
   return async function () {
-    const targets = glob.sync(`**/${option.prefix}*.js`, {
+    const targets = (await glob(`**/${option.prefix}*.js`, {
       cwd: distDir,
-    });
+    })).sort();
 
     for (let scriptPath of targets) {
       await exportEJS(scriptPath, distDir);
