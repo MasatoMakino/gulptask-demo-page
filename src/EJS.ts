@@ -5,8 +5,8 @@ import { Option } from "./Option";
 const fs = require("fs");
 const path = require("path");
 const ejs = require("ejs");
-const glob = require("glob");
 import fsPromises from "fs/promises";
+import * as glob from "glob";
 
 let generatorOption: Option;
 let distDir: string;
@@ -36,9 +36,9 @@ export function getHTLMGenerator(option: Option): EJSTasks {
  **/
 function getGenerateHTML(option: Option) {
   return async function () {
-    const targets = (await glob(`**/${option.prefix}*.js`, {
+    const targets = glob.sync(`**/${option.prefix}*.js`, {
       cwd: distDir,
-    })).sort();
+    }).sort();
 
     for (let scriptPath of targets) {
       await exportEJS(scriptPath, distDir);
