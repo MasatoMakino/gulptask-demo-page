@@ -41,7 +41,7 @@ You can set options when you initialize a task.
 Example
 
 ```gulpfile.js
-const { bundleDemo, watchDemo } = require("./bin").get({
+const { bundleDemo, watchDemo } = require("@masatomakino/gulptask-demo-page").get({
   externalScripts: ["https://code.createjs.com/1.0.0/createjs.min.js"],
   body: "<div></div>"
 });
