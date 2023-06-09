@@ -134,7 +134,12 @@ async function exportIndex(targets: string[]) {
     const htmlPath = getHtmlPath(distPath);
     return path.relative(distDir, htmlPath);
   });
-  const packageJson = require(path.resolve(process.cwd(), "package.json"));
+
+  const jsonString = fs.readFileSync(
+    path.resolve(process.cwd(), "package.json"),
+    "utf8"
+  );
+  const packageJson = JSON.parse(jsonString);
 
   const repositoryURL = getHomePageURL(packageJson);
 
