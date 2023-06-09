@@ -1,4 +1,4 @@
-const fsPromises = require("fs").promises;
+import { promises as fsPromises } from "fs";
 import { Option } from "./Option";
 
 let distDir: string;

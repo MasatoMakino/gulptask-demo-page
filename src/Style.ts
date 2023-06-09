@@ -1,6 +1,6 @@
-const path = require("path");
-import { getDistDir } from "./Copy";
+import path from "path";
 import copy from "recursive-copy";
+import {getDistDir} from "./Copy";
 
 export function getStyleTask(): Function {
   return async () => {
