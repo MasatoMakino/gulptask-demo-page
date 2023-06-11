@@ -38,4 +38,10 @@ describe("Copy", () => {
     );
     expect(subDirFile).toBeTruthy();
   });
+
+  test("watchCopy", async () => {
+    const copyTaskSet = getDefaultCopyTasks();
+    const watcher = copyTaskSet.watchCopy();
+    await watcher.close();
+  });
 });

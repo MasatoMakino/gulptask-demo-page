@@ -40,9 +40,9 @@ export function generateTasks(option: Option): Tasks {
     watchDemo: () => {
       styleTask();
       copyTasks.copy();
+      copyTasks.watchCopy();
       bundlerSet.watchBundle();
       ejsTasks.watchHTML();
-      copyTasks.watchCopy();
     },
   };
 }

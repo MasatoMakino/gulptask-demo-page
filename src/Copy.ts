@@ -18,7 +18,7 @@ export function getCopyTaskSet(option: Option): CopyTaskSet {
   return {
     copy: copy,
     watchCopy: () => {
-      chokidar.watch(getCopyGlob()).on("all", copy);
+      return  chokidar.watch(getCopyGlob()).on("all", copy);
     },
   };
 }
@@ -32,12 +32,12 @@ export function getDistDir(): string {
 
 function getCopyGlob(): string {
   const srcDir = getSrcDir();
-  return `${srcDir}/{${getFilterGlob()}}`;
+  return `${srcDir}/${getFilterGlob()}`;
 }
 
 function getFilterGlob(): string {
-  const extension = copyOption.copyTargets.join(",");
-  return `**/*.{${extension}}`;
+  const extension = copyOption.copyTargets.join("|");
+  return `**/*.@(${extension})`;
 }
 
 async function copy() {
