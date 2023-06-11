@@ -1,6 +1,6 @@
 import { webpack, Configuration, RuleSetRule } from "webpack";
 import { Option } from "./Option";
-const path = require("path");
+import path from "path";
 
 interface BundlerSet {
   bundleDevelopment: Function;

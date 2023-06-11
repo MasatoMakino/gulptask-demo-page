@@ -14,6 +14,7 @@ export interface Tasks {
 /**
  * デモページタスクを生成する。
  * @param option
+ * @deprecated This function is deprecated in the future. Please use CLI.
  */
 export function generateTasks(option: Option): Tasks {
   option = initOptions(option);

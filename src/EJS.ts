@@ -1,12 +1,11 @@
 "use strict";
 import chokidar from "chokidar";
 import { Option } from "./Option";
-
-const fs = require("fs");
-const path = require("path");
-const ejs = require("ejs");
 import fsPromises from "fs/promises";
 import * as glob from "glob";
+import fs from "fs";
+import path from "path";
+import ejs from "ejs";
 
 let generatorOption: Option;
 let distDir: string;
@@ -36,9 +35,11 @@ export function getHTLMGenerator(option: Option): EJSTasks {
  **/
 function getGenerateHTML(option: Option) {
   return async function () {
-    const targets = glob.sync(`**/${option.prefix}*.js`, {
-      cwd: distDir,
-    }).sort();
+    const targets = glob
+      .sync(`**/${option.prefix}*.js`, {
+        cwd: distDir,
+      })
+      .sort();
 
     for (let scriptPath of targets) {
       await exportEJS(scriptPath, distDir);
@@ -133,7 +134,12 @@ async function exportIndex(targets: string[]) {
     const htmlPath = getHtmlPath(distPath);
     return path.relative(distDir, htmlPath);
   });
-  const packageJson = require(path.resolve(process.cwd(), "package.json"));
+
+  const jsonString = fs.readFileSync(
+    path.resolve(process.cwd(), "package.json"),
+    "utf8"
+  );
+  const packageJson = JSON.parse(jsonString);
 
   const repositoryURL = getHomePageURL(packageJson);
 

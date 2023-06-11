@@ -1,4 +1,4 @@
-const path = require("path");
+import path from "path";
 import { Option } from "./Option";
 import chokidar from "chokidar";
 import recursiveCopy from "recursive-copy";
