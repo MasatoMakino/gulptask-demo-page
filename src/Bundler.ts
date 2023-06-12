@@ -33,7 +33,7 @@ export function getBundlerSet(option: Option): BundlerSet {
       });
     },
     watchBundle: () => {
-      webpack(watchOption).watch({}, (err, stats) => {
+      return webpack(watchOption).watch({}, (err, stats) => {
         handleStats(stats);
       });
     },
