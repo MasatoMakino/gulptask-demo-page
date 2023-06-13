@@ -3,6 +3,11 @@ import path from "path";
 import { getBundlerSet } from "../src/Bundler";
 import { initOptions } from "../src/Option";
 
+const isExistFile = (relativePath: string) => {
+  const isExist = fs.existsSync(path.resolve(process.cwd(), relativePath));
+  expect(isExist).toBeTruthy();
+};
+
 describe("Bundler", () => {
   const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
   const spyWarn = jest.spyOn(console, "warn").mockImplementation(() => {});
@@ -12,10 +17,6 @@ describe("Bundler", () => {
   const getDefaultBundlerSet = () => {
     const option = initOptions(null);
     return getBundlerSet(option);
-  };
-  const isExistFile = (relativePath: string) => {
-    const isExist = fs.existsSync(path.resolve(process.cwd(), relativePath));
-    expect(isExist).toBeTruthy();
   };
 
   afterEach(() => {
@@ -57,8 +58,6 @@ describe("Bundler", () => {
     await bundlerSet.bundleDevelopment();
     expect(spyError).toBeCalledTimes(1);
   });
-
-
 
   test("watch", () => {
     const bundlerSet = getDefaultBundlerSet();

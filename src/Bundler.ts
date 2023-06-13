@@ -21,7 +21,7 @@ export function getBundlerSet(option: Option): BundlerSet {
 
   const watchOption: Configuration = { ...config, mode: "development" };
   return {
-    bundleDevelopment: async () => {
+    bundleDevelopment: () => {
       return new Promise<void>((resolve, reject) => {
         webpack(config, (err, stats) => {
           handleStats(stats);
