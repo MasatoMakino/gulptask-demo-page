@@ -4,7 +4,6 @@ import { getBundlerSet } from "../src/Bundler";
 import { initOptions } from "../src/Option";
 
 describe("Bundler", () => {
-
   const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
   const spyWarn = jest.spyOn(console, "warn").mockImplementation(() => {});
 
@@ -39,6 +38,18 @@ describe("Bundler", () => {
     expect(spyLog).toBeCalledTimes(1);
   });
 
+  test("bundleDevelopment:target", async () => {
+    const option = initOptions({ compileTarget: "es6" });
+    const bundlerSet = getBundlerSet(option);
+
+    await bundlerSet.bundleDevelopment();
+    isExistFile("./docs/demo/demo.js");
+    isExistFile("./docs/demo/demoTypeScript.js");
+    isExistFile("./docs/demo/sub/demoSub.js");
+    isExistFile("./docs/demo/vendor.js");
+    expect(spyLog).toBeCalledTimes(1);
+  });
+
   test("bundleDevelopment:not exist target files", async () => {
     const option = initOptions({ prefix: "notExist" });
     const bundlerSet = getBundlerSet(option);
@@ -46,6 +57,8 @@ describe("Bundler", () => {
     await bundlerSet.bundleDevelopment();
     expect(spyError).toBeCalledTimes(1);
   });
+
+
 
   test("watch", () => {
     const bundlerSet = getDefaultBundlerSet();
