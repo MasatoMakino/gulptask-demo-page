@@ -14,6 +14,8 @@ describe("EJS", () => {
     const isExist = fs.existsSync(path.resolve(process.cwd(), relativePath));
     expect(isExist).toBeTruthy();
   };
+
+  const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
   test("getHTLMGenerator", () => {
     const ejsTasks = generateDefaultTasks();
     expect(ejsTasks.generateHTML).toBeTruthy();
