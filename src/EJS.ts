@@ -25,7 +25,7 @@ export function getHTLMGenerator(option: Option): EJSTasks {
   return {
     generateHTML: getGenerateHTML(option),
     watchHTML: () => {
-      chokidar.watch(distDir + "/**/*.js").on("all", getGenerateHTML(option));
+      return chokidar.watch(distDir + "/**/*.js").on("all", getGenerateHTML(option));
     },
   };
 }
