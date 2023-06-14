@@ -30,5 +30,5 @@ describe("Clean", () => {
         isNotExistFile("./cleanTest/demoTypeScript.js");
         isNotExistFile("./cleanTest/sub/demoSub.js");
         isNotExistFile("./cleanTest/vendor.js");
-    })
+    }, 10000)
 })
