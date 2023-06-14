@@ -3,7 +3,7 @@ import { Option } from "./Option";
 import path from "path";
 
 interface BundlerSet {
-  bundleDevelopment: Function;
+  bundleDevelopment: ()=>Promise<void>;
   watchBundle: Function;
 }
 export function getBundlerSet(option: Option): BundlerSet {
@@ -21,14 +21,15 @@ export function getBundlerSet(option: Option): BundlerSet {
 
   const watchOption: Configuration = { ...config, mode: "development" };
   return {
-    bundleDevelopment: () => {
+    bundleDevelopment: ():Promise<void> => {
       return new Promise<void>((resolve, reject) => {
         webpack(config, (err, stats) => {
           handleStats(stats);
           if (stats.hasErrors()) {
-            throw new Error("demo script build failed.");
+            reject(new Error("demo script build failed."));
+          }else{
+            resolve();
           }
-          resolve();
         });
       });
     },

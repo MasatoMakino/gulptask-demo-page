@@ -51,6 +51,13 @@ describe("Bundler", () => {
     expect(spyLog).toBeCalledTimes(1);
   });
 
+  test("bundleDevelopment:error", async () => {
+    const option = initOptions({ prefix: "unbuildable" });
+    const bundlerSet = getBundlerSet(option);
+
+    await expect(bundlerSet.bundleDevelopment).rejects.toThrow();
+  })
+
   test("bundleDevelopment:not exist target files", async () => {
     const option = initOptions({ prefix: "notExist" });
     const bundlerSet = getBundlerSet(option);
