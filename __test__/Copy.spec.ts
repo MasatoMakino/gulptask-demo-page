@@ -1,7 +1,8 @@
 import { initOptions } from "../src/Option";
 import { getCopyTaskSet, getDistDir, getSrcDir } from "../src/Copy";
 import path from "path";
-import fs from "fs";
+import { isExistFile } from "./Util";
+
 describe("Copy", () => {
   const getDefaultCopyTasks = () => {
     const option = initOptions(null);
@@ -28,15 +29,9 @@ describe("Copy", () => {
   test("copy", async () => {
     const copyTaskSet = getDefaultCopyTasks();
     await copyTaskSet.copy();
-    const file = fs.readFileSync(
-      path.resolve(process.cwd(), "./docs/demo/btn045_01.png")
-    );
-    expect(file).toBeTruthy();
 
-    const subDirFile = fs.readFileSync(
-      path.resolve(process.cwd(), "./docs/demo/sub/btn045_01.png")
-    );
-    expect(subDirFile).toBeTruthy();
+    isExistFile("./docs/demo/btn045_01.png");
+    isExistFile("./docs/demo/sub/btn045_01.png");
   });
 
   test("watchCopy", async () => {

@@ -1,8 +1,8 @@
 import { initOptions } from "../src/Option";
 import { getCopyTaskSet } from "../src/Copy";
 import { getStyleTask } from "../src/Style";
-import path from "path";
-import fs from "fs";
+
+import { isExistFile } from "./Util";
 
 describe("Style", () => {
   test("getStyleTask", () => {
@@ -16,14 +16,7 @@ describe("Style", () => {
 
     const styleTask = getStyleTask();
     await styleTask();
-    const file = fs.readFileSync(
-      path.resolve(process.cwd(), "./docs/demo/styles.css")
-    );
-    expect(file).toBeTruthy();
-
-    const gitHubIcon = fs.readFileSync(
-      path.resolve(process.cwd(), "./docs/demo/GitHub-Mark-Light-64px.png")
-    );
-    expect(gitHubIcon).toBeTruthy();
+    isExistFile("./docs/demo/styles.css");
+    isExistFile("./docs/demo/GitHub-Mark-Light-64px.png");
   });
 });

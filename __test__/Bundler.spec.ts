@@ -1,12 +1,6 @@
-import fs from "fs";
-import path from "path";
 import { getBundlerSet } from "../src/Bundler";
 import { initOptions } from "../src/Option";
-
-const isExistFile = (relativePath: string) => {
-  const isExist = fs.existsSync(path.resolve(process.cwd(), relativePath));
-  expect(isExist).toBeTruthy();
-};
+import { isExistFile } from "./Util";
 
 describe("Bundler", () => {
   const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
@@ -56,7 +50,7 @@ describe("Bundler", () => {
     const bundlerSet = getBundlerSet(option);
 
     await expect(bundlerSet.bundleDevelopment).rejects.toThrow();
-  }, 10000)
+  }, 10000);
 
   test("bundleDevelopment:not exist target files", async () => {
     const option = initOptions({ prefix: "notExist" });
