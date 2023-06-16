@@ -1,16 +1,9 @@
-import fs from "fs";
-import path from "path";
 import { getBundlerSet } from "../src/Bundler";
 import { initOptions } from "../src/Option";
 import { getCleanTask } from "../src/Clean";
-import { isExistFile } from "./Util";
+import { isExistFile, isNotExistFile } from "./Util";
 describe("Clean", () => {
   const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
-
-  const isNotExistFile = (relativePath: string) => {
-    const isExist = fs.existsSync(path.resolve(process.cwd(), relativePath));
-    expect(isExist).toBeFalsy();
-  };
 
   test("clean", async () => {
     const option = initOptions({ distDir: "./cleanTest" });

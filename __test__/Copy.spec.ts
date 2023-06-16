@@ -8,22 +8,22 @@ describe("Copy", () => {
     const option = initOptions(null);
     return getCopyTaskSet(option);
   };
+
+  const isCorrectConfigPath = (
+    getConfigPathFunc: () => string,
+    dir: string
+  ) => {
+    expect(getConfigPathFunc()).toBe(path.resolve(process.cwd(), dir));
+  };
+
   test("tasks", () => {
     const copyTaskSet = getDefaultCopyTasks();
-
     expect(copyTaskSet).toBeTruthy();
     expect(copyTaskSet.copy).toBeTruthy();
     expect(copyTaskSet.watchCopy).toBeTruthy();
-  });
 
-  test("getSrcDir", () => {
-    getDefaultCopyTasks();
-    expect(getSrcDir()).toBe(path.resolve(process.cwd(), "./demoSrc"));
-  });
-
-  test("getDistDir", () => {
-    getDefaultCopyTasks();
-    expect(getDistDir()).toBe(path.resolve(process.cwd(), "./docs/demo"));
+    isCorrectConfigPath(getSrcDir, "./demoSrc");
+    isCorrectConfigPath(getDistDir, "./docs/demo");
   });
 
   test("copy", async () => {
