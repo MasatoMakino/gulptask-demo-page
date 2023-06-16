@@ -1,18 +1,12 @@
-import fs from "fs";
-import path from "path";
 import { getHTLMGenerator } from "../src/EJS";
 import { initOptions } from "../src/Option";
 import { getBundlerSet } from "../src/Bundler";
+import { isExistFile } from "./Util";
 
 describe("EJS", () => {
   const generateDefaultTasks = () => {
     const option = initOptions(null);
     return getHTLMGenerator(option);
-  };
-
-  const isExistFile = (relativePath: string) => {
-    const isExist = fs.existsSync(path.resolve(process.cwd(), relativePath));
-    expect(isExist).toBeTruthy();
   };
 
   const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
