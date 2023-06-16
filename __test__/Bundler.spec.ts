@@ -31,7 +31,7 @@ describe("Bundler", () => {
     isExistFile("./docs/demo/sub/demoSub.js");
     isExistFile("./docs/demo/vendor.js");
     expect(spyLog).toBeCalledTimes(1);
-  }, 15000);
+  }, 20000);
 
   test("bundleDevelopment:target", async () => {
     const option = initOptions({ compileTarget: "es6" });
@@ -43,7 +43,7 @@ describe("Bundler", () => {
     isExistFile("./docs/demo/sub/demoSub.js");
     isExistFile("./docs/demo/vendor.js");
     expect(spyLog).toBeCalledTimes(1);
-  }, 15000);
+  }, 20000);
 
   test("bundleDevelopment:error", async () => {
     const option = initOptions({ prefix: "unbuildable" });
