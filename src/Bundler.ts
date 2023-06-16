@@ -3,17 +3,11 @@ import { Option } from "./Option";
 import path from "path";
 
 interface BundlerSet {
-  bundleDevelopment: ()=>Promise<void>;
+  bundleDevelopment: () => Promise<void>;
   watchBundle: Function;
 }
 export function getBundlerSet(option: Option): BundlerSet {
-  const configPath = path.resolve(__dirname, "../webpack.config.js");
-  const config: Configuration = require(configPath)(
-    option.srcDir,
-    option.distDir,
-    option.prefix
-  );
-
+  const config: Configuration = loadWebpackConfig(option);
   overrideTsConfigPath(config);
   overrideTsTarget(config, option.compileTarget);
   overrideRules(config, option);
@@ -21,18 +15,7 @@ export function getBundlerSet(option: Option): BundlerSet {
 
   const watchOption: Configuration = { ...config, mode: "development" };
   return {
-    bundleDevelopment: ():Promise<void> => {
-      return new Promise<void>((resolve, reject) => {
-        webpack(config, (err, stats) => {
-          handleStats(stats);
-          if (stats.hasErrors()) {
-            reject(new Error("demo script build failed."));
-          }else{
-            resolve();
-          }
-        });
-      });
-    },
+    bundleDevelopment: generateBundleDevelopment(config),
     watchBundle: () => {
       return webpack(watchOption).watch({}, (err, stats) => {
         handleStats(stats);
@@ -40,6 +23,26 @@ export function getBundlerSet(option: Option): BundlerSet {
     },
   };
 }
+
+const generateBundleDevelopment = (config: Configuration) => {
+  return (): Promise<void> => {
+    return new Promise<void>((resolve, reject) => {
+      webpack(config, (err, stats) => {
+        handleStats(stats);
+        if (stats.hasErrors()) {
+          reject(new Error("demo script build failed."));
+        } else {
+          resolve();
+        }
+      });
+    });
+  };
+};
+
+const loadWebpackConfig = (option: Option): Configuration => {
+  const configPath = path.resolve(__dirname, "../webpack.config.js");
+  return require(configPath)(option.srcDir, option.distDir, option.prefix);
+};
 
 /**
  * ts-loader用設定ファイルパスを、webpack.config.jsに注入する。
