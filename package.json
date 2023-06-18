@@ -36,6 +36,7 @@
   "devDependencies": {
     "@types/ejs": "^3.1.2",
     "@types/jest": "^29.5.2",
+    "husky": "^8.0.0",
     "jest": "^29.5.0",
     "moment": "^2.29.4",
     "prettier": "^2.8.8",
@@ -52,11 +53,13 @@
     "coverage": "jest --coverage",
     "build": "tsc",
     "watch": "tsc -W",
-    "preversion": "git checkout main && git pull && npm run build && npm run testRun",
+    "preversion": "git checkout main && git pull && npm ci && npm run build && npm run && npm test && testRun",
+    "postversion": "git add package.json package-lock.json && git checkout -b version/$(git describe --tags --abbrev=0)",
     "exampleCLI": "npx @masatomakino/gulptask-demo-page --prefix demo --srcDir ./demoSrc --distDir ./docs/demo --body '<div></div>' --style canvas{background-color:#000} --externalScripts 'https://code.createjs.com/1.0.0/createjs.min.js' --rule ./rule.js --compileTarget 'es6'",
     "watch:exampleCLI": "npm run exampleCLI -- -W",
     "testRun": "node ./bin/CLI.js --srcDir ./demoSrc",
-    "watch:testRun": "npm run testRun -- -W"
+    "watch:testRun": "npm run testRun -- -W",
+    "prepare": "husky install"
   },
   "bugs": {
     "url": "https://github.com/MasatoMakino/gulptask-demo-page/issues"
