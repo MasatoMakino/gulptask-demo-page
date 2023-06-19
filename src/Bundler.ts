@@ -1,10 +1,10 @@
-import { webpack, Configuration, RuleSetRule } from "webpack";
+import { webpack, Configuration, RuleSetRule, Watching } from "webpack";
 import { Option } from "./Option";
 import path from "path";
 
 interface BundlerSet {
-  bundleDevelopment: () => Promise<void>;
-  watchBundle: Function;
+  bundleDevelopment: () => Promise<void | Error>;
+  watchBundle: () => Watching;
 }
 export function getBundlerSet(option: Option): BundlerSet {
   const config: Configuration = loadWebpackConfig(option);
@@ -24,9 +24,11 @@ export function getBundlerSet(option: Option): BundlerSet {
   };
 }
 
-const generateBundleDevelopment = (config: Configuration) => {
-  return (): Promise<void> => {
-    return new Promise<void>((resolve, reject) => {
+const generateBundleDevelopment = (
+  config: Configuration
+): (() => Promise<void | Error>) => {
+  return () => {
+    return new Promise<void | Error>((resolve, reject) => {
       webpack(config, (err, stats) => {
         handleStats(stats);
         if (stats.hasErrors()) {
