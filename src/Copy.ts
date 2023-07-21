@@ -11,14 +11,20 @@ export interface CopyTaskSet {
   watchCopy: Function;
 }
 
-let copyOption: Option;
+interface CopyOption {
+  srcDir: string;
+  distDir: string;
+  copyTargets: string[];
+}
+
+let copyOption: CopyOption;
 export function getCopyTaskSet(option: Option): CopyTaskSet {
-  copyOption = option;
+  copyOption = option as CopyOption;
 
   return {
     copy: copy,
     watchCopy: () => {
-      return  chokidar.watch(getCopyGlob()).on("all", copy);
+      return chokidar.watch(getCopyGlob()).on("all", copy);
     },
   };
 }
