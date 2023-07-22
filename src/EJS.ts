@@ -1,6 +1,7 @@
 "use strict";
 import chokidar from "chokidar";
 import { Option } from "./Option";
+import { IPackageJson } from "package-json-type";
 import fsPromises from "fs/promises";
 import * as glob from "glob";
 import fs from "fs";
@@ -25,7 +26,9 @@ export function getHTLMGenerator(option: Option): EJSTasks {
   return {
     generateHTML: getGenerateHTML(option),
     watchHTML: () => {
-      return chokidar.watch(distDir + "/**/*.js").on("all", getGenerateHTML(option));
+      return chokidar
+        .watch(distDir + "/**/*.js")
+        .on("all", getGenerateHTML(option));
     },
   };
 }
@@ -83,7 +86,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
  */
 function getVendorBundlePath(
   vendorDir: string,
-  scriptPath: string
+  scriptPath: string,
 ): string | undefined {
   const bundlePath = path.resolve(vendorDir, "vendor.js");
   if (fs.existsSync(bundlePath)) {
@@ -112,7 +115,7 @@ function getHtmlPath(scriptPath: string): string {
   });
 }
 
-function getHomePageURL(packageJson): string {
+function getHomePageURL(packageJson: IPackageJson): string {
   const repositoryPath =
     typeof packageJson.repository === "object"
       ? packageJson.repository.url
@@ -137,7 +140,7 @@ async function exportIndex(targets: string[]) {
 
   const jsonString = fs.readFileSync(
     path.resolve(process.cwd(), "package.json"),
-    "utf8"
+    "utf8",
   );
   const packageJson = JSON.parse(jsonString);
 
