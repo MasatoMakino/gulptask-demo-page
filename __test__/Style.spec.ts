@@ -11,7 +11,7 @@ describe("Style", () => {
   });
 
   test("style", async () => {
-    const option = initOptions(null);
+    const option = initOptions(undefined);
     getCopyTaskSet(option);
 
     const styleTask = getStyleTask();

@@ -9,7 +9,7 @@ describe("Bundler", () => {
   const spyError = jest.spyOn(console, "error").mockImplementation(() => {});
 
   const getDefaultBundlerSet = () => {
-    const option = initOptions(null);
+    const option = initOptions(undefined);
     return getBundlerSet(option);
   };
 

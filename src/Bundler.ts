@@ -1,5 +1,5 @@
 import { webpack, Configuration, RuleSetRule, Watching, Stats } from "webpack";
-import { Option } from "./Option";
+import { InitializedOption, Option } from "./Option";
 import path from "path";
 
 interface BundlerSet {
@@ -14,7 +14,7 @@ interface TsRuleOptions {
   };
 }
 
-export function getBundlerSet(option: Option): BundlerSet {
+export function getBundlerSet(option: InitializedOption): BundlerSet {
   const config: Configuration = loadWebpackConfig(option);
   overrideTsConfigPath(config);
   overrideTsTarget(config, option.compileTarget);
@@ -82,11 +82,11 @@ const overrideTsTarget = (config: Configuration, target?: string) => {
   if (!tsRule) return;
 
   (tsRule.options as TsRuleOptions).compilerOptions ??= {};
-  (tsRule.options as TsRuleOptions).compilerOptions.target = target;
+  (tsRule.options as TsRuleOptions).compilerOptions!.target = target;
 };
 
-const overrideRules = (config: Configuration, option: Option) => {
-  config.module.rules.push(...option.rules);
+const overrideRules = (config: Configuration, option: InitializedOption) => {
+  config.module?.rules?.push(...option.rules);
 };
 
 /**
@@ -95,8 +95,8 @@ const overrideRules = (config: Configuration, option: Option) => {
  * @param config
  * @param option
  */
-const checkEntries = (config: Configuration, option: Option) => {
-  if (Object.entries(config.entry).length === 0) {
+const checkEntries = (config: Configuration, option: InitializedOption) => {
+  if (Object.entries(config.entry as string | string[]).length === 0) {
     console.error(
       `gulptask-demo-page : webpackの対象となるデモページスクリプトが存在しません。\n
       ${option.distDir}ディレクトリ内にプレフィックス${option.prefix}で始まるJavaScriptファイルが存在するか確認してください。`,

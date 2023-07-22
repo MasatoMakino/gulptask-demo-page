@@ -12,7 +12,18 @@ export interface Option {
   compileTarget?: string;
 }
 
-export function initOptions(option: Option): Option {
+export interface InitializedOption extends Option {
+  prefix: string;
+  srcDir: string;
+  distDir: string;
+  externalScripts: string[];
+  body: string;
+  style: string;
+  copyTargets: string[];
+  rules: RuleSetRule[];
+}
+
+export function initOptions(option?: Option): InitializedOption {
   option = option ?? {};
   option.prefix = option.prefix ?? "demo";
   option.srcDir = option.srcDir ?? "./demoSrc";
@@ -29,5 +40,5 @@ export function initOptions(option: Option): Option {
   }
 
   option.rules = option.rules ?? [];
-  return option;
+  return option as InitializedOption;
 }

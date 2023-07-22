@@ -1,6 +1,6 @@
 "use strict";
 import chokidar from "chokidar";
-import { Option } from "./Option";
+import { InitializedOption, Option } from "./Option";
 import { IPackageJson } from "package-json-type";
 import fsPromises from "fs/promises";
 import * as glob from "glob";
@@ -8,7 +8,7 @@ import fs from "fs";
 import path from "path";
 import ejs from "ejs";
 
-let generatorOption: Option;
+let generatorOption: InitializedOption;
 let distDir: string;
 export interface EJSTasks {
   generateHTML: Function;
@@ -19,7 +19,7 @@ export interface EJSTasks {
  * gulpタスク関数を出力する。
  * @param option
  */
-export function getHTLMGenerator(option: Option): EJSTasks {
+export function getHTLMGenerator(option: InitializedOption): EJSTasks {
   generatorOption = option;
   distDir = path.resolve(process.cwd(), generatorOption.distDir);
 
@@ -121,9 +121,12 @@ function getHomePageURL(packageJson: IPackageJson): string {
       ? packageJson.repository.url
       : packageJson.repository;
 
+  if (repositoryPath == null) return "";
+
   const gitRegExp = /^git\+(.*)\.git$/;
   if (gitRegExp.test(repositoryPath)) {
-    return repositoryPath.match(/^git\+(.*)/)[1];
+    const match = repositoryPath.match(/^git\+(.*)/) as RegExpMatchArray;
+    return match[1];
   }
   return repositoryPath;
 }
