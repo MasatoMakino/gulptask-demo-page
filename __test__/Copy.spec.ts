@@ -5,13 +5,13 @@ import { isExistFile } from "./Util";
 
 describe("Copy", () => {
   const getDefaultCopyTasks = () => {
-    const option = initOptions(null);
+    const option = initOptions(undefined);
     return getCopyTaskSet(option);
   };
 
   const isCorrectConfigPath = (
     getConfigPathFunc: () => string,
-    dir: string
+    dir: string,
   ) => {
     expect(getConfigPathFunc()).toBe(path.resolve(process.cwd(), dir));
   };

@@ -17,12 +17,12 @@ export interface Tasks {
  * @deprecated This function is deprecated in the future. Please use CLI.
  */
 export function generateTasks(option: Option): Tasks {
-  option = initOptions(option);
-  const bundlerSet = getBundlerSet(option);
-  const ejsTasks = getHTLMGenerator(option);
-  const copyTasks = getCopyTaskSet(option);
+  const initializedOption = initOptions(option);
+  const bundlerSet = getBundlerSet(initializedOption);
+  const ejsTasks = getHTLMGenerator(initializedOption);
+  const copyTasks = getCopyTaskSet(initializedOption);
   const styleTask = getStyleTask();
-  const cleanTask = getCleanTask(option);
+  const cleanTask = getCleanTask(initializedOption);
 
   const bundleDemo = async () => {
     await bundlerSet.bundleDevelopment();
@@ -46,5 +46,3 @@ export function generateTasks(option: Option): Tasks {
     },
   };
 }
-
-

@@ -2,7 +2,7 @@ import { Option, initOptions } from "../src/Option";
 
 describe("Option", () => {
   test("default option", () => {
-    const option = initOptions(null);
+    const option = initOptions(undefined);
     expect(option).toBeTruthy();
     expect(option.prefix).toBe("demo");
     expect(option.srcDir).toBe("./demoSrc");

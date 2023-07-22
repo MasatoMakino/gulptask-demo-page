@@ -1,10 +1,8 @@
 import { promises as fsPromises } from "fs";
-import { Option } from "./Option";
+import { InitializedOption } from "./Option";
 
-let distDir: string;
-export function getCleanTask(option: Option) {
-  distDir = option.distDir;
+export function getCleanTask(option: InitializedOption) {
   return async () => {
-    await fsPromises.rm(distDir, { recursive: true, force: true });
+    await fsPromises.rm(option.distDir, { recursive: true, force: true });
   };
 }

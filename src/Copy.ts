@@ -1,5 +1,5 @@
 import path from "path";
-import { Option } from "./Option";
+import { InitializedOption } from "./Option";
 import chokidar from "chokidar";
 import recursiveCopy from "recursive-copy";
 
@@ -11,14 +11,14 @@ export interface CopyTaskSet {
   watchCopy: Function;
 }
 
-let copyOption: Option;
-export function getCopyTaskSet(option: Option): CopyTaskSet {
-  copyOption = option;
+let copyOption: InitializedOption;
+export function getCopyTaskSet(option: InitializedOption): CopyTaskSet {
+  copyOption = option as InitializedOption;
 
   return {
     copy: copy,
     watchCopy: () => {
-      return  chokidar.watch(getCopyGlob()).on("all", copy);
+      return chokidar.watch(getCopyGlob()).on("all", copy);
     },
   };
 }

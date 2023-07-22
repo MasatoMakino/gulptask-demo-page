@@ -1,12 +1,20 @@
-import { webpack, Configuration, RuleSetRule, Watching } from "webpack";
-import { Option } from "./Option";
+import { webpack, Configuration, RuleSetRule, Watching, Stats } from "webpack";
+import { InitializedOption, Option } from "./Option";
 import path from "path";
 
 interface BundlerSet {
   bundleDevelopment: () => Promise<void | Error>;
   watchBundle: () => Watching;
 }
-export function getBundlerSet(option: Option): BundlerSet {
+
+interface TsRuleOptions {
+  configFile?: string;
+  compilerOptions?: {
+    target?: string;
+  };
+}
+
+export function getBundlerSet(option: InitializedOption): BundlerSet {
   const config: Configuration = loadWebpackConfig(option);
   overrideTsConfigPath(config);
   overrideTsTarget(config, option.compileTarget);
@@ -25,13 +33,13 @@ export function getBundlerSet(option: Option): BundlerSet {
 }
 
 const generateBundleDevelopment = (
-  config: Configuration
+  config: Configuration,
 ): (() => Promise<void | Error>) => {
   return () => {
     return new Promise<void | Error>((resolve, reject) => {
       webpack(config, (err, stats) => {
         handleStats(stats);
-        if (stats.hasErrors()) {
+        if (stats?.hasErrors()) {
           reject(new Error("demo script build failed."));
         } else {
           resolve();
@@ -52,17 +60,18 @@ const loadWebpackConfig = (option: Option): Configuration => {
  * @param config
  */
 const overrideTsConfigPath = (config: Configuration) => {
-  const tsRule = getTypeScriptRule(config);
+  const tsRule: RuleSetRule = getTypeScriptRule(config);
   if (!tsRule) return;
 
-  tsRule.options["configFile"] = path.resolve(
+  (tsRule.options as TsRuleOptions).configFile = path.resolve(
     __dirname,
-    "../tsconfig.page.json"
+    "../tsconfig.page.json",
   );
 };
 
-const getTypeScriptRule = (config: Configuration) => {
-  return config.module.rules.find((rule: RuleSetRule) => {
+const getTypeScriptRule = (config: Configuration): RuleSetRule => {
+  const rules = config.module?.rules as RuleSetRule[];
+  return rules.find((rule) => {
     return rule.loader === "ts-loader";
   }) as RuleSetRule;
 };
@@ -73,12 +82,12 @@ const overrideTsTarget = (config: Configuration, target?: string) => {
   const tsRule = getTypeScriptRule(config);
   if (!tsRule) return;
 
-  tsRule.options["compilerOptions"] ??= {};
-  tsRule.options["compilerOptions"]["target"] = target;
+  (tsRule.options as TsRuleOptions).compilerOptions ??= {};
+  (tsRule.options as TsRuleOptions).compilerOptions!.target = target;
 };
 
-const overrideRules = (config: Configuration, option: Option) => {
-  config.module.rules.push(...option.rules);
+const overrideRules = (config: Configuration, option: InitializedOption) => {
+  config.module?.rules?.push(...option.rules);
 };
 
 /**
@@ -87,11 +96,11 @@ const overrideRules = (config: Configuration, option: Option) => {
  * @param config
  * @param option
  */
-const checkEntries = (config: Configuration, option: Option) => {
-  if (Object.entries(config.entry).length === 0) {
+const checkEntries = (config: Configuration, option: InitializedOption) => {
+  if (Object.entries(config.entry as string | string[]).length === 0) {
     console.error(
       `gulptask-demo-page : webpackの対象となるデモページスクリプトが存在しません。\n
-      ${option.distDir}ディレクトリ内にプレフィックス${option.prefix}で始まるJavaScriptファイルが存在するか確認してください。`
+      ${option.distDir}ディレクトリ内にプレフィックス${option.prefix}で始まるJavaScriptファイルが存在するか確認してください。`,
     );
   }
 };
@@ -100,7 +109,7 @@ const checkEntries = (config: Configuration, option: Option) => {
  * 成功メッセージ、もしくはエラーメッセージをコンソール出力する。
  * @param stats
  */
-const handleStats = (stats) => {
+const handleStats = (stats?: Stats) => {
   if (stats == null) return;
   if (stats.hasErrors()) {
     stats.compilation.errors.forEach((err) => {
@@ -111,6 +120,6 @@ const handleStats = (stats) => {
   console.log(
     "'gulptask-demo-page' process time : " +
       (stats.endTime - stats.startTime) +
-      " ms"
+      " ms",
   );
 };

@@ -5,7 +5,7 @@ import { isExistFile } from "./Util";
 
 describe("EJS", () => {
   const generateDefaultTasks = () => {
-    const option = initOptions(null);
+    const option = initOptions(undefined);
     return getHTLMGenerator(option);
   };
 
@@ -17,7 +17,7 @@ describe("EJS", () => {
   });
 
   test("generateHTML", async () => {
-    const option = initOptions(null);
+    const option = initOptions(undefined);
 
     //ejsタスクはbundleタスクで生成されたjsファイルを元にhtmlを生成する。
     const bundleTasks = getBundlerSet(option);
