@@ -70,7 +70,8 @@ const overrideTsConfigPath = (config: Configuration) => {
 };
 
 const getTypeScriptRule = (config: Configuration): RuleSetRule => {
-  return config.module?.rules?.find((rule: RuleSetRule) => {
+  const rules = config.module?.rules as RuleSetRule[];
+  return rules.find((rule) => {
     return rule.loader === "ts-loader";
   }) as RuleSetRule;
 };
