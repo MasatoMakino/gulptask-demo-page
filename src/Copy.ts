@@ -1,5 +1,5 @@
 import path from "path";
-import { Option } from "./Option";
+import { InitializedOption } from "./Option";
 import chokidar from "chokidar";
 import recursiveCopy from "recursive-copy";
 
@@ -11,15 +11,9 @@ export interface CopyTaskSet {
   watchCopy: Function;
 }
 
-interface CopyOption {
-  srcDir: string;
-  distDir: string;
-  copyTargets: string[];
-}
-
-let copyOption: CopyOption;
-export function getCopyTaskSet(option: Option): CopyTaskSet {
-  copyOption = option as CopyOption;
+let copyOption: InitializedOption;
+export function getCopyTaskSet(option: InitializedOption): CopyTaskSet {
+  copyOption = option as InitializedOption;
 
   return {
     copy: copy,
