@@ -7,6 +7,8 @@ import * as glob from "glob";
 import fs from "fs";
 import path from "path";
 import ejs from "ejs";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let generatorOption: InitializedOption;
 let distDir: string;
