@@ -3,6 +3,7 @@
   "version": "0.6.8",
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
+  "type": "module",
   "types": "bin/index.d.ts",
   "bin": {
     "gulptask-demo-page": "bin/CLI.js"
