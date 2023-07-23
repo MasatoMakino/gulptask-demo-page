@@ -1,8 +1,8 @@
-import { initOptions } from "../src/Option";
-import { getCopyTaskSet } from "../src/Copy";
-import { getStyleTask } from "../src/Style";
+import { initOptions } from "../bin/Option.js";
+import { getCopyTaskSet } from "../bin/Copy.js";
+import { getStyleTask } from "../bin/Style.js";
 
-import { isExistFile } from "./Util";
+import { isExistFile } from "./Util.js";
 
 describe("Style", () => {
   test("getStyleTask", () => {

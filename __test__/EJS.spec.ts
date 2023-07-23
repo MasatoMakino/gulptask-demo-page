@@ -1,7 +1,8 @@
-import { getHTLMGenerator } from "../src/EJS";
-import { initOptions } from "../src/Option";
-import { getBundlerSet } from "../src/Bundler";
-import { isExistFile } from "./Util";
+import { getHTLMGenerator } from "../bin/EJS.js";
+import { initOptions } from "../bin/Option.js";
+import { getBundlerSet } from "../bin/Bundler.js";
+import { isExistFile } from "./Util.js";
+import { jest } from "@jest/globals";
 
 describe("EJS", () => {
   const generateDefaultTasks = () => {
@@ -20,7 +21,7 @@ describe("EJS", () => {
     const option = initOptions(undefined);
 
     //ejsタスクはbundleタスクで生成されたjsファイルを元にhtmlを生成する。
-    const bundleTasks = getBundlerSet(option);
+    const bundleTasks = await getBundlerSet(option);
     await bundleTasks.bundleDevelopment();
 
     const ejsTasks = getHTLMGenerator(option);
