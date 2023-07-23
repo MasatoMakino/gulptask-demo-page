@@ -51,8 +51,8 @@
     "path-scurry": "^1.9.2"
   },
   "scripts": {
-    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest",
-    "coverage": "NODE_OPTIONS=--experimental-vm-modules npx jest --coverage",
+    "test": "npm run build && NODE_OPTIONS=--experimental-vm-modules npx jest",
+    "coverage": "npm run build && NODE_OPTIONS=--experimental-vm-modules npx jest --coverage",
     "build": "tsc",
     "watch": "tsc -W",
     "preversion": "git checkout main && git pull && npm ci && npm run build && npm test && npm run testRun",
