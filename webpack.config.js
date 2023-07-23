@@ -1,5 +1,5 @@
-const path = require("path");
-const glob = require("glob");
+import path from "path";
+import * as glob from "glob";
 
 const initEntries = (srcDir, prefix) => {
   const entries = {};
@@ -63,7 +63,7 @@ const defaultOption = {
   },
 };
 
-module.exports = (srcDir, distDir, prefix) => {
+export default (srcDir, distDir, prefix) => {
   return {
     entry: initEntries(srcDir, prefix),
     output: {
