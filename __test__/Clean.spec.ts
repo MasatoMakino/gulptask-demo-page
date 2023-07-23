@@ -1,14 +1,16 @@
-import { getBundlerSet } from "../src/Bundler";
-import { initOptions } from "../src/Option";
-import { getCleanTask } from "../src/Clean";
-import { isExistFile, isNotExistFile } from "./Util";
+import { getBundlerSet } from "../bin/Bundler.js";
+import { initOptions } from "../bin/Option.js";
+import { getCleanTask } from "../bin/Clean.js";
+import { isExistFile, isNotExistFile } from "./Util.js";
+import { jest } from "@jest/globals";
+
 describe("Clean", () => {
   const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
 
   test("clean", async () => {
     const option = initOptions({ distDir: "./cleanTest" });
 
-    const bundler = getBundlerSet(option);
+    const bundler = await getBundlerSet(option);
     await bundler.bundleDevelopment();
     isExistFile("./cleanTest/demo.js");
     isExistFile("./cleanTest/demoTypeScript.js");

@@ -1,7 +1,8 @@
 import path from "path";
 import copy from "recursive-copy";
-import {getDistDir} from "./Copy";
-
+import { getDistDir } from "./Copy.js";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export function getStyleTask(): Function {
   return async () => {
     await copy(getTemplateDir(), getDistDir(), {

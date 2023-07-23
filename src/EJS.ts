@@ -1,12 +1,14 @@
 "use strict";
 import chokidar from "chokidar";
-import { InitializedOption, Option } from "./Option";
+import { InitializedOption, Option } from "./Option.js";
 import { IPackageJson } from "package-json-type";
 import fsPromises from "fs/promises";
 import * as glob from "glob";
 import fs from "fs";
 import path from "path";
 import ejs from "ejs";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let generatorOption: InitializedOption;
 let distDir: string;

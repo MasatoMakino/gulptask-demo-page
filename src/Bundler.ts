@@ -1,6 +1,9 @@
-import { webpack, Configuration, RuleSetRule, Watching, Stats } from "webpack";
-import { InitializedOption, Option } from "./Option";
+import webpack from "webpack";
+import { Configuration, RuleSetRule, Watching, Stats } from "webpack";
+import { InitializedOption, Option } from "./Option.js";
 import path from "path";
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface BundlerSet {
   bundleDevelopment: () => Promise<void | Error>;
@@ -14,8 +17,10 @@ interface TsRuleOptions {
   };
 }
 
-export function getBundlerSet(option: InitializedOption): BundlerSet {
-  const config: Configuration = loadWebpackConfig(option);
+export async function getBundlerSet(
+  option: InitializedOption,
+): Promise<BundlerSet> {
+  const config: Configuration = await loadWebpackConfig(option);
   overrideTsConfigPath(config);
   overrideTsTarget(config, option.compileTarget);
   overrideRules(config, option);
@@ -49,9 +54,14 @@ const generateBundleDevelopment = (
   };
 };
 
-const loadWebpackConfig = (option: Option): Configuration => {
+const loadWebpackConfig = async (option: Option): Promise<Configuration> => {
   const configPath = path.resolve(__dirname, "../webpack.config.js");
-  return require(configPath)(option.srcDir, option.distDir, option.prefix);
+  const webpackConfigGenerator = await import(configPath);
+  return webpackConfigGenerator.default(
+    option.srcDir,
+    option.distDir,
+    option.prefix,
+  );
 };
 
 /**

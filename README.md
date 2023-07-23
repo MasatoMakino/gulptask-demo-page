@@ -1,6 +1,6 @@
 # gulptask-demo-page
 
-> demo html generator for gulp.js
+> demo html generator
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![build test](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml/badge.svg)](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml)
@@ -17,48 +17,9 @@
 npm i @masatomakino/gulptask-demo-page -D
 ```
 
-### Import
-
-Import tasks in gulpfile.js.
-
-```gulpfile.js
-"use strict";
-const { bundleDemo, watchDemo } = require("@masatomakino/gulptask-demo-page").get();
-```
-
-### How to use
-
-Export tasks in gulpfile.js.
-
-```gulpfile.js
-exports.bundleDemo = bundleDemo;
-exports.watchDemo = watchDemo;
-```
-
-## Option
-
-You can set options when you initialize a task.
-
-Example
-
-```gulpfile.js
-const { bundleDemo, watchDemo } = require("@masatomakino/gulptask-demo-page").get({
-  externalScripts: ["https://code.createjs.com/1.0.0/createjs.min.js"],
-  body: "<div></div>"
-});
-```
-
-- prefix (default : "demo") : The word contained in the name of the demo script.
-- srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
-- distDir (default : "./docs/demo") : Directory where html files are output.
-- externalScripts (default :\[]) : A list of external javascript libraries.
-- body (default : "") : Content stored in the < body > tag.
-- style (default : "") : Common style for demo html.
-- copyTargets (default :\["png", "jpg", "jpeg"]) : Static assets in srcDir. These are copied to distDir.
-
 ## CLI
 
-Without Gulp, you can generate demo pages from the CLI.
+you can generate demo pages from the CLI.
 
 ```
 npx @masatomakino/gulptask-demo-page -W
@@ -82,6 +43,18 @@ Options:
 --compileTarget <string>       config compile target for tsconfig
 -h, --help                     display help for command
 ```
+
+### Option
+
+You can set options when you initialize a task.
+
+- prefix (default : "demo") : The word contained in the name of the demo script.
+- srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
+- distDir (default : "./docs/demo") : Directory where html files are output.
+- externalScripts (default :\[]) : A list of external javascript libraries.
+- body (default : "") : Content stored in the < body > tag.
+- style (default : "") : Common style for demo html.
+- copyTargets (default :\["png", "jpg", "jpeg"]) : Static assets in srcDir. These are copied to distDir.
 
 ## npm script
 

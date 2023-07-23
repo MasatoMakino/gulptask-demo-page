@@ -1,4 +1,4 @@
-import { Option, initOptions } from "../src/Option";
+import { Option, initOptions } from "../bin/Option.js";
 
 describe("Option", () => {
   test("default option", () => {

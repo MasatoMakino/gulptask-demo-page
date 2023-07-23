@@ -1,9 +1,9 @@
-import { getBundlerSet } from "./Bundler";
-import { getCleanTask } from "./Clean";
-import { getCopyTaskSet } from "./Copy";
-import { getHTLMGenerator } from "./EJS";
-import { initOptions, Option } from "./Option";
-import { getStyleTask } from "./Style";
+import { getBundlerSet } from "./Bundler.js";
+import { getCleanTask } from "./Clean.js";
+import { getCopyTaskSet } from "./Copy.js";
+import { getHTLMGenerator } from "./EJS.js";
+import { initOptions, Option } from "./Option.js";
+import { getStyleTask } from "./Style.js";
 
 export interface Tasks {
   bundleDemo: Function;
@@ -16,9 +16,9 @@ export interface Tasks {
  * @param option
  * @deprecated This function is deprecated in the future. Please use CLI.
  */
-export function generateTasks(option: Option): Tasks {
+export async function generateTasks(option: Option): Promise<Tasks> {
   const initializedOption = initOptions(option);
-  const bundlerSet = getBundlerSet(initializedOption);
+  const bundlerSet = await getBundlerSet(initializedOption);
   const ejsTasks = getHTLMGenerator(initializedOption);
   const copyTasks = getCopyTaskSet(initializedOption);
   const styleTask = getStyleTask();
