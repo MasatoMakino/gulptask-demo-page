@@ -1,6 +1,6 @@
 "use strict";
 import chokidar from "chokidar";
-import { InitializedOption, Option } from "./Option";
+import { InitializedOption, Option } from "./Option.js";
 import { IPackageJson } from "package-json-type";
 import fsPromises from "fs/promises";
 import * as glob from "glob";

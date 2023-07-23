@@ -1,6 +1,6 @@
 import path from "path";
 import copy from "recursive-copy";
-import {getDistDir} from "./Copy";
+import { getDistDir } from "./Copy.js";
 
 export function getStyleTask(): Function {
   return async () => {

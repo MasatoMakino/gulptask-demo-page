@@ -1,5 +1,5 @@
 import path from "path";
-import { InitializedOption } from "./Option";
+import { InitializedOption } from "./Option.js";
 import chokidar from "chokidar";
 import recursiveCopy from "recursive-copy";
 
