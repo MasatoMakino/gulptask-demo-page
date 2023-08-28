@@ -10,6 +10,7 @@ export interface Option {
   copyTargets?: string[];
   rules?: RuleSetRule[];
   compileTarget?: string;
+  compileModule?: string;
 }
 
 export interface InitializedOption extends Option {
