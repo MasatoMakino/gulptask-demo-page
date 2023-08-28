@@ -14,6 +14,7 @@ interface TsRuleOptions {
   configFile?: string;
   compilerOptions?: {
     target?: string;
+    module?: string;
   };
 }
 
@@ -23,6 +24,7 @@ export async function getBundlerSet(
   const config: Configuration = await loadWebpackConfig(option);
   overrideTsConfigPath(config);
   overrideTsTarget(config, option.compileTarget);
+  overrideTsModule(config, option.compileModule);
   overrideRules(config, option);
   checkEntries(config, option);
 
@@ -94,6 +96,16 @@ const overrideTsTarget = (config: Configuration, target?: string) => {
 
   (tsRule.options as TsRuleOptions).compilerOptions ??= {};
   (tsRule.options as TsRuleOptions).compilerOptions!.target = target;
+};
+
+const overrideTsModule = (config: Configuration, module?: string) => {
+  if (module == null) return;
+
+  const tsRule = getTypeScriptRule(config);
+  if (!tsRule) return;
+
+  (tsRule.options as TsRuleOptions).compilerOptions ??= {};
+  (tsRule.options as TsRuleOptions).compilerOptions!.module = module;
 };
 
 const overrideRules = (config: Configuration, option: InitializedOption) => {
