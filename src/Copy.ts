@@ -1,7 +1,7 @@
 import path from "path";
 import { InitializedOption } from "./Option.js";
 import chokidar from "chokidar";
-import recursiveCopy from "recursive-copy";
+import fs from "fs/promises";
 
 /**
  * Copy task for demo assets
@@ -41,8 +41,20 @@ function getFilterGlob(): string {
 }
 
 async function copy() {
-  await recursiveCopy(getSrcDir(), getDistDir(), {
-    filter: getFilterGlob(),
-    overwrite: true,
+  const filter = async (
+    source: string,
+    destination: string,
+  ): Promise<boolean> => {
+    const stat = await fs.lstat(source);
+    if (stat.isDirectory()) return true;
+
+    const ext = path.extname(source);
+    return copyOption.copyTargets.some((targetExt) => {
+      return ext === `.${targetExt}` || ext === targetExt;
+    });
+  };
+  await fs.cp(getSrcDir(), getDistDir(), {
+    recursive: true,
+    filter,
   });
 }
