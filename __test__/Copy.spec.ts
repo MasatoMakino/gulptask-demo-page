@@ -1,4 +1,4 @@
-import { initOptions } from "../bin/Option";
+import { initOptions } from "../bin/Option.js";
 import { getCopyTaskSet, getDistDir, getSrcDir } from "../bin/Copy.js";
 import path from "path";
 import { isExistFile } from "./Util.js";
