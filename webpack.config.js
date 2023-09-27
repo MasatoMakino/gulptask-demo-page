@@ -48,6 +48,10 @@ const defaultOption = {
   },
   resolve: {
     extensions: [".ts", ".js"],
+    extensionAlias: {
+      ".js": [".ts", ".js"],
+      ".mjs": [".mts", ".mjs"],
+    },
   },
   optimization: {
     splitChunks: {
