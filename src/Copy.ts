@@ -1,7 +1,7 @@
 import path from "path";
 import { InitializedOption } from "./Option.js";
 import chokidar from "chokidar";
-import fs from "fs/promises";
+import fsPromises from "fs/promises";
 
 /**
  * Copy task for demo assets
@@ -18,7 +18,11 @@ export function getCopyTaskSet(option: InitializedOption): CopyTaskSet {
   return {
     copy: copy,
     watchCopy: () => {
-      return chokidar.watch(getCopyGlob()).on("all", copy);
+      return chokidar
+        .watch(getCopyGlob(), { awaitWriteFinish: true })
+        .on("change", copyFile)
+        .on("add", copyFile)
+        .on("unlink", copyFile);
     },
   };
 }
@@ -45,7 +49,7 @@ async function copy() {
     source: string,
     destination: string,
   ): Promise<boolean> => {
-    const stat = await fs.lstat(source);
+    const stat = await fsPromises.lstat(source);
     if (stat.isDirectory()) return true;
 
     const ext = path.extname(source);
@@ -53,8 +57,20 @@ async function copy() {
       return ext === `.${targetExt}` || ext === targetExt;
     });
   };
-  await fs.cp(getSrcDir(), getDistDir(), {
+
+  await fsPromises.cp(getSrcDir(), getDistDir(), {
     recursive: true,
     filter,
   });
+}
+
+/**
+ * ファイル単体をコピーする
+ */
+async function copyFile(filePath: string) {
+  const source = filePath;
+  const destination = filePath.replace(getSrcDir(), getDistDir());
+  const dir = path.dirname(destination);
+  await fsPromises.mkdir(dir, { recursive: true });
+  await fsPromises.copyFile(source, destination);
 }
