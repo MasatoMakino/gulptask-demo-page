@@ -1,7 +1,8 @@
-import { initOptions } from "../bin/Option.js";
-import { getCopyTaskSet, getDistDir, getSrcDir } from "../bin/Copy.js";
+import { initOptions } from "../src/Option.js";
+import { getCopyTaskSet, getDistDir, getSrcDir } from "../src/Copy.js";
 import path from "path";
 import { isExistFile } from "./Util.js";
+import { describe, test, expect } from "vitest";
 
 describe("Copy", () => {
   const getDefaultCopyTasks = () => {

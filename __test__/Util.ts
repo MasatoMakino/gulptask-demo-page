@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { expect } from "vitest";
 
 function isExist(relativePath: string): boolean {
   return fs.existsSync(path.resolve(process.cwd(), relativePath));

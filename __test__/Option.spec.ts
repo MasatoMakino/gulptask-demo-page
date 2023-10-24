@@ -1,4 +1,5 @@
-import { Option, initOptions } from "../bin/Option.js";
+import { initOptions } from "../src/Option.js";
+import { describe, test, expect } from "vitest";
 
 describe("Option", () => {
   test("default option", () => {
