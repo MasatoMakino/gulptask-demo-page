@@ -1,11 +1,11 @@
-import { getBundlerSet } from "../bin/Bundler.js";
-import { initOptions } from "../bin/Option.js";
-import { getCleanTask } from "../bin/Clean.js";
+import { getBundlerSet } from "../src/Bundler.js";
+import { initOptions } from "../src/Option.js";
+import { getCleanTask } from "../src/Clean.js";
 import { isExistFile, isNotExistFile } from "./Util.js";
-import { jest } from "@jest/globals";
+import { describe, test, vi } from "vitest";
 
 describe("Clean", () => {
-  const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
+  const spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
 
   test("clean", async () => {
     const option = initOptions({ distDir: "./cleanTest" });

@@ -1,13 +1,13 @@
-import { getBundlerSet } from "../bin/Bundler.js";
-import { initOptions } from "../bin/Option.js";
+import { getBundlerSet } from "../src/Bundler.js";
+import { initOptions } from "../src/Option.js";
 import { isExistFile } from "./Util.js";
-import { jest } from "@jest/globals";
+import { vi, expect, describe, test, afterEach } from "vitest";
 
 describe("Bundler", () => {
-  const spyLog = jest.spyOn(console, "log").mockImplementation(() => {});
-  const spyWarn = jest.spyOn(console, "warn").mockImplementation(() => {});
+  const spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
+  const spyWarn = vi.spyOn(console, "warn").mockImplementation(() => {});
 
-  const spyError = jest.spyOn(console, "error").mockImplementation(() => {});
+  const spyError = vi.spyOn(console, "error").mockImplementation(() => {});
 
   const getDefaultBundlerSet = async () => {
     const option = initOptions(undefined);
@@ -15,7 +15,7 @@ describe("Bundler", () => {
   };
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   test("getBundlerSet", async () => {
