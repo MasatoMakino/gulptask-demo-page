@@ -1,3 +1,4 @@
+import { ModuleKind, ScriptTarget } from "typescript";
 import { RuleSetRule } from "webpack";
 
 export interface Option {
@@ -9,8 +10,8 @@ export interface Option {
   style?: string;
   copyTargets?: string[];
   rules?: RuleSetRule[];
-  compileTarget?: string;
-  compileModule?: string;
+  compileTarget?: ScriptTarget;
+  compileModule?: ModuleKind;
 }
 
 export interface InitializedOption extends Option {
