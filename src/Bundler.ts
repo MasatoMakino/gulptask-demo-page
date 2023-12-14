@@ -1,4 +1,5 @@
 import webpack from "webpack";
+import { ScriptTarget, ModuleKind } from "typescript";
 import { Configuration, RuleSetRule, Watching, Stats } from "webpack";
 import { InitializedOption, Option } from "./Option.js";
 import path from "path";
@@ -13,8 +14,8 @@ interface BundlerSet {
 interface TsRuleOptions {
   configFile?: string;
   compilerOptions?: {
-    target?: string;
-    module?: string;
+    target?: ScriptTarget;
+    module?: ModuleKind;
   };
 }
 
@@ -88,7 +89,7 @@ const getTypeScriptRule = (config: Configuration): RuleSetRule => {
   }) as RuleSetRule;
 };
 
-const overrideTsTarget = (config: Configuration, target?: string) => {
+const overrideTsTarget = (config: Configuration, target?: ScriptTarget) => {
   if (target == null) return;
 
   const tsRule = getTypeScriptRule(config);
@@ -98,7 +99,7 @@ const overrideTsTarget = (config: Configuration, target?: string) => {
   (tsRule.options as TsRuleOptions).compilerOptions!.target = target;
 };
 
-const overrideTsModule = (config: Configuration, module?: string) => {
+const overrideTsModule = (config: Configuration, module?: ModuleKind) => {
   if (module == null) return;
 
   const tsRule = getTypeScriptRule(config);
