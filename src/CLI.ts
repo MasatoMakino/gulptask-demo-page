@@ -34,7 +34,7 @@ program
 
 const args = program.opts();
 
-(async () => {
+export async function runCLI() {
   if (args.rule) {
     args.rules = (await import(path.resolve(process.cwd(), args.rule))).default;
   }
@@ -46,4 +46,5 @@ const args = program.opts();
   } else {
     await task.bundleDemo();
   }
-})();
+}
+runCLI();
