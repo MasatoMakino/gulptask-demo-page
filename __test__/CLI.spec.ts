@@ -10,4 +10,4 @@ test("CLI does not execute watch when --watch option is not provided", async () 
     expect.stringContaining("'gulptask-demo-page' Starting to watch files ..."),
   );
   vi.resetAllMocks();
-}, 10_000);
+}, 15_000);

@@ -105,3 +105,4 @@ dist
 .idea
 docs/
 bin/
+test_for_copy/
