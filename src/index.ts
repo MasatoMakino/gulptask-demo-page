@@ -6,9 +6,9 @@ import { initOptions, Option } from "./Option.js";
 import { getStyleTask } from "./Style.js";
 
 export interface Tasks {
-  bundleDemo: Function;
-  cleanDemo: Function;
-  watchDemo: Function;
+  bundleDemo: () => Promise<void>;
+  cleanDemo: () => Promise<void>;
+  watchDemo: () => void;
 }
 
 /**
@@ -32,9 +32,10 @@ export async function generateTasks(option: Option): Promise<Tasks> {
   };
   const cleanDemo = async () => {
     await cleanTask();
-    await bundleDemo();
+    await tasks.bundleDemo();
   };
-  return {
+
+  const tasks = {
     bundleDemo,
     cleanDemo,
     watchDemo: () => {
@@ -45,4 +46,6 @@ export async function generateTasks(option: Option): Promise<Tasks> {
       ejsTasks.watchHTML();
     },
   };
+
+  return tasks;
 }
