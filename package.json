@@ -1,6 +1,6 @@
 {
   "name": "@masatomakino/gulptask-demo-page",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "demo html generator for gulp.js",
   "main": "bin/index.js",
   "type": "module",
