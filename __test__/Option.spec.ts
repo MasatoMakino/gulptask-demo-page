@@ -25,6 +25,9 @@ describe("Option", () => {
       style: "test style",
       copyTargets: ["test"],
       rules: [{ test: /\.ts$/, loader: "ts-loader" }],
+      compileTarget: "es2015",
+      compileModule: "es2020",
+      compileModuleResolution: "bundler",
     });
     expect(option).toBeTruthy();
     expect(option.prefix).toBe("test");
@@ -35,5 +38,8 @@ describe("Option", () => {
     expect(option.style).toBe("test style");
     expect(option.copyTargets).toEqual(["png", "jpg", "jpeg", "test"]);
     expect(option.rules).toEqual([{ test: /\.ts$/, loader: "ts-loader" }]);
+    expect(option.compileTarget).toBe("es2015");
+    expect(option.compileModule).toBe("es2020");
+    expect(option.compileModuleResolution).toBe("bundler");
   });
 });

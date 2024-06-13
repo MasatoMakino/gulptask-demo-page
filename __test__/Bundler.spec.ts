@@ -58,6 +58,18 @@ describe("Bundler", () => {
     expect(spyLog).toBeCalledTimes(1);
   }, 20000);
 
+  test("bundleDevelopment:moduleResolution", async () => {
+    const option = initOptions({ compileModuleResolution: "bundler" });
+    const bundlerSet = await getBundlerSet(option);
+
+    await bundlerSet.bundleDevelopment();
+    isExistFile("./docs/demo/demo.js");
+    isExistFile("./docs/demo/demoTypeScript.js");
+    isExistFile("./docs/demo/sub/demoSub.js");
+    isExistFile("./docs/demo/vendor.js");
+    expect(spyLog).toBeCalledTimes(1);
+  }, 20000);
+
   test("bundleDevelopment:error", async () => {
     const option = initOptions({ prefix: "unbuildable" });
     const bundlerSet = await getBundlerSet(option);

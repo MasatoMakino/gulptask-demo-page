@@ -29,32 +29,24 @@ See `--help` command for options.
 
 ```shell
 npx @masatomakino/gulptask-demo-page --help
+Usage: CLI [options]
 
 Options:
--W --watch                     default : false
---prefix <string>              default : demo
---srcDir <path>                default : ./demoSrc
---distDir <path>               default : ./docs/demo
---body <string>                html tag to insert into the body
---style <string>               This is the css style that will be applied to the demo page. ex : "canvas{background-color:#000}"
---copyTargets [extensions...]  default : "png", "jpg", "jpeg"
---externalScripts [url...]     ex : "https://code.createjs.com/1.0.0/createjs.min.js"
---rule <path>                  config file path for webpack rules
---compileTarget <string>       config compile target for tsconfig
--h, --help                     display help for command
+  -W --watch                          default : false
+  --prefix <string>                   default : demo
+  --srcDir <path>                     default : ./demoSrc
+  --distDir <path>                    default : ./docs/demo
+  --body <string>                     html tag to insert into the body
+  --style <string>                    This is the css style that will be applied to the demo page. ex :
+                                      "canvas{background-color:#000}"
+  --copyTargets [extensions...]       default : "png", "jpg", "jpeg"
+  --externalScripts [url...]          ex : "https://code.createjs.com/1.0.0/createjs.min.js"
+  --rule <path>                       config file path for webpack rules
+  --compileTarget <string>            config tsconfig.compilerOptions.target, ex : es5
+  --compileModule <string>            config tsconfig.compilerOptions.module, ex : es2020
+  --compileModuleResolution <string>  config tsconfig.compilerOptions.moduleResolution, ex : node, node16, bundler
+  -h, --help                          display help for command
 ```
-
-### Option
-
-You can set options when you initialize a task.
-
-- prefix (default : "demo") : The word contained in the name of the demo script.
-- srcDir (default : "./demoSrc") : Directory where demo scripts are stored.
-- distDir (default : "./docs/demo") : Directory where html files are output.
-- externalScripts (default :\[]) : A list of external javascript libraries.
-- body (default : "") : Content stored in the < body > tag.
-- style (default : "") : Common style for demo html.
-- copyTargets (default :\["png", "jpg", "jpeg"]) : Static assets in srcDir. These are copied to distDir.
 
 ## npm script
 

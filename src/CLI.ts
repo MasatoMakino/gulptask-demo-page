@@ -24,11 +24,15 @@ program
   .option("--rule <path>", "config file path for webpack rules")
   .option(
     "--compileTarget <string>",
-    "config compile target for tsconfig, ex : es5",
+    "config tsconfig.compilerOptions.target, ex : es5",
   )
   .option(
     "--compileModule <string>",
-    "config compile module for tsconfig, ex : es2020",
+    "config tsconfig.compilerOptions.module, ex : es2020",
+  )
+  .option(
+    "--compileModuleResolution <string>",
+    "config tsconfig.compilerOptions.moduleResolution, ex : node, node16, bundler",
   )
   .parse(process.argv);
 
