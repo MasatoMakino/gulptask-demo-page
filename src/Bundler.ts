@@ -1,5 +1,5 @@
-import webpack from "webpack";
-import { ScriptTarget, ModuleKind } from "typescript";
+import webpack, { config } from "webpack";
+import { ScriptTarget, ModuleKind, ModuleResolutionKind } from "typescript";
 import { Configuration, RuleSetRule, Watching, Stats } from "webpack";
 import { InitializedOption, Option } from "./Option.js";
 import path from "path";
@@ -14,8 +14,9 @@ interface BundlerSet {
 interface TsRuleOptions {
   configFile?: string;
   compilerOptions?: {
-    target?: ScriptTarget;
-    module?: ModuleKind;
+    target?: string;
+    module?: string;
+    moduleResolution?: string;
   };
 }
 
@@ -26,6 +27,7 @@ export async function getBundlerSet(
   overrideTsConfigPath(config);
   overrideTsTarget(config, option.compileTarget);
   overrideTsModule(config, option.compileModule);
+  overrideTsModuleResolution(config, option.compileModuleResolution);
   overrideRules(config, option);
   checkEntries(config, option);
 
@@ -89,24 +91,41 @@ const getTypeScriptRule = (config: Configuration): RuleSetRule => {
   }) as RuleSetRule;
 };
 
-const overrideTsTarget = (config: Configuration, target?: ScriptTarget) => {
-  if (target == null) return;
-
+const checkTsRule = (
+  config: Configuration,
+  param?: any,
+): TsRuleOptions | undefined => {
+  if (param == null) return;
   const tsRule = getTypeScriptRule(config);
   if (!tsRule) return;
 
-  (tsRule.options as TsRuleOptions).compilerOptions ??= {};
-  (tsRule.options as TsRuleOptions).compilerOptions!.target = target;
+  const option = tsRule.options as TsRuleOptions;
+  option.compilerOptions ??= {};
+  return option;
 };
 
-const overrideTsModule = (config: Configuration, module?: ModuleKind) => {
-  if (module == null) return;
+const overrideTsTarget = (config: Configuration, target?: string) => {
+  const option = checkTsRule(config, target);
+  if (option) {
+    option.compilerOptions!.target = target;
+  }
+};
 
-  const tsRule = getTypeScriptRule(config);
-  if (!tsRule) return;
+const overrideTsModule = (config: Configuration, module?: string) => {
+  const option = checkTsRule(config, module);
+  if (option) {
+    option.compilerOptions!.module = module;
+  }
+};
 
-  (tsRule.options as TsRuleOptions).compilerOptions ??= {};
-  (tsRule.options as TsRuleOptions).compilerOptions!.module = module;
+const overrideTsModuleResolution = (
+  config: Configuration,
+  moduleResolution?: string,
+) => {
+  const option = checkTsRule(config, moduleResolution);
+  if (option) {
+    option.compilerOptions!.moduleResolution = moduleResolution;
+  }
 };
 
 const overrideRules = (config: Configuration, option: InitializedOption) => {
