@@ -4,9 +4,11 @@ import path from "path";
 import { isExistFile } from "./Util.js";
 import { describe, test, expect } from "vitest";
 
+const copyImgDir = "./test_for_copy_img";
+
 describe("Copy", () => {
   const getDefaultCopyTasks = () => {
-    const option = initOptions(undefined);
+    const option = initOptions({ distDir: copyImgDir });
     return getCopyTaskSet(option);
   };
 
@@ -24,15 +26,15 @@ describe("Copy", () => {
     expect(copyTaskSet.watchCopy).toBeTruthy();
 
     isCorrectConfigPath(getSrcDir, "./demoSrc");
-    isCorrectConfigPath(getDistDir, "./docs/demo");
+    isCorrectConfigPath(getDistDir, copyImgDir);
   });
 
   test("copy", async () => {
     const copyTaskSet = getDefaultCopyTasks();
     await copyTaskSet.copy();
 
-    isExistFile("./docs/demo/btn045_01.png");
-    isExistFile("./docs/demo/sub/btn045_01.png");
+    isExistFile(copyImgDir + "/btn045_01.png");
+    isExistFile(copyImgDir + "/sub/btn045_01.png");
   });
 
   test("watchCopy", async () => {

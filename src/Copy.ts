@@ -58,7 +58,11 @@ async function copy() {
     });
   };
 
-  await fsPromises.cp(getSrcDir(), getDistDir(), {
+  const srcDir = getSrcDir();
+  const distDir = getDistDir();
+
+  await fsPromises.mkdir(distDir, { recursive: true });
+  await fsPromises.cp(srcDir, distDir, {
     recursive: true,
     filter,
   });
