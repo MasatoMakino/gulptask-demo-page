@@ -49,5 +49,5 @@ test("watchCopy correctly copies a file when it is added or updated", async () =
   expect(sourceContent).toBe(targetContent);
 
   // テスト後にディレクトリを削除
-  await fs.promises.rm(copyTestDir, { recursive: true, force: true });
-});
+  // await fs.promises.rm(copyTestDir, { recursive: true, force: true });
+}, 3_000);
