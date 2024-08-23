@@ -4,6 +4,8 @@ import { getStyleTask } from "../src/Style.js";
 import { isExistFile } from "./Util.js";
 import { describe, test, expect } from "vitest";
 
+const testDir = "./test_for_style";
+
 describe("Style", () => {
   test("getStyleTask", () => {
     const styleTask = getStyleTask();
@@ -11,12 +13,12 @@ describe("Style", () => {
   });
 
   test("style", async () => {
-    const option = initOptions(undefined);
+    const option = initOptions({ distDir: testDir });
     getCopyTaskSet(option);
 
     const styleTask = getStyleTask();
     await styleTask();
-    isExistFile("./docs/demo/styles.css");
-    isExistFile("./docs/demo/GitHub-Mark-Light-64px.png");
+    isExistFile(testDir + "/styles.css");
+    isExistFile(testDir + "/GitHub-Mark-Light-64px.png");
   });
 });
