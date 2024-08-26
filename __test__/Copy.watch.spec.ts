@@ -1,17 +1,12 @@
-import { test, expect, afterAll, describe } from "vitest";
+import { test, expect, describe } from "vitest";
 import { getCopyTaskSet } from "../src/Copy.js";
 import { InitializedOption } from "../src/Option.js";
 import fs from "fs";
 import path from "path";
-import { removeDir } from "./Util.js";
 
 const copyTestDir = "./test_for_copy";
 
 describe("copy.watch", () => {
-  afterAll(async () => {
-    await removeDir(copyTestDir);
-  });
-
   test("watchCopy correctly copies a file when it is added or updated", async () => {
     const sourceDir = path.join(copyTestDir, "fixtures");
     const targetDir = path.join(copyTestDir, "copied");
@@ -21,8 +16,12 @@ describe("copy.watch", () => {
 
     // テスト前にディレクトリを作成
     await Promise.all([
-      fs.promises.mkdir(sourceDir, { recursive: true }),
-      fs.promises.mkdir(targetDir, { recursive: true }),
+      fs.promises.mkdir(path.resolve(process.cwd(), sourceDir), {
+        recursive: true,
+      }),
+      fs.promises.mkdir(path.resolve(process.cwd(), targetDir), {
+        recursive: true,
+      }),
     ]);
 
     const options: InitializedOption = {
