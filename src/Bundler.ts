@@ -1,5 +1,4 @@
-import webpack, { config } from "webpack";
-import { ScriptTarget, ModuleKind, ModuleResolutionKind } from "typescript";
+import webpack from "webpack";
 import { Configuration, RuleSetRule, Watching, Stats } from "webpack";
 import { InitializedOption, Option } from "./Option.js";
 import path from "path";
