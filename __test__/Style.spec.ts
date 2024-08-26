@@ -1,12 +1,16 @@
 import { initOptions } from "../src/Option.js";
 import { getCopyTaskSet } from "../src/Copy.js";
 import { getStyleTask } from "../src/Style.js";
-import { isExistFile } from "./Util.js";
-import { describe, test, expect } from "vitest";
+import { isExistFile, removeDir } from "./Util.js";
+import { describe, test, expect, afterAll } from "vitest";
 
 const testDir = "./test_for_style";
 
 describe("Style", () => {
+  afterAll(async () => {
+    await removeDir(testDir);
+  });
+
   test("getStyleTask", () => {
     const styleTask = getStyleTask();
     expect(styleTask).toBeTruthy();

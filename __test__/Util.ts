@@ -11,3 +11,10 @@ export function isExistFile(relativePath: string): void {
 export function isNotExistFile(relativePath: string): void {
   expect(isExist(relativePath)).toBeFalsy();
 }
+
+export async function removeDir(dir: string): Promise<void> {
+  await fs.promises.rm(path.resolve(process.cwd(), dir), {
+    recursive: true,
+    force: true,
+  });
+}

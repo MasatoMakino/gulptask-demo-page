@@ -1,18 +1,14 @@
-import fs from "fs";
 import path from "path";
 import { afterAll, describe, expect, test } from "vitest";
 import { getCopyTaskSet, getDistDir, getSrcDir } from "../src/Copy.js";
 import { initOptions } from "../src/Option.js";
-import { isExistFile } from "./Util.js";
+import { isExistFile, removeDir } from "./Util.js";
 
 const copyImgDir = "./test_for_copy_img";
 
 describe("Copy", () => {
   afterAll(async () => {
-    await fs.promises.rm(path.resolve(process.cwd(), copyImgDir), {
-      recursive: true,
-      force: true,
-    });
+    await removeDir(copyImgDir);
   });
 
   const getDefaultCopyTasks = () => {
