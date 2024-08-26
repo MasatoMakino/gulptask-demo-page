@@ -1,14 +1,12 @@
 "use strict";
 import chokidar from "chokidar";
-import { InitializedOption, Option } from "./Option.js";
-import { IPackageJson } from "package-json-type";
+import ejs from "ejs";
+import fs from "fs";
 import fsPromises from "fs/promises";
 import * as glob from "glob";
-import fs from "fs";
+import { IPackageJson } from "package-json-type";
 import path from "path";
-import ejs from "ejs";
-import { fileURLToPath } from "url";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { InitializedOption, Option } from "./Option.js";
 
 let generatorOption: InitializedOption;
 let distDir: string;
@@ -72,7 +70,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
     style: generatorOption.style,
   };
   const htmlPath = getHtmlPath(distPath);
-  const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
+  const ejsPath = path.resolve(process.cwd(), "./template/demo.ejs");
 
   const str = await ejs.renderFile(ejsPath, ejsOption);
   await fsPromises.mkdir(path.dirname(distPath), { recursive: true });
@@ -157,7 +155,7 @@ async function exportIndex(targets: string[]) {
     repository: repositoryURL,
   };
 
-  const ejsPath = path.resolve(__dirname, "../template/index.ejs");
+  const ejsPath = path.resolve(process.cwd(), "./template/index.ejs");
 
   const str = await ejs.renderFile(ejsPath, ejsOption);
   await fsPromises.mkdir(path.resolve(distDir), { recursive: true });
