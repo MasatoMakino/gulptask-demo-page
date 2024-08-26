@@ -1,12 +1,17 @@
-import { test, expect, describe } from "vitest";
+import { test, expect, describe, afterAll } from "vitest";
 import { getCopyTaskSet } from "../src/Copy.js";
 import { InitializedOption } from "../src/Option.js";
 import fs from "fs";
 import path from "path";
+import { removeDir } from "./util.js";
 
 const copyTestDir = "./test_for_copy";
 
 describe("copy.watch", () => {
+  afterAll(async () => {
+    await removeDir(copyTestDir);
+  });
+
   test("watchCopy correctly copies a file when it is added or updated", async () => {
     const sourceDir = path.join(copyTestDir, "fixtures");
     const targetDir = path.join(copyTestDir, "copied");
