@@ -2,6 +2,7 @@ import path from "path";
 import { InitializedOption } from "./Option.js";
 import chokidar from "chokidar";
 import fsPromises from "fs/promises";
+import fs from "fs";
 
 /**
  * Copy task for demo assets
@@ -21,8 +22,7 @@ export function getCopyTaskSet(option: InitializedOption): CopyTaskSet {
       return chokidar
         .watch(getCopyGlob(), { awaitWriteFinish: true })
         .on("change", copyFile)
-        .on("add", copyFile)
-        .on("unlink", copyFile);
+        .on("add", copyFile);
     },
   };
 }
@@ -73,6 +73,8 @@ async function copy() {
  */
 async function copyFile(filePath: string) {
   const source = filePath;
+  if (!fs.existsSync(source)) return;
+
   const destination = filePath.replace(getSrcDir(), getDistDir());
   const dir = path.dirname(destination);
   await fsPromises.mkdir(dir, { recursive: true });
