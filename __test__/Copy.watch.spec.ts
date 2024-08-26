@@ -3,7 +3,7 @@ import { getCopyTaskSet } from "../src/Copy.js";
 import { InitializedOption } from "../src/Option.js";
 import fs from "fs";
 import path from "path";
-import { removeDir } from "./util.js";
+import { removeDir } from "./Util.js";
 
 const copyTestDir = "./test_for_copy";
 
