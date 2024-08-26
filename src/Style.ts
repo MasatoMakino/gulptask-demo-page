@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import { getDistDir } from "./Copy.js";
+import { fileURLToPath } from "url";
 
 export function getStyleTask(): Function {
   return async () => {
@@ -18,5 +19,6 @@ export function getStyleTask(): Function {
 }
 
 function getTemplateDir(): string {
-  return path.resolve(process.cwd(), "./template/");
+  const __dirname = path.dirname(fileURLToPath(import.meta.url));
+  return path.resolve(__dirname, "../template/");
 }

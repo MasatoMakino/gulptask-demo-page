@@ -8,6 +8,9 @@ import { IPackageJson } from "package-json-type";
 import path from "path";
 import { InitializedOption, Option } from "./Option.js";
 
+import { fileURLToPath } from "url";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 let generatorOption: InitializedOption;
 let distDir: string;
 export interface EJSTasks {
@@ -70,7 +73,7 @@ async function exportEJS(scriptPath: string, distDir: string) {
     style: generatorOption.style,
   };
   const htmlPath = getHtmlPath(distPath);
-  const ejsPath = path.resolve(process.cwd(), "./template/demo.ejs");
+  const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
 
   const str = await ejs.renderFile(ejsPath, ejsOption);
   await fsPromises.mkdir(path.dirname(distPath), { recursive: true });
@@ -155,7 +158,7 @@ async function exportIndex(targets: string[]) {
     repository: repositoryURL,
   };
 
-  const ejsPath = path.resolve(process.cwd(), "./template/index.ejs");
+  const ejsPath = path.resolve(__dirname, "../template/index.ejs");
 
   const str = await ejs.renderFile(ejsPath, ejsOption);
   await fsPromises.mkdir(path.resolve(distDir), { recursive: true });
