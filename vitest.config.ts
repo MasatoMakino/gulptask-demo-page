@@ -4,11 +4,6 @@ export default defineConfig({
   test: {
     name: "nodeTest",
     environment: "node",
-    poolOptions: {
-      forks: {
-        singleFork: true,
-      },
-    },
     coverage: {
       provider: "istanbul",
       reporter: ["text", "lcov"],
