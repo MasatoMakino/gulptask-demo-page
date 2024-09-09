@@ -20,7 +20,6 @@ const initEntries = (srcDir, prefix) => {
 };
 
 const defaultOption = {
-  devtool: "eval-source-map",
   module: {
     rules: [
       {

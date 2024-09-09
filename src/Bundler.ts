@@ -31,6 +31,8 @@ export async function getBundlerSet(
   checkEntries(config, option);
 
   const watchOption: Configuration = { ...config, mode: "development" };
+  overrideSourceMap(watchOption, "eval-cheap-source-map");
+
   return {
     bundleDevelopment: generateBundleDevelopment(config),
     watchBundle: () => {
@@ -129,6 +131,13 @@ const overrideTsModuleResolution = (
 
 const overrideRules = (config: Configuration, option: InitializedOption) => {
   config.module?.rules?.push(...option.rules);
+};
+
+const overrideSourceMap = (
+  config: Configuration,
+  sourceMap: string | false | undefined,
+) => {
+  config.devtool = sourceMap;
 };
 
 /**
