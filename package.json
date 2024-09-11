@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@types/ejs": "^3.1.2",
+    "@types/node": "^22.5.4",
     "@vitest/coverage-istanbul": "^2.0.5",
     "husky": "^9.0.10",
     "lint-staged": "^15.0.2",
