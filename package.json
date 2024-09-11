@@ -45,7 +45,7 @@
     "webpack-glsl-loader": "^1.0.1"
   },
   "overrides": {
-    "path-scurry": "^1.9.2"
+    "path-scurry": "^2.0.0"
   },
   "scripts": {
     "test": "vitest",
