@@ -20,7 +20,7 @@ export function getCopyTaskSet(option: InitializedOption): CopyTaskSet {
     copy: copy,
     watchCopy: () => {
       return chokidar
-        .watch(getCopyGlob(), { awaitWriteFinish: true })
+        .watch(getSrcDir(), { awaitWriteFinish: true })
         .on("change", copyFile)
         .on("add", copyFile);
     },
@@ -34,15 +34,12 @@ export function getDistDir(): string {
   return path.resolve(process.cwd(), copyOption.distDir);
 }
 
-function getCopyGlob(): string {
-  const srcDir = getSrcDir();
-  return `${srcDir}/${getFilterGlob()}`;
-}
-
-function getFilterGlob(): string {
-  const extension = copyOption.copyTargets.join("|");
-  return `**/*.@(${extension})`;
-}
+const isTargetFileType = (filePath: string): boolean => {
+  const ext = path.extname(filePath);
+  return copyOption.copyTargets.some((targetExt) => {
+    return ext === `.${targetExt}` || ext === targetExt;
+  });
+};
 
 async function copy() {
   const filter = async (
@@ -51,11 +48,7 @@ async function copy() {
   ): Promise<boolean> => {
     const stat = await fsPromises.lstat(source);
     if (stat.isDirectory()) return true;
-
-    const ext = path.extname(source);
-    return copyOption.copyTargets.some((targetExt) => {
-      return ext === `.${targetExt}` || ext === targetExt;
-    });
+    return isTargetFileType(source);
   };
 
   const srcDir = getSrcDir();
@@ -74,6 +67,7 @@ async function copy() {
 async function copyFile(filePath: string) {
   const source = filePath;
   if (!fs.existsSync(source)) return;
+  if (!isTargetFileType(source)) return;
 
   const destination = filePath.replace(getSrcDir(), getDistDir());
   const dir = path.dirname(destination);

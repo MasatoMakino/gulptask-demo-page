@@ -29,9 +29,10 @@ export function getHTLMGenerator(option: InitializedOption): EJSTasks {
   return {
     generateHTML: getGenerateHTML(option),
     watchHTML: () => {
-      return chokidar
-        .watch(distDir + "/**/*.js")
-        .on("all", getGenerateHTML(option));
+      return chokidar.watch(distDir, {}).on("all", (filePath) => {
+        if (path.extname(filePath) !== ".js") return;
+        getGenerateHTML(option);
+      });
     },
   };
 }
