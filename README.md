@@ -22,7 +22,7 @@ npm i @masatomakino/gulptask-demo-page -D
 you can generate demo pages from the CLI.
 
 ```
-npx @masatomakino/gulptask-demo-page -W
+npx @masatomakino/gulptask-demo-page
 ```
 
 See `--help` command for options.
