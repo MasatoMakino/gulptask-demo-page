@@ -1,6 +1,6 @@
 # gulptask-demo-page
 
-> demo html generator
+> A CLI tool that generates demo HTML pages from specified JavaScript/TypeScript source files.
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![build test](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml/badge.svg)](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml)
@@ -11,11 +11,20 @@
 
 ## Getting Started
 
-### Install
+### Preparing Demo Source Files
+
+Place your demo source files in the `demoSrc` directory.
+File names should have a `demo_` prefix, like `demoSrc/demo_sample.ts`.
+
+### Generating Demo Pages
+
+To generate demo pages, run the following command:
 
 ```bash
-npm i @masatomakino/gulptask-demo-page -D
+npx @masatomakino/gulptask-demo-page
 ```
+
+This command will generate a set of HTML files that load the demo scripts, along with an index page, in the `docs/demo` directory.
 
 ## CLI
 
