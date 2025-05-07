@@ -7,32 +7,50 @@ import path from "path";
 const program = new Command();
 
 program
-  .option("-W --watch", "default : false")
-  .option("--prefix <string>", "default : demo")
-  .option("--srcDir <path>", "default : ./demoSrc")
-  .option("--distDir <path>", "default : ./docs/demo")
-  .option("--body <string>", "html tag to insert into the body")
+  .option("-W --watch", "Enable watch mode. Default: false")
+  .option(
+    "--prefix <string>",
+    "Specify the prefix for demo page filenames. Default: demo",
+  )
+  .option(
+    "--srcDir <path>",
+    "Specify the directory containing demo source files. Default: ./demoSrc",
+  )
+  .option(
+    "--distDir <path>",
+    "Specify the output directory for generated demo pages. Default: ./docs/demo",
+  )
+  .option(
+    "--body <string>",
+    "Specify HTML tags to insert into the body. The specified content will be inserted within the `<body>` tag of the generated HTML.",
+  )
   .option(
     "--style <string>",
-    'This is the css style that will be applied to the demo page. ex : "canvas{background-color:#000}"',
+    'Specify CSS styles to apply to the demo page. The specified styles will be inserted within the `<style>` tag of the generated HTML. Example: "canvas{background-color:#000}"',
   )
-  .option("--copyTargets [extensions...]", 'default : "png", "jpg", "jpeg"')
+  .option(
+    "--copyTargets [extensions...]",
+    'Specify file extensions to copy. Example: "png", "jpg", "jpeg", "obj". Default: "png", "jpg", "jpeg"',
+  )
   .option(
     "--externalScripts [url...]",
-    'ex : "https://code.createjs.com/1.0.0/createjs.min.js"',
+    'Specify an array of script file URLs to load from external CDNs. Use this when loading external modules that cannot be bundled via npm. Example: "https://code.createjs.com/1.0.0/createjs.min.js"',
   )
-  .option("--rule <path>", "config file path for webpack rules")
+  .option(
+    "--rule <path>",
+    "Path to the webpack rule configuration file (e.g., `webpack.config.js`). If this option is specified, the specified configuration file will be loaded. If not specified, the default configuration file built into the package will be used.",
+  )
   .option(
     "--compileTarget <string>",
-    "config tsconfig.compilerOptions.target, ex : es5",
+    "Corresponds to TypeScript's `tsconfig.compilerOptions.target`. See the official documentation for details. Example: es5",
   )
   .option(
     "--compileModule <string>",
-    "config tsconfig.compilerOptions.module, ex : es2020",
+    "Corresponds to TypeScript's `tsconfig.compilerOptions.module`. See the official documentation for details. Example: es2020",
   )
   .option(
     "--compileModuleResolution <string>",
-    "config tsconfig.compilerOptions.moduleResolution, ex : node, node16, bundler",
+    "Corresponds to TypeScript's `tsconfig.compilerOptions.moduleResolution`. See the official documentation for details. Example: node, node16, bundler",
   )
   .parse(process.argv);
 
