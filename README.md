@@ -1,6 +1,6 @@
 # gulptask-demo-page
 
-> demo html generator
+> A CLI tool that generates demo HTML pages from specified JavaScript/TypeScript source files.
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![build test](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml/badge.svg)](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml)
@@ -11,42 +11,84 @@
 
 ## Getting Started
 
-### Install
+### Preparing Demo Source Files
+
+Place your demo source files in the `demoSrc` directory.
+File names should have a `demo_` prefix, like `demoSrc/demo_sample.ts`.
+
+### Generating Demo Pages
+
+To generate demo pages, run the following command:
 
 ```bash
-npm i @masatomakino/gulptask-demo-page -D
+npx @masatomakino/gulptask-demo-page
 ```
+
+This command will generate a set of HTML files that load the demo scripts, along with an index page, in the `docs/demo` directory.
 
 ## CLI
 
 you can generate demo pages from the CLI.
 
 ```
-npx @masatomakino/gulptask-demo-page -W
+npx @masatomakino/gulptask-demo-page
 ```
 
 See `--help` command for options.
 
-```shell
-npx @masatomakino/gulptask-demo-page --help
-Usage: CLI [options]
+### Options
 
-Options:
-  -W --watch                          default : false
-  --prefix <string>                   default : demo
-  --srcDir <path>                     default : ./demoSrc
-  --distDir <path>                    default : ./docs/demo
-  --body <string>                     html tag to insert into the body
-  --style <string>                    This is the css style that will be applied to the demo page. ex :
-                                      "canvas{background-color:#000}"
-  --copyTargets [extensions...]       default : "png", "jpg", "jpeg"
-  --externalScripts [url...]          ex : "https://code.createjs.com/1.0.0/createjs.min.js"
-  --rule <path>                       config file path for webpack rules
-  --compileTarget <string>            config tsconfig.compilerOptions.target, ex : es5
-  --compileModule <string>            config tsconfig.compilerOptions.module, ex : es2020
-  --compileModuleResolution <string>  config tsconfig.compilerOptions.moduleResolution, ex : node, node16, bundler
-  -h, --help                          display help for command
-```
+#### -W --watch
+
+Enable watch mode. Default: false
+
+#### --prefix <string>
+
+Specify the prefix for demo page filenames. Default: demo
+
+#### --srcDir <path>
+
+Specify the directory containing demo source files. Default: ./demoSrc
+
+#### --distDir <path>
+
+Specify the output directory for generated demo pages. Default: ./docs/demo
+
+#### --body <string>
+
+Specify HTML tags to insert into the body. The specified content will be inserted within the `<body>` tag of the generated HTML.
+
+#### --style <string>
+
+Specify CSS styles to apply to the demo page. The specified styles will be inserted within the `<style>` tag of the generated HTML. Example: "canvas{background-color:#000}"
+
+#### --copyTargets [extensions...]
+
+Specify file extensions to copy. Example: "png", "jpg", "jpeg", "obj". Default: "png", "jpg", "jpeg"
+
+#### --externalScripts [url...]
+
+Specify an array of script file URLs to load from external CDNs. Use this when loading external modules that cannot be bundled via npm. Example: "https://code.createjs.com/1.0.0/createjs.min.js"
+
+#### --rule <path>
+
+Path to the webpack rule configuration file (e.g., `webpack.config.js`). If this option is specified, the specified configuration file will be loaded. If not specified, the default configuration file built into the package will be used.
+
+#### --compileTarget <string>
+
+Corresponds to TypeScript's `tsconfig.compilerOptions.target`. See the official documentation for details. Example: es5
+
+#### --compileModule <string>
+
+Corresponds to TypeScript's `tsconfig.compilerOptions.module`. See the official documentation for details. Example: es2020
+
+#### --compileModuleResolution <string>
+
+Corresponds to TypeScript's `tsconfig.compilerOptions.moduleResolution`. See the official documentation for details. Example: node, node16, bundler
+
+#### -h, --help
+
+display help for command
 
 ## npm script
 
