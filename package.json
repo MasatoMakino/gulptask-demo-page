@@ -49,7 +49,7 @@
     "path-scurry": "^2.0.0"
   },
   "scripts": {
-    "test": "vitest --run && npm run testRun",
+    "test": "vitest --run && npm run build && npm run testRun",
     "test:watch": "vitest",
     "coverage": "vitest --run --coverage",
     "build": "tsc",
