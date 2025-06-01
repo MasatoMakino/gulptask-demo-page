@@ -164,4 +164,16 @@ async function exportIndex(targets: string[]) {
   const str = await ejs.renderFile(ejsPath, ejsOption);
   await fsPromises.mkdir(path.resolve(distDir), { recursive: true });
   await fsPromises.writeFile(path.resolve(distDir, "index.html"), str, "utf8");
+
+  await copyIndexScript(distDir);
+}
+
+/**
+ * indexScript.jsをデモ出力ディレクトリにコピーする。
+ * @param distDir デモ出力ディレクトリ
+ */
+async function copyIndexScript(distDir: string) {
+  const scriptSrcPath = path.resolve(__dirname, "../template/indexScript.js");
+  const scriptDestPath = path.resolve(distDir, "indexScript.js");
+  await fsPromises.copyFile(scriptSrcPath, scriptDestPath);
 }
