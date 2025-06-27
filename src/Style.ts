@@ -12,7 +12,7 @@ export function getStyleTask(): Function {
         if (stat.isDirectory()) return true;
 
         const ext = path.extname(src);
-        return ext === ".css" || ext === ".png";
+        return ext === ".css" || ext === ".png" || ext === ".ico";
       },
     });
   };
