@@ -3,6 +3,13 @@ import path from "path";
 import { getDistDir } from "./Copy.js";
 import { fileURLToPath } from "url";
 
+/**
+ * Returns an asynchronous task that copies style-related files and directories from the template directory to the distribution directory.
+ *
+ * Only directories and files with `.css`, `.png`, or `.ico` extensions are included in the copy operation.
+ * 
+ * @returns An asynchronous function that performs the filtered copy operation when invoked
+ */
 export function getStyleTask(): Function {
   return async () => {
     await fs.cp(getTemplateDir(), getDistDir(), {
