@@ -11,7 +11,7 @@ import type { InitializedOption, Option } from "./Option.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface BundlerSet {
-  bundleDevelopment: () => Promise<void | Error>;
+  bundleDevelopment: () => Promise<void>;
   watchBundle: () => Watching;
 }
 
@@ -56,9 +56,9 @@ export async function getBundlerSet(
 
 const generateBundleDevelopment = (
   config: Configuration,
-): (() => Promise<void | Error>) => {
+): (() => Promise<void>) => {
   return () => {
-    return new Promise<void | Error>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       webpack(config, (_err, stats) => {
         handleStats(stats);
         if (stats?.hasErrors()) {
