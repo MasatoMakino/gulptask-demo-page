@@ -15,13 +15,19 @@ interface BundlerSet {
   watchBundle: () => Watching;
 }
 
+interface CompilerOptions {
+  target?: string;
+  module?: string;
+  moduleResolution?: string;
+}
+
 interface TsRuleOptions {
   configFile?: string;
-  compilerOptions?: {
-    target?: string;
-    module?: string;
-    moduleResolution?: string;
-  };
+  compilerOptions?: CompilerOptions;
+}
+
+interface TsRuleOptionsWithCompilerOptions extends TsRuleOptions {
+  compilerOptions: CompilerOptions;
 }
 
 export async function getBundlerSet(
@@ -100,27 +106,27 @@ const getTypeScriptRule = (config: Configuration): RuleSetRule => {
 const checkTsRule = (
   config: Configuration,
   param?: unknown,
-): TsRuleOptions | undefined => {
+): TsRuleOptionsWithCompilerOptions | undefined => {
   if (param == null) return;
   const tsRule = getTypeScriptRule(config);
   if (!tsRule) return;
 
   const option = tsRule.options as TsRuleOptions;
   option.compilerOptions ??= {};
-  return option;
+  return option as TsRuleOptionsWithCompilerOptions;
 };
 
 const overrideTsTarget = (config: Configuration, target?: string) => {
   const option = checkTsRule(config, target);
   if (option) {
-    option.compilerOptions!.target = target;
+    option.compilerOptions.target = target;
   }
 };
 
 const overrideTsModule = (config: Configuration, module?: string) => {
   const option = checkTsRule(config, module);
   if (option) {
-    option.compilerOptions!.module = module;
+    option.compilerOptions.module = module;
   }
 };
 
@@ -130,7 +136,7 @@ const overrideTsModuleResolution = (
 ) => {
   const option = checkTsRule(config, moduleResolution);
   if (option) {
-    option.compilerOptions!.moduleResolution = moduleResolution;
+    option.compilerOptions.moduleResolution = moduleResolution;
   }
 };
 
