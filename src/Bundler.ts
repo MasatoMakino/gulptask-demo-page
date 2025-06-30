@@ -1,22 +1,33 @@
-import webpack from "webpack";
-import { Configuration, RuleSetRule, Watching, Stats } from "webpack";
-import { InitializedOption, Option } from "./Option.js";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import webpack, {
+  type Configuration,
+  type RuleSetRule,
+  type Stats,
+  type Watching,
+} from "webpack";
+import type { InitializedOption, Option } from "./Option.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface BundlerSet {
-  bundleDevelopment: () => Promise<void | Error>;
+  bundleDevelopment: () => Promise<void>;
   watchBundle: () => Watching;
+}
+
+interface CompilerOptions {
+  target?: string;
+  module?: string;
+  moduleResolution?: string;
 }
 
 interface TsRuleOptions {
   configFile?: string;
-  compilerOptions?: {
-    target?: string;
-    module?: string;
-    moduleResolution?: string;
-  };
+  compilerOptions?: CompilerOptions;
+}
+
+interface TsRuleOptionsWithCompilerOptions extends TsRuleOptions {
+  compilerOptions: CompilerOptions;
 }
 
 export async function getBundlerSet(
@@ -36,7 +47,7 @@ export async function getBundlerSet(
   return {
     bundleDevelopment: generateBundleDevelopment(config),
     watchBundle: () => {
-      return webpack(watchOption).watch({}, (err, stats) => {
+      return webpack(watchOption).watch({}, (_err, stats) => {
         handleStats(stats);
       });
     },
@@ -45,10 +56,10 @@ export async function getBundlerSet(
 
 const generateBundleDevelopment = (
   config: Configuration,
-): (() => Promise<void | Error>) => {
+): (() => Promise<void>) => {
   return () => {
-    return new Promise<void | Error>((resolve, reject) => {
-      webpack(config, (err, stats) => {
+    return new Promise<void>((resolve, reject) => {
+      webpack(config, (_err, stats) => {
         handleStats(stats);
         if (stats?.hasErrors()) {
           reject(new Error("demo script build failed."));
@@ -94,28 +105,28 @@ const getTypeScriptRule = (config: Configuration): RuleSetRule => {
 
 const checkTsRule = (
   config: Configuration,
-  param?: any,
-): TsRuleOptions | undefined => {
+  param?: unknown,
+): TsRuleOptionsWithCompilerOptions | undefined => {
   if (param == null) return;
   const tsRule = getTypeScriptRule(config);
   if (!tsRule) return;
 
   const option = tsRule.options as TsRuleOptions;
   option.compilerOptions ??= {};
-  return option;
+  return option as TsRuleOptionsWithCompilerOptions;
 };
 
 const overrideTsTarget = (config: Configuration, target?: string) => {
   const option = checkTsRule(config, target);
   if (option) {
-    option.compilerOptions!.target = target;
+    option.compilerOptions.target = target;
   }
 };
 
 const overrideTsModule = (config: Configuration, module?: string) => {
   const option = checkTsRule(config, module);
   if (option) {
-    option.compilerOptions!.module = module;
+    option.compilerOptions.module = module;
   }
 };
 
@@ -125,7 +136,7 @@ const overrideTsModuleResolution = (
 ) => {
   const option = checkTsRule(config, moduleResolution);
   if (option) {
-    option.compilerOptions!.moduleResolution = moduleResolution;
+    option.compilerOptions.moduleResolution = moduleResolution;
   }
 };
 

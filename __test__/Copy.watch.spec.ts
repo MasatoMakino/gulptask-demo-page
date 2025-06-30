@@ -1,8 +1,8 @@
-import { test, expect, describe, afterAll } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
+import { afterAll, describe, expect, test } from "vitest";
 import { getCopyTaskSet } from "../src/Copy.js";
-import { InitializedOption } from "../src/Option.js";
-import fs from "fs";
-import path from "path";
+import type { InitializedOption } from "../src/Option.js";
 import { removeDir } from "./Util.js";
 
 const copyTestDir = "./test_for_copy";

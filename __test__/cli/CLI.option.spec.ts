@@ -1,4 +1,4 @@
-import { vi, test, expect, type Mock, beforeEach, describe, it } from "vitest";
+import { beforeEach, describe, expect, it, type Mock, test, vi } from "vitest";
 import { runCommand } from "../../src/runCommand.js";
 
 // モック用のタスクオブジェクト
@@ -14,6 +14,7 @@ vi.mock("../../src/index.js", () => ({
 
 // // モック関数をインポート（必ず vi.mock の後）
 import { generateTasks } from "../../src/index.js";
+
 const mockGenerateTasks = generateTasks as Mock;
 
 beforeEach(() => {

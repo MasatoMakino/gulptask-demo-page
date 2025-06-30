@@ -1,12 +1,11 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { generateTasks } from "../src/index";
-
 // モック対象モジュールを名前付き import
 import * as BundlerModule from "../src/Bundler.js";
-import * as EJSModule from "../src/EJS.js";
-import * as CopyModule from "../src/Copy.js";
-import * as StyleModule from "../src/Style.js";
 import * as CleanModule from "../src/Clean.js";
+import * as CopyModule from "../src/Copy.js";
+import * as EJSModule from "../src/EJS.js";
+import { generateTasks } from "../src/index";
+import * as StyleModule from "../src/Style.js";
 
 describe("generateTasks", () => {
   let mockBundlerSet: {
@@ -15,8 +14,8 @@ describe("generateTasks", () => {
   };
   let mockEJSTasks: EJSModule.EJSTasks;
   let mockCopyTasks: CopyModule.CopyTaskSet;
-  let mockStyleTask;
-  let mockCleanTask;
+  let mockStyleTask: () => Promise<void>;
+  let mockCleanTask: () => Promise<void>;
 
   beforeEach(() => {
     vi.restoreAllMocks();

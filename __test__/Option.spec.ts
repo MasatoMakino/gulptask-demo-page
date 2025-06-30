@@ -1,5 +1,5 @@
+import { describe, expect, test } from "vitest";
 import { initOptions } from "../src/Option.js";
-import { describe, test, expect } from "vitest";
 
 describe("Option", () => {
   test("default option", () => {

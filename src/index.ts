@@ -2,7 +2,7 @@ import { getBundlerSet } from "./Bundler.js";
 import { getCleanTask } from "./Clean.js";
 import { getCopyTaskSet } from "./Copy.js";
 import { getHTLMGenerator } from "./EJS.js";
-import { initOptions, Option } from "./Option.js";
+import { initOptions, type Option } from "./Option.js";
 import { getStyleTask } from "./Style.js";
 
 export interface Tasks {
