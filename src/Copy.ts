@@ -8,8 +8,8 @@ import type { InitializedOption } from "./Option.js";
  * Copy task for demo assets
  */
 export interface CopyTaskSet {
-  copy: Function;
-  watchCopy: Function;
+  copy: () => void;
+  watchCopy: () => void;
 }
 
 let copyOption: InitializedOption;
