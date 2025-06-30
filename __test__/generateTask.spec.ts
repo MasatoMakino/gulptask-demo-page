@@ -14,8 +14,8 @@ describe("generateTasks", () => {
   };
   let mockEJSTasks: EJSModule.EJSTasks;
   let mockCopyTasks: CopyModule.CopyTaskSet;
-  let mockStyleTask;
-  let mockCleanTask;
+  let mockStyleTask: () => Promise<void>;
+  let mockCleanTask: () => Promise<void>;
 
   beforeEach(() => {
     vi.restoreAllMocks();
