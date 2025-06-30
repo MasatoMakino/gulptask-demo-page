@@ -1,7 +1,7 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getDistDir } from "./Copy.js";
-import { fileURLToPath } from "url";
 
 /**
  * Returns an asynchronous task that copies style-related files and directories from the template directory to the distribution directory.
@@ -10,11 +10,11 @@ import { fileURLToPath } from "url";
  * 
  * @returns An asynchronous function that performs the filtered copy operation when invoked
  */
-export function getStyleTask(): Function {
+export function getStyleTask(): () => Promise<void> {
   return async () => {
     await fs.cp(getTemplateDir(), getDistDir(), {
       recursive: true,
-      filter: async (src, dest) => {
+      filter: async (src, _dest) => {
         const stat = await fs.lstat(src);
         if (stat.isDirectory()) return true;
 

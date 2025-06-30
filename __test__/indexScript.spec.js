@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
-import fs from "fs";
-import vm from "vm";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
+import vm from "node:vm";
+import { describe, expect, it } from "vitest";
 
 // Read the script file content
 const scriptPath = path.resolve(__dirname, "../template/indexScript.js");

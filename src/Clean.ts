@@ -1,5 +1,5 @@
-import { promises as fsPromises } from "fs";
-import { InitializedOption } from "./Option.js";
+import { promises as fsPromises } from "node:fs";
+import type { InitializedOption } from "./Option.js";
 
 export function getCleanTask(option: InitializedOption) {
   return async () => {
