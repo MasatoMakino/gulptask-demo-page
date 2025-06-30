@@ -99,7 +99,7 @@ const getTypeScriptRule = (config: Configuration): RuleSetRule => {
 
 const checkTsRule = (
   config: Configuration,
-  param?: any,
+  param?: unknown,
 ): TsRuleOptions | undefined => {
   if (param == null) return;
   const tsRule = getTypeScriptRule(config);
