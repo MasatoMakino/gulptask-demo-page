@@ -1,4 +1,4 @@
-import { describe, expect, test, vi } from "vitest";
+import { afterAll, describe, expect, test, vi } from "vitest";
 import { getBundlerSet } from "../src/Bundler.js";
 import { getHTLMGenerator } from "../src/EJS.js";
 import { initOptions } from "../src/Option.js";
@@ -11,6 +11,10 @@ describe("EJS", () => {
   };
 
   const _spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
+
+  afterAll(() => {
+    _spyLog.mockRestore();
+  });
 
   test("getHTLMGenerator", () => {
     const ejsTasks = generateDefaultTasks();

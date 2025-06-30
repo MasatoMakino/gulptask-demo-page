@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, test, vi } from "vitest";
+import { afterAll, afterEach, describe, expect, test, vi } from "vitest";
 import { getBundlerSet } from "../src/Bundler.js";
 import { initOptions } from "../src/Option.js";
 import { isExistFile } from "./Util.js";
@@ -15,6 +15,12 @@ describe("Bundler", () => {
 
   afterEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterAll(() => {
+    spyLog.mockRestore();
+    _spyWarn.mockRestore();
+    spyError.mockRestore();
   });
 
   test("getBundlerSet", async () => {

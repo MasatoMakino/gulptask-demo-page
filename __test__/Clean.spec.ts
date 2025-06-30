@@ -1,4 +1,4 @@
-import { describe, test, vi } from "vitest";
+import { afterAll, describe, test, vi } from "vitest";
 import { getBundlerSet } from "../src/Bundler.js";
 import { getCleanTask } from "../src/Clean.js";
 import { initOptions } from "../src/Option.js";
@@ -6,6 +6,10 @@ import { isExistFile, isNotExistFile } from "./Util.js";
 
 describe("Clean", () => {
   const _spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
+
+  afterAll(() => {
+    _spyLog.mockRestore();
+  });
 
   test("clean", async () => {
     const option = initOptions({ distDir: "./cleanTest" });
