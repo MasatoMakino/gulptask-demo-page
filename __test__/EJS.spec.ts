@@ -1,8 +1,8 @@
+import { describe, expect, test, vi } from "vitest";
+import { getBundlerSet } from "../src/Bundler.js";
 import { getHTLMGenerator } from "../src/EJS.js";
 import { initOptions } from "../src/Option.js";
-import { getBundlerSet } from "../src/Bundler.js";
 import { isExistFile } from "./Util.js";
-import { describe, test, vi, expect } from "vitest";
 
 describe("EJS", () => {
   const generateDefaultTasks = () => {
@@ -10,7 +10,8 @@ describe("EJS", () => {
     return getHTLMGenerator(option);
   };
 
-  const spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
+  const _spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
+
   test("getHTLMGenerator", () => {
     const ejsTasks = generateDefaultTasks();
     expect(ejsTasks.generateHTML).toBeTruthy();

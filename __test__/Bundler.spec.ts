@@ -1,12 +1,11 @@
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { getBundlerSet } from "../src/Bundler.js";
 import { initOptions } from "../src/Option.js";
 import { isExistFile } from "./Util.js";
-import { vi, expect, describe, test, afterEach } from "vitest";
 
 describe("Bundler", () => {
   const spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
-  const spyWarn = vi.spyOn(console, "warn").mockImplementation(() => {});
-
+  const _spyWarn = vi.spyOn(console, "warn").mockImplementation(() => {});
   const spyError = vi.spyOn(console, "error").mockImplementation(() => {});
 
   const getDefaultBundlerSet = async () => {

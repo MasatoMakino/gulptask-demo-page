@@ -1,11 +1,11 @@
-import { getBundlerSet } from "../src/Bundler.js";
-import { initOptions } from "../src/Option.js";
-import { getCleanTask } from "../src/Clean.js";
-import { isExistFile, isNotExistFile } from "./Util.js";
 import { describe, test, vi } from "vitest";
+import { getBundlerSet } from "../src/Bundler.js";
+import { getCleanTask } from "../src/Clean.js";
+import { initOptions } from "../src/Option.js";
+import { isExistFile, isNotExistFile } from "./Util.js";
 
 describe("Clean", () => {
-  const spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
+  const _spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
 
   test("clean", async () => {
     const option = initOptions({ distDir: "./cleanTest" });

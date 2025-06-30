@@ -1,5 +1,4 @@
-import { ModuleKind, ScriptTarget, ModuleResolutionKind } from "typescript";
-import { RuleSetRule } from "webpack";
+import type { RuleSetRule } from "webpack";
 
 export interface Option {
   prefix?: string;

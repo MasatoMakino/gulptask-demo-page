@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import { Command, OptionValues } from "commander";
+import path from "node:path";
+import { Command, type OptionValues } from "commander";
 import { generateTasks } from "./index.js";
-import path from "path";
 
 export async function runCommand() {
   const program = new Command();

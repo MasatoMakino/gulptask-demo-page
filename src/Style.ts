@@ -1,13 +1,13 @@
-import fs from "fs/promises";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { getDistDir } from "./Copy.js";
-import { fileURLToPath } from "url";
 
 export function getStyleTask(): Function {
   return async () => {
     await fs.cp(getTemplateDir(), getDistDir(), {
       recursive: true,
-      filter: async (src, dest) => {
+      filter: async (src, _dest) => {
         const stat = await fs.lstat(src);
         if (stat.isDirectory()) return true;
 

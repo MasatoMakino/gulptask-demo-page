@@ -1,8 +1,13 @@
-import webpack from "webpack";
-import { Configuration, RuleSetRule, Watching, Stats } from "webpack";
-import { InitializedOption, Option } from "./Option.js";
-import path from "path";
-import { fileURLToPath } from "url";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import webpack, {
+  type Configuration,
+  type RuleSetRule,
+  type Stats,
+  type Watching,
+} from "webpack";
+import type { InitializedOption, Option } from "./Option.js";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface BundlerSet {
@@ -36,7 +41,7 @@ export async function getBundlerSet(
   return {
     bundleDevelopment: generateBundleDevelopment(config),
     watchBundle: () => {
-      return webpack(watchOption).watch({}, (err, stats) => {
+      return webpack(watchOption).watch({}, (_err, stats) => {
         handleStats(stats);
       });
     },
@@ -48,7 +53,7 @@ const generateBundleDevelopment = (
 ): (() => Promise<void | Error>) => {
   return () => {
     return new Promise<void | Error>((resolve, reject) => {
-      webpack(config, (err, stats) => {
+      webpack(config, (_err, stats) => {
         handleStats(stats);
         if (stats?.hasErrors()) {
           reject(new Error("demo script build failed."));

@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 import { afterAll, describe, expect, test } from "vitest";
 import { getCopyTaskSet, getDistDir, getSrcDir } from "../src/Copy.js";
 import { initOptions } from "../src/Option.js";
@@ -37,8 +37,8 @@ describe("Copy", () => {
     const copyTaskSet = getDefaultCopyTasks();
     await copyTaskSet.copy();
 
-    isExistFile(copyImgDir + "/btn045_01.png");
-    isExistFile(copyImgDir + "/sub/btn045_01.png");
+    isExistFile(`${copyImgDir}/btn045_01.png`);
+    isExistFile(`${copyImgDir}/sub/btn045_01.png`);
   });
 
   test("watchCopy", async () => {

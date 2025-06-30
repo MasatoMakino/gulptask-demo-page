@@ -1,14 +1,13 @@
-"use strict";
+import fs from "node:fs";
+import fsPromises from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import chokidar from "chokidar";
 import ejs from "ejs";
-import fs from "fs";
-import fsPromises from "fs/promises";
 import * as glob from "glob";
-import { IPackageJson } from "package-json-type";
-import path from "path";
-import { InitializedOption, Option } from "./Option.js";
+import type { IPackageJson } from "package-json-type";
+import type { InitializedOption, Option } from "./Option.js";
 
-import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let generatorOption: InitializedOption;
@@ -41,14 +40,14 @@ export function getHTLMGenerator(option: InitializedOption): EJSTasks {
  * 出力されたJSファイルを監視し、対応するHTMLファイルを出力するgulpタスク
  **/
 function getGenerateHTML(option: Option) {
-  return async function () {
+  return async () => {
     const targets = glob
       .sync(`**/${option.prefix}*.js`, {
         cwd: distDir,
       })
       .sort();
 
-    for (let scriptPath of targets) {
+    for (const scriptPath of targets) {
       await exportEJS(scriptPath, distDir);
     }
     await exportIndex(targets);
