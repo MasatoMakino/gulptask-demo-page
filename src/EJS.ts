@@ -2,7 +2,7 @@ import fs from "node:fs";
 import fsPromises from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import chokidar from "chokidar";
+import * as chokidar from "chokidar";
 import ejs from "ejs";
 import * as glob from "glob";
 import type { IPackageJson } from "package-json-type";
@@ -13,8 +13,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let generatorOption: InitializedOption;
 let distDir: string;
 export interface EJSTasks {
-  generateHTML: Function;
-  watchHTML: Function;
+  generateHTML: () => Promise<void>;
+  watchHTML: () => chokidar.FSWatcher;
 }
 
 /**
