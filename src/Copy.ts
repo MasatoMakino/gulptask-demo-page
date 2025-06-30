@@ -42,10 +42,7 @@ const isTargetFileType = (filePath: string): boolean => {
 };
 
 async function copy() {
-  const filter = async (
-    source: string,
-    destination: string,
-  ): Promise<boolean> => {
+  const filter = async (source: string): Promise<boolean> => {
     const stat = await fsPromises.lstat(source);
     if (stat.isDirectory()) return true;
     return isTargetFileType(source);
