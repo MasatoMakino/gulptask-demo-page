@@ -3,7 +3,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { getDistDir } from "./Copy.js";
 
-export function getStyleTask(): Function {
+export function getStyleTask(): () => Promise<void> {
   return async () => {
     await fs.cp(getTemplateDir(), getDistDir(), {
       recursive: true,
