@@ -12,7 +12,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 interface BundlerSet {
   bundleDevelopment: () => Promise<void>;
-  watchBundle: () => Watching;
+  watchBundle: () => Watching | undefined;
 }
 
 interface CompilerOptions {
@@ -47,8 +47,10 @@ export async function getBundlerSet(
   return {
     bundleDevelopment: generateBundleDevelopment(config),
     watchBundle: () => {
-      return webpack(watchOption).watch({}, (_err, stats) => {
-        handleStats(stats);
+      const compiler = webpack(watchOption);
+      if (!compiler) return undefined;
+      return compiler.watch({}, (_err, stats) => {
+        handleStats(stats ?? undefined);
       });
     },
   };
