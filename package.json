@@ -39,8 +39,6 @@
     "@types/ejs": "^3.1.2",
     "@types/node": "^24.0.0",
     "@vitest/coverage-istanbul": "^3.0.1",
-    "husky": "^9.0.10",
-    "lint-staged": "^16.1.0",
     "moment": "^2.29.4",
     "package-json-type": "^1.0.3",
     "webpack-glsl-loader": "^1.0.1"
@@ -58,7 +56,8 @@
     "watch:exampleCLI": "npm run exampleCLI -- -W",
     "testRun": "node ./bin/CLI.js --srcDir ./demoSrc",
     "watch:testRun": "npm run testRun -- -W",
-    "prepare": "husky",
+    "pre-commit": "biome format --write --staged --no-errors-on-unmatched",
+    "pre-push": "biome ci . && vitest --run",
     "preversion": "npx @masatomakino/release-helper preversion",
     "postversion": "npx @masatomakino/release-helper postversion",
     "release": "npx @masatomakino/release-helper release"
@@ -69,8 +68,5 @@
   "homepage": "https://github.com/MasatoMakino/gulptask-demo-page#readme",
   "directories": {
     "doc": "docs"
-  },
-  "lint-staged": {
-    "*.{js,ts,css,md}": "biome format --write --no-errors-on-unmatched"
   }
 }
