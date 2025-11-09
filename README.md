@@ -4,8 +4,6 @@
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
 [![build test](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml/badge.svg)](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c85d13ff544137ebc8ac/maintainability)](https://codeclimate.com/github/MasatoMakino/gulptask-demo-page/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c85d13ff544137ebc8ac/test_coverage)](https://codeclimate.com/github/MasatoMakino/gulptask-demo-page/test_coverage)
 
 [GitHub](https://github.com/MasatoMakino/gulptask-demo-page.git)
 
