@@ -35,7 +35,6 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.4",
-    "@masatomakino/release-helper": "^0.2.0",
     "@types/ejs": "^3.1.2",
     "@types/node": "^24.0.0",
     "@vitest/coverage-istanbul": "^3.0.1",
@@ -57,10 +56,7 @@
     "testRun": "node ./bin/CLI.js --srcDir ./demoSrc",
     "watch:testRun": "npm run testRun -- -W",
     "pre-commit": "biome format --write --staged --no-errors-on-unmatched",
-    "pre-push": "biome ci . && vitest --run",
-    "preversion": "npx @masatomakino/release-helper preversion",
-    "postversion": "npx @masatomakino/release-helper postversion",
-    "release": "npx @masatomakino/release-helper release"
+    "pre-push": "biome ci . && vitest --run"
   },
   "bugs": {
     "url": "https://github.com/MasatoMakino/gulptask-demo-page/issues"
