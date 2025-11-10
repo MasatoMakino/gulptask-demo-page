@@ -2,7 +2,10 @@
   "name": "gulptask-demo-page npm Runner (Node 22)",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": ".."
+    "context": "..",
+    "args": {
+      "WORKSPACE_NAME": "${localWorkspaceFolderBasename}"
+    }
   },
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
