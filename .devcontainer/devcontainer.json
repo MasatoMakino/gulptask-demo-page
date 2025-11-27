@@ -2,19 +2,12 @@
   "name": "gulptask-demo-page npm Runner (Node 22)",
   "build": {
     "dockerfile": "Dockerfile",
-    "context": "..",
-    "args": {
-      "WORKSPACE_NAME": "${localWorkspaceFolderBasename}"
-    }
+    "context": ".."
   },
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/${localWorkspaceFolderBasename},type=bind,consistency=cached",
   "remoteUser": "node",
   "runArgs": ["--cap-drop=ALL", "--name=gulptask-demo-page-npm-runner"],
-  "mounts": [
-    "source=${localWorkspaceFolderBasename}-npm-runner-node_modules,target=${containerWorkspaceFolder}/node_modules,type=volume",
-    "source=${localWorkspaceFolder}/.devcontainer,target=/workspaces/${localWorkspaceFolderBasename}/.devcontainer,type=bind,readonly"
-  ],
   "postCreateCommand": "npm ci",
   "postStartCommand": "npm audit --audit-level=moderate || true",
   "containerEnv": {

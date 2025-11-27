@@ -28,6 +28,34 @@ devcontainer up --workspace-folder .
 devcontainer stop --workspace-folder .
 ```
 
+### Architecture
+
+- Base image: `node:22-bookworm-slim` (with Git installed)
+- Security: `--cap-drop=ALL` (removes all Linux capabilities)
+- Non-root user: `node` (UID:1000, GID:1000)
+- Port forwarding: Not configured (no services exposed by default)
+
+### Security Benefits
+
+- Host OS npm is never executed (protection from malicious package scripts)
+- Container runs with minimal Linux capabilities (`--cap-drop=ALL`)
+- Non-root user (node) execution in container
+- Automatic `npm audit` on container start
+
+**Note on Security Trade-off:**
+Volume-based node_modules isolation was removed to restore host IDE access to TypeScript type definitions. Security now relies on container user and capability restrictions rather than volume isolation. This trade-off prioritizes developer experience (IDE type support) while maintaining npm execution isolation.
+
+### Image Size Optimization
+
+The project uses a custom lightweight Docker image instead of the full Microsoft DevContainer image:
+
+| Image | Size | Features |
+|-------|------|----------|
+| `mcr.microsoft.com/devcontainers/javascript-node:22` (previous) | ~1.12 GB | Full-featured (Git, GCC, Python, etc.) |
+| `node:22-bookworm-slim` + Git (current) | ~319 MB | Minimal + Git for Biome support |
+
+**Reduction**: 72% size decrease (1.12 GB → 319 MB)
+
 ## Development Commands
 
 **All commands must be run inside the DevContainer** using the `devcontainer exec` wrapper:
