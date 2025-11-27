@@ -7,7 +7,7 @@ const initEntries = (srcDir, prefix) => {
     .sync(`**/${prefix}*.+(js|ts)`, {
       cwd: srcDir,
     })
-    .map((key) => {
+    .forEach((key) => {
       const parsed = path.parse(key);
       const name = path.format({
         dir: parsed.dir,
