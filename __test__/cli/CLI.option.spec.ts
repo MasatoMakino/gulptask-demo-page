@@ -18,7 +18,7 @@ import { generateTasks } from "../../src/index.js";
 const mockGenerateTasks = generateTasks as Mock;
 
 beforeEach(() => {
-  vi.restoreAllMocks();
+  vi.clearAllMocks();
 });
 
 describe("CLI Command Tests", () => {
