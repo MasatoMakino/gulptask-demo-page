@@ -29,13 +29,10 @@ describe("CLI Command Tests", () => {
     expect(calledArgs).toEqual({});
   });
 
-  it.fails(
-    "存在しないオプションを渡されると、コード1で異常終了する",
-    async () => {
-      process.argv = ["node", "CLI.ts", "--notExistOpton"];
-      await runCommand();
-    },
-  );
+  it.fails("存在しないオプションを渡されると、コード1で異常終了する", async () => {
+    process.argv = ["node", "CLI.ts", "--notExistOpton"];
+    await runCommand();
+  });
 
   test("srcDirが渡される", async () => {
     process.argv = ["node", "CLI.ts", "--srcDir", "testSrc"];
