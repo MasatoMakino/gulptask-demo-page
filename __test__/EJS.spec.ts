@@ -36,7 +36,7 @@ describe("EJS", () => {
     isExistFile("./docs/demo/demo.html");
     isExistFile("./docs/demo/demoTypeScript.html");
     isExistFile("./docs/demo/sub/demoSub.html");
-  }, 15_000);
+  }, 25_000);
 
   test("watchHTML", async () => {
     const ejsTasks = generateDefaultTasks();

@@ -96,7 +96,9 @@ cat > .git/hooks/pre-commit << 'EOF'
 #!/bin/sh
 exec 1>&2
 echo "[pre-commit] Running code quality checks in DevContainer..."
-if ! docker ps --format '{{.Names}}' | grep -q 'gulptask-demo-page-npm-runner'; then
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
+if ! docker ps --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
   echo "[pre-commit] DevContainer not running. Starting..."
   devcontainer up --workspace-folder . || exit 1
 fi
@@ -113,7 +115,9 @@ cat > .git/hooks/pre-push << 'EOF'
 #!/bin/sh
 exec 1>&2
 echo "[pre-push] Running tests and CI checks in DevContainer..."
-if ! docker ps --format '{{.Names}}' | grep -q 'gulptask-demo-page-npm-runner'; then
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
+if ! docker ps --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
   echo "[pre-push] DevContainer not running. Starting..."
   devcontainer up --workspace-folder . || exit 1
 fi
