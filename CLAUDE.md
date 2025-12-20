@@ -107,17 +107,26 @@ if ! devcontainer exec --workspace-folder . npm run pre-commit; then
   exit 1
 fi
 echo "[pre-commit] Re-staging formatted files..."
-devcontainer exec --workspace-folder . git diff --cached --name-only --diff-filter=ACM | while IFS= read -r file; do
-  if [ -n "$file" ]; then
-    if ! devcontainer exec --workspace-folder . git add "$file"; then
-      echo "[pre-commit] ERROR: Failed to re-stage file: $file"
-      exit 1
-    fi
-  fi
-done
-if [ ${PIPESTATUS[0]} -ne 0 ]; then
+STAGED_FILES=$(devcontainer exec --workspace-folder . git diff --cached --name-only --diff-filter=ACM)
+if [ $? -ne 0 ]; then
   echo "[pre-commit] ERROR: Failed to get staged files list"
   exit 1
+fi
+if [ -n "$STAGED_FILES" ]; then
+  OLDIFS="$IFS"
+  IFS='
+'
+  for file in $STAGED_FILES; do
+    if [ -n "$file" ]; then
+      echo "[pre-commit]   Re-staging: $file"
+      if ! devcontainer exec --workspace-folder . git add "$file"; then
+        echo "[pre-commit] ERROR: Failed to re-stage file: $file"
+        IFS="$OLDIFS"
+        exit 1
+      fi
+    fi
+  done
+  IFS="$OLDIFS"
 fi
 echo "[pre-commit] ✓ All checks passed"
 exit 0
@@ -165,6 +174,7 @@ devcontainer exec --workspace-folder . npm run pre-push
   - Re-stages the formatted files to ensure the formatted version is committed
   - Uses `git diff --cached --name-only --diff-filter=ACM` to get the list of staged files
   - Re-stages only the files that were originally staged (prevents unintended file additions)
+  - Uses `for` loop with IFS control to handle file names with spaces correctly
 - **pre-push**: Runs `biome ci .` (lint check) and `vitest --run` (all tests)
 
 ## Architecture
