@@ -2,6 +2,21 @@
 
 This directory contains sample Git hook files for this project.
 
+## Before Setup: Check for Existing Hooks
+
+If you're migrating from Husky or have existing Git hooks:
+
+```bash
+# Check Git config for hooks path (should be empty)
+git config core.hooksPath
+
+# If it shows ".husky" or other path, remove it:
+git config --unset core.hooksPath
+
+# Check for existing hooks in .git/hooks/
+ls -la .git/hooks/
+```
+
 ## Quick Setup
 
 ```bash
@@ -41,14 +56,6 @@ git show HEAD:test.js
 ```bash
 # This will run CI checks and tests
 git push origin HEAD
-```
-
-## Using Claude Code Skill
-
-For automatic setup or detailed documentation:
-
-```
-/isolated-npm-devcontainer-git-hooks
 ```
 
 ## Notes
