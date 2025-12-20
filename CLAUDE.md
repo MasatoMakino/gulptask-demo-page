@@ -107,7 +107,7 @@ if ! devcontainer exec --workspace-folder . npm run pre-commit; then
   exit 1
 fi
 echo "[pre-commit] Re-staging formatted files..."
-STAGED_FILES=$(devcontainer exec --workspace-folder . git diff --cached --name-only --diff-filter=ACM)
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 if [ $? -ne 0 ]; then
   echo "[pre-commit] ERROR: Failed to get staged files list"
   exit 1
@@ -119,7 +119,7 @@ if [ -n "$STAGED_FILES" ]; then
   for file in $STAGED_FILES; do
     if [ -n "$file" ]; then
       echo "[pre-commit]   Re-staging: $file"
-      if ! devcontainer exec --workspace-folder . git add "$file"; then
+      if ! git add "$file"; then
         echo "[pre-commit] ERROR: Failed to re-stage file: $file"
         IFS="$OLDIFS"
         exit 1
@@ -170,10 +170,10 @@ devcontainer exec --workspace-folder . npm run pre-push
 ### What the Hooks Do
 
 - **pre-commit**:
-  - Runs `biome format --write --staged --no-errors-on-unmatched` on staged files
+  - Runs `biome format --write --staged --no-errors-on-unmatched` on staged files (in DevContainer)
   - Re-stages the formatted files to ensure the formatted version is committed
-  - Uses `git diff --cached --name-only --diff-filter=ACM` to get the list of staged files
-  - Re-stages only the files that were originally staged (prevents unintended file additions)
+  - Uses `git diff --cached --name-only --diff-filter=ACM` to get the list of staged files (on host OS)
+  - Re-stages only the files that were originally staged (prevents unintended file additions) (on host OS)
   - Uses `for` loop with IFS control to handle file names with spaces correctly
 - **pre-push**: Runs `biome ci .` (lint check) and `vitest --run` (all tests)
 
