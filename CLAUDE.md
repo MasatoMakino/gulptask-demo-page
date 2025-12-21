@@ -82,73 +82,11 @@ The project uses a custom lightweight Docker image instead of the full Microsoft
 - Pre-commit: Format staged files with Biome
 - Pre-push: Run Biome CI checks and all tests
 
-## Git Hooks Setup
+## Git Hooks Setup (Optional)
 
-Since npm runs in an isolated DevContainer, Git hooks must be set up manually on each development machine.
+Git hooks can automatically run code quality checks before commits and pushes.
 
-### Initial Setup (Required Once Per Clone)
-
-Run these commands in your terminal to create the Git hooks:
-
-```bash
-# Create pre-commit hook
-cat > .git/hooks/pre-commit << 'EOF'
-#!/bin/sh
-exec 1>&2
-echo "[pre-commit] Running code quality checks in DevContainer..."
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
-if ! docker ps --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
-  echo "[pre-commit] DevContainer not running. Starting..."
-  devcontainer up --workspace-folder . || exit 1
-fi
-if ! devcontainer exec --workspace-folder . npm run pre-commit; then
-  echo "[pre-commit] ERROR: Code quality checks failed"
-  exit 1
-fi
-echo "[pre-commit] ✓ All checks passed"
-exit 0
-EOF
-
-# Create pre-push hook
-cat > .git/hooks/pre-push << 'EOF'
-#!/bin/sh
-exec 1>&2
-echo "[pre-push] Running tests and CI checks in DevContainer..."
-REPO_ROOT="$(git rev-parse --show-toplevel)"
-CONTAINER_NAME="$(basename "$REPO_ROOT")-npm-runner"
-if ! docker ps --format '{{.Names}}' | grep -q "$CONTAINER_NAME"; then
-  echo "[pre-push] DevContainer not running. Starting..."
-  devcontainer up --workspace-folder . || exit 1
-fi
-if ! devcontainer exec --workspace-folder . npm run pre-push; then
-  echo "[pre-push] ERROR: Tests or CI checks failed"
-  exit 1
-fi
-echo "[pre-push] ✓ All checks passed"
-exit 0
-EOF
-
-# Make hooks executable
-chmod +x .git/hooks/pre-commit .git/hooks/pre-push
-```
-
-### Manual Alternative
-
-If you prefer not to use Git hooks, run these commands manually:
-
-```bash
-# Before committing
-devcontainer exec --workspace-folder . npm run pre-commit
-
-# Before pushing
-devcontainer exec --workspace-folder . npm run pre-push
-```
-
-### What the Hooks Do
-
-- **pre-commit**: Runs `biome format --write --staged --no-errors-on-unmatched` on staged files
-- **pre-push**: Runs `biome ci .` (lint check) and `vitest --run` (all tests)
+See `.devcontainer/git-hooks/README.md` for setup instructions.
 
 ## Architecture
 
