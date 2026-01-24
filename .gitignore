@@ -111,3 +111,4 @@ test_for_style/
 
 .claude/settings.local.json
 .local-notes/
+.op/
