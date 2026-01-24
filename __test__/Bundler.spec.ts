@@ -105,34 +105,36 @@ describe("Bundler", () => {
     const bundlerSet = await getBundlerSet(option);
     const watching = bundlerSet.watchBundle() as Watching;
 
-    // Wait for initial compilation to complete
-    await new Promise<void>((resolve) => {
-      watching.compiler.hooks.done.tap("test", () => {
-        resolve();
+    try {
+      // Wait for initial compilation to complete
+      await new Promise<void>((resolve) => {
+        watching.compiler.hooks.done.tap("test", () => {
+          resolve();
+        });
       });
-    });
 
-    // Verify output file exists
-    const outputPath = `${watchTestDir}/testImportSourceMap.js`;
-    isExistFile(outputPath);
+      // Verify output file exists
+      const outputPath = `${watchTestDir}/testImportSourceMap.js`;
+      isExistFile(outputPath);
 
-    // Verify source map is generated (watch mode uses cheap-module-source-map)
-    const content = fs.readFileSync(outputPath, "utf-8");
-    expect(content).toContain("sourceMappingURL");
+      // Verify source map is generated (watch mode uses cheap-module-source-map)
+      const content = fs.readFileSync(outputPath, "utf-8");
+      expect(content).toContain("sourceMappingURL");
 
-    // Verify source map file contains original TypeScript source
-    const mapPath = `${watchTestDir}/testImportSourceMap.js.map`;
-    isExistFile(mapPath);
-    const mapContent = fs.readFileSync(mapPath, "utf-8");
-    const sourceMap = JSON.parse(mapContent);
-    // extractSourceMap should include the original .ts file in sources
-    const hasOriginalSource = sourceMap.sources.some((s: string) =>
-      s.includes("libWithSourceMap.ts"),
-    );
-    expect(hasOriginalSource).toBe(true);
-
-    await new Promise<void>((resolve) => {
-      watching.close(() => resolve());
-    });
+      // Verify source map file contains original TypeScript source
+      const mapPath = `${watchTestDir}/testImportSourceMap.js.map`;
+      isExistFile(mapPath);
+      const mapContent = fs.readFileSync(mapPath, "utf-8");
+      const sourceMap = JSON.parse(mapContent);
+      // extractSourceMap should include the original .ts file in sources
+      const hasOriginalSource = sourceMap.sources.some((s: string) =>
+        s.includes("libWithSourceMap.ts"),
+      );
+      expect(hasOriginalSource).toBe(true);
+    } finally {
+      await new Promise<void>((resolve) => {
+        watching.close(() => resolve());
+      });
+    }
   }, 20000);
 });
