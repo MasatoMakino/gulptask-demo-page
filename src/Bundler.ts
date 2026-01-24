@@ -42,7 +42,7 @@ export async function getBundlerSet(
   checkEntries(config, option);
 
   const watchOption: Configuration = { ...config, mode: "development" };
-  overrideSourceMap(watchOption, "eval-cheap-source-map");
+  overrideSourceMap(watchOption, "cheap-module-source-map");
 
   return {
     bundleDevelopment: generateBundleDevelopment(config),

@@ -84,6 +84,26 @@ Corresponds to TypeScript's `tsconfig.compilerOptions.module`. See the official 
 
 Corresponds to TypeScript's `tsconfig.compilerOptions.moduleResolution`. See the official documentation for details. Example: node, node16, bundler
 
+### TypeScript Source Map Configuration
+
+To enable TypeScript source mapping in browser DevTools during watch mode, add the `--sourceMap` flag to your library project's tsc command:
+
+```bash
+tsc --sourceMap
+```
+
+Alternatively, configure your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "sourceMap": true
+  }
+}
+```
+
+This generates `.js.map` files that allow browser DevTools to map bundled JavaScript back to original TypeScript source files.
+
 ### Complete Example
 
 This example demonstrates common CLI options:
