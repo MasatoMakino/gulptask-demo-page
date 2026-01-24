@@ -1,7 +1,11 @@
+import fs from "node:fs";
 import { afterAll, afterEach, describe, expect, test, vi } from "vitest";
+import type { Watching } from "webpack";
 import { getBundlerSet } from "../src/Bundler.js";
 import { initOptions } from "../src/Option.js";
-import { isExistFile } from "./Util.js";
+import { isExistFile, removeDir } from "./Util.js";
+
+const watchTestDir = "./watchTest";
 
 describe("Bundler", () => {
   const spyLog = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -17,10 +21,11 @@ describe("Bundler", () => {
     vi.clearAllMocks();
   });
 
-  afterAll(() => {
+  afterAll(async () => {
     spyLog.mockRestore();
     _spyWarn.mockRestore();
     spyError.mockRestore();
+    await removeDir(watchTestDir);
   });
 
   test("getBundlerSet", async () => {
@@ -90,9 +95,42 @@ describe("Bundler", () => {
     expect(spyError).toBeCalledTimes(1);
   });
 
-  test("watch", async () => {
-    const bundlerSet = await getDefaultBundlerSet();
-    const watching = bundlerSet.watchBundle();
-    watching.suspend();
-  });
+  test("watch:extractSourceMap integrates external source map into output", async () => {
+    // testImportSourceMap.ts imports libWithSourceMap.js which has an external source map.
+    // extractSourceMap should extract and integrate it into the webpack output.
+    const option = initOptions({
+      prefix: "testImportSourceMap",
+      distDir: watchTestDir,
+    });
+    const bundlerSet = await getBundlerSet(option);
+    const watching = bundlerSet.watchBundle() as Watching;
+
+    // Wait for initial compilation to complete
+    await new Promise<void>((resolve) => {
+      watching.compiler.hooks.done.tap("test", () => {
+        resolve();
+      });
+    });
+
+    // Verify output file exists
+    const outputPath = `${watchTestDir}/testImportSourceMap.js`;
+    isExistFile(outputPath);
+
+    // Verify source map is generated (watch mode uses cheap-module-source-map)
+    const content = fs.readFileSync(outputPath, "utf-8");
+    expect(content).toContain("sourceMappingURL");
+
+    // Verify source map file contains original TypeScript source
+    const mapPath = `${watchTestDir}/testImportSourceMap.js.map`;
+    isExistFile(mapPath);
+    const mapContent = fs.readFileSync(mapPath, "utf-8");
+    const sourceMap = JSON.parse(mapContent);
+    // extractSourceMap should include the original .ts file in sources
+    const hasOriginalSource = sourceMap.sources.some((s: string) =>
+      s.includes("libWithSourceMap.ts"),
+    );
+    expect(hasOriginalSource).toBe(true);
+
+    watching.close(() => {});
+  }, 20000);
 });
