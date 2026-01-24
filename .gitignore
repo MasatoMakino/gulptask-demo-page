@@ -108,6 +108,7 @@ bin/
 test_for_copy/
 test_for_copy_img/
 test_for_style/
+watchTest/
 
 .claude/settings.local.json
 .local-notes/

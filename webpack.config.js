@@ -31,8 +31,7 @@ const defaultOption = {
       },
       {
         test: /\.js$/,
-        enforce: "pre",
-        use: ["source-map-loader"],
+        extractSourceMap: true,
       },
       {
         test: /\.ts$/,
