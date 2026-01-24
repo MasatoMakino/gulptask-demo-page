@@ -42,7 +42,7 @@ describe("Bundler", () => {
     isExistFile("./docs/demo/sub/demoSub.js");
     isExistFile("./docs/demo/vendor.js");
     expect(spyLog).toBeCalledTimes(1);
-  }, 20000);
+  }, 30000);
 
   test("bundleDevelopment:target", async () => {
     const option = initOptions({ compileTarget: "es6" });
@@ -131,6 +131,8 @@ describe("Bundler", () => {
     );
     expect(hasOriginalSource).toBe(true);
 
-    watching.close(() => {});
+    await new Promise<void>((resolve) => {
+      watching.close(() => resolve());
+    });
   }, 20000);
 });

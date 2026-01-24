@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import fsPromises from "node:fs/promises";
 import path from "node:path";
-import chokidar from "chokidar";
+import chokidar, { type FSWatcher } from "chokidar";
 import type { InitializedOption } from "./Option.js";
 
 /**
@@ -9,7 +9,7 @@ import type { InitializedOption } from "./Option.js";
  */
 export interface CopyTaskSet {
   copy: () => void;
-  watchCopy: () => void;
+  watchCopy: () => FSWatcher;
 }
 
 let copyOption: InitializedOption;
