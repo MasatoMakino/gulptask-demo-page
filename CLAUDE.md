@@ -122,8 +122,62 @@ See `.devcontainer/git-hooks/README.md` for setup instructions.
 - Coverage reports generated to `coverage/`
 - Tests include CLI functionality, bundling, and file operations
 
+#### Testing `template/indexScript.js`
+
+The `template/indexScript.js` contains global functions for browser compatibility. Test using Node.js `vm` module:
+
+```javascript
+import fs from "fs";
+import vm from "vm";
+import path from "path";
+
+const scriptPath = path.resolve(__dirname, "../template/indexScript.js");
+const scriptContent = fs.readFileSync(scriptPath, "utf-8");
+const context = {};
+vm.createContext(context);
+vm.runInContext(scriptContent, context);
+
+// Access functions from context
+const { getDemoNameFromPath } = context;
+```
+
+See `__test__/indexScript.spec.js` for implementation details.
+
 ## Key Configuration
 
 - TypeScript configuration: `tsconfig.json` (main) and `tsconfig.page.json` (for generated pages)
 - webpack config: `webpack.config.js` (default rules, customizable via `--rule` option)
 - Package exports: ES modules only (`"type": "module"`)
+
+## CLI Options Reference
+
+`npx @masatomakino/gulptask-demo-page [options]` の主なオプション:
+
+| Option | Description |
+|--------|-------------|
+| `-W`, `--watch` | Watch mode |
+| `--prefix <string>` | File prefix for demo pages |
+| `--srcDir <path>` | Demo source directory |
+| `--distDir <path>` | Output directory |
+| `--body <string>` | HTML body content |
+| `--style <string>` | CSS styles |
+| `--copyTargets [extensions...]` | File extensions to copy (e.g., `'png', 'jpg'`) |
+| `--externalScripts [url...]` | External CDN script URLs |
+| `--rule <path>` | webpack config file path |
+| `--compileTarget <string>` | TypeScript target |
+| `--compileModuleResolution <string>` | TypeScript moduleResolution |
+
+Full options: `npx @masatomakino/gulptask-demo-page --help`
+
+## Task Completion Verification
+
+After code changes (features, bug fixes, refactoring):
+
+1. Run `devcontainer exec --workspace-folder . npm test` - verify unit tests, build, and demo page build succeed
+2. Open `docs/demo/index.html` in browser and verify:
+   - Main scenarios are operational
+   - Modified features work correctly
+
+## Historical Note
+
+This project originally functioned as Gulp tasks but has evolved into a standalone CLI tool with Gulp dependencies removed.
