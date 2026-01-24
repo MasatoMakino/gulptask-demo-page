@@ -86,7 +86,7 @@ Corresponds to TypeScript's `tsconfig.compilerOptions.moduleResolution`. See the
 
 ### Complete Example
 
-This example demonstrates all available options:
+This example demonstrates common CLI options:
 
 ```bash
 npx @masatomakino/gulptask-demo-page \
