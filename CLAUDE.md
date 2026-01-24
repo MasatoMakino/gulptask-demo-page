@@ -71,7 +71,6 @@ The project uses a custom lightweight Docker image instead of the full Microsoft
 ### CLI Testing
 
 - `devcontainer exec --workspace-folder . npm run testRun` - Test the built CLI tool with default options
-- `devcontainer exec --workspace-folder . npm run watch:testRun` - Test CLI in watch mode
 
 See README.md "Complete Example" section for full CLI usage examples.
 
