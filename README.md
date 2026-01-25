@@ -3,9 +3,9 @@
 > A CLI tool that generates demo HTML pages from specified JavaScript/TypeScript source files.
 
 [![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@masatomakino/gulptask-demo-page.svg?style=flat)](https://www.npmjs.com/package/@masatomakino/gulptask-demo-page)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?logo=github&style=flat)](https://github.com/MasatoMakino/gulptask-demo-page)
 [![build test](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml/badge.svg)](https://github.com/MasatoMakino/gulptask-demo-page/actions/workflows/buildJS.yml)
-
-[GitHub](https://github.com/MasatoMakino/gulptask-demo-page.git)
 
 ## Getting Started
 
