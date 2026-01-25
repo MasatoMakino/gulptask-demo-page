@@ -1,3 +1,3 @@
-import moment from "moment";
+import pc from "picocolors";
 
-console.log("packed", moment().format("YYYY/MM/DD HH:mm:ss"));
+console.log("packed", "Picocolors Supported", pc.isColorSupported);
