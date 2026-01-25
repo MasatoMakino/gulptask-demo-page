@@ -5,8 +5,12 @@ import { fileURLToPath } from "node:url";
 import * as chokidar from "chokidar";
 import ejs from "ejs";
 import * as glob from "glob";
-import type { IPackageJson } from "package-json-type";
 import type { InitializedOption, Option } from "./Option.js";
+
+interface PackageJsonRepository {
+  name?: string;
+  repository?: string | { type?: string; url?: string };
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -118,7 +122,7 @@ function getHtmlPath(scriptPath: string): string {
   });
 }
 
-function getHomePageURL(packageJson: IPackageJson): string {
+function getHomePageURL(packageJson: PackageJsonRepository): string {
   const repositoryPath =
     typeof packageJson.repository === "object"
       ? packageJson.repository.url
