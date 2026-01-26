@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title><%= it.title %></title>
+    <style>
+        html, body{
+            margin: 0;
+        }
+        <%~ it.style -%>
+    </style>
+    <% for (var i = 0; i < it.externalScripts.length; i++){ %>
+    <script src="<%= it.externalScripts[i] %>"></script><% } %>
+    <% if(it.vendorBundle) {%> <script src="<%= it.vendorBundle %>"> </script><%}%>
+    <script src="<%= it.script %>"></script>
+</head>
+<body><%~ it.body -%></body>
+</html>

@@ -3,7 +3,7 @@ import fsPromises from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import * as chokidar from "chokidar";
-import ejs from "ejs";
+import { Eta } from "eta";
 import * as glob from "glob";
 import type { InitializedOption, Option } from "./Option.js";
 
@@ -13,6 +13,7 @@ interface PackageJsonRepository {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const eta = new Eta({ views: path.resolve(__dirname, "../template") });
 
 let generatorOption: InitializedOption;
 let distDir: string;
@@ -77,9 +78,8 @@ async function exportEJS(scriptPath: string, distDir: string) {
     style: generatorOption.style,
   };
   const htmlPath = getHtmlPath(distPath);
-  const ejsPath = path.resolve(__dirname, "../template/demo.ejs");
 
-  const str = await ejs.renderFile(ejsPath, ejsOption);
+  const str = eta.render("demo", ejsOption);
   await fsPromises.mkdir(path.dirname(distPath), { recursive: true });
   await fsPromises.writeFile(htmlPath, str, "utf8");
 }
@@ -162,9 +162,7 @@ async function exportIndex(targets: string[]) {
     repository: repositoryURL,
   };
 
-  const ejsPath = path.resolve(__dirname, "../template/index.ejs");
-
-  const str = await ejs.renderFile(ejsPath, ejsOption);
+  const str = eta.render("index", ejsOption);
   await fsPromises.mkdir(path.resolve(distDir), { recursive: true });
   await fsPromises.writeFile(path.resolve(distDir, "index.html"), str, "utf8");
 

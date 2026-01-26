@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <% if(locals.packageName){ %><%= packageName%><% } else{ %>demo<%} %>
+        <% if(it.packageName){ %><%= it.packageName %><% } else{ %>demo<%} %>
     </title>
     <!-- Icon from Font Awesome (CC BY 4.0 License): https://fontawesome.com/license/free -->
     <!-- Converted from: https://fontawesome.com/icons/file-lines?s=solid -->
@@ -170,9 +170,9 @@
     </a>
     <div id="menu">
         <div class="pure-menu">
-            <% if(locals.packageName){ %><a class="pure-menu-heading" href="<%= repository%>"><%= packageName%></a><% } %>
-            <ul class="pure-menu-list" data-demo-paths="<%= JSON.stringify(demoPath) %>">
-                <% for (var i = 0; i < demoPath.length; i++){ %><li class="pure-menu-item"><a class="pure-menu-link" href="<%= demoPath[i]%>" target="demo-frame"><%= demoPath[i]%></a></li>
+            <% if(it.packageName){ %><a class="pure-menu-heading" href="<%= it.repository %>"><%= it.packageName %></a><% } %>
+            <ul class="pure-menu-list" data-demo-paths="<%= JSON.stringify(it.demoPath) %>">
+                <% for (var i = 0; i < it.demoPath.length; i++){ %><li class="pure-menu-item"><a class="pure-menu-link" href="<%= it.demoPath[i] %>" target="demo-frame"><%= it.demoPath[i] %></a></li>
                 <% } %>
             </ul>
         </div>
