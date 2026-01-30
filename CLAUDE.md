@@ -30,7 +30,7 @@ devcontainer stop --workspace-folder .
 
 ### Architecture
 
-- Base image: `node:22-bookworm-slim` (with Git installed)
+- Base image: `node:22-bookworm-slim`
 - Security: `--cap-drop=ALL` (removes all Linux capabilities)
 - Non-root user: `node` (UID:1000, GID:1000)
 - Port forwarding: Not configured (no services exposed by default)
@@ -47,14 +47,14 @@ Volume-based node_modules isolation was removed to restore host IDE access to Ty
 
 ### Image Size Optimization
 
-The project uses a custom lightweight Docker image instead of the full Microsoft DevContainer image:
+The project uses the official Node.js slim image directly instead of the full Microsoft DevContainer image:
 
-| Image | Size | Features |
-|-------|------|----------|
-| `mcr.microsoft.com/devcontainers/javascript-node:22` (previous) | ~1.12 GB | Full-featured (Git, GCC, Python, etc.) |
-| `node:22-bookworm-slim` + Git (current) | ~319 MB | Minimal + Git for Biome support |
+| Image                                                            | Size     | Features                               |
+| ---------------------------------------------------------------- | -------- | -------------------------------------- |
+| `mcr.microsoft.com/devcontainers/javascript-node:22` (previous)  | ~1.12 GB | Full-featured (Git, GCC, Python, etc.) |
+| `node:22-bookworm-slim` (current)                                | ~240 MB  | Minimal Node.js runtime                |
 
-**Reduction**: 72% size decrease (1.12 GB → 319 MB)
+**Reduction**: 79% size decrease (1.12 GB → 240 MB)
 
 ## Development Commands
 
@@ -78,7 +78,7 @@ See README.md "Complete Example" section for full CLI usage examples.
 
 - Uses Biome for formatting and linting
 - Manual Git hooks (see Git Hooks Setup section)
-- Pre-commit: Format staged files with Biome
+- Pre-commit: Format staged files with Biome (host passes file paths to container)
 - Pre-push: Run Biome CI checks and all tests
 
 ## Git Hooks Setup (Optional)
