@@ -30,7 +30,7 @@ chmod +x .git/hooks/pre-commit .git/hooks/pre-push
 
 ## What the Hooks Do
 
-- **pre-commit**: Runs Biome formatter on staged files (in DevContainer), then re-stages formatted files
+- **pre-commit**: Collects staged file paths on host, passes them as arguments to Biome formatter in DevContainer, then re-stages formatted files
 - **pre-push**: Runs Biome CI checks and tests (in DevContainer)
 
 ## Testing
