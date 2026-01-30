@@ -21,7 +21,7 @@ fi
 STAGED_FILES_ARRAY=()
 while IFS= read -r file; do
   STAGED_FILES_ARRAY+=("$file")
-done < <(git diff --cached --name-only --diff-filter=ACM)
+done < <(git diff --cached --name-only --diff-filter=ACMR)
 
 if [ ${#STAGED_FILES_ARRAY[@]} -eq 0 ]; then
   echo "[pre-commit] No staged files to check"
@@ -40,7 +40,7 @@ fi
 echo "[pre-commit] Re-staging formatted files..."
 for file in "${STAGED_FILES_ARRAY[@]}"; do
   if [ -n "$file" ] && [ -f "$file" ]; then
-    if ! git add "$file"; then
+    if ! git add -- "$file"; then
       echo "[pre-commit] ERROR: Failed to re-stage file: $file"
       exit 1
     fi

@@ -49,10 +49,10 @@ Volume-based node_modules isolation was removed to restore host IDE access to Ty
 
 The project uses the official Node.js slim image directly instead of the full Microsoft DevContainer image:
 
-| Image | Size | Features |
-|-------|------|----------|
-| `mcr.microsoft.com/devcontainers/javascript-node:22` (previous) | ~1.12 GB | Full-featured (Git, GCC, Python, etc.) |
-| `node:22-bookworm-slim` (current) | ~240 MB | Minimal Node.js runtime |
+| Image                                                            | Size     | Features                               |
+| ---------------------------------------------------------------- | -------- | -------------------------------------- |
+| `mcr.microsoft.com/devcontainers/javascript-node:22` (previous)  | ~1.12 GB | Full-featured (Git, GCC, Python, etc.) |
+| `node:22-bookworm-slim` (current)                                | ~240 MB  | Minimal Node.js runtime                |
 
 **Reduction**: 79% size decrease (1.12 GB → 240 MB)
 
