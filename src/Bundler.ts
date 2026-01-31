@@ -49,7 +49,10 @@ export async function getBundlerSet(
     watchBundle: () => {
       const compiler = webpack(watchOption);
       if (!compiler) return undefined;
-      return compiler.watch({}, (_err, stats) => {
+      return compiler.watch({}, (err, stats) => {
+        if (err) {
+          console.error(err);
+        }
         handleStats(stats ?? undefined);
       });
     },
@@ -61,7 +64,11 @@ const generateBundleDevelopment = (
 ): (() => Promise<void>) => {
   return () => {
     return new Promise<void>((resolve, reject) => {
-      webpack(config, (_err, stats) => {
+      webpack(config, (err, stats) => {
+        if (err) {
+          reject(err);
+          return;
+        }
         handleStats(stats);
         if (stats?.hasErrors()) {
           reject(new Error("demo script build failed."));
